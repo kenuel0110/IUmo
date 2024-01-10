@@ -1,0 +1,82 @@
+﻿<Window x:Class="IUmo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IUmo"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        WindowStyle="None"
+        mc:Ignorable="d"
+        Style="{StaticResource color_bg_window}"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip"
+        Icon="Illustartions/IJournal_IUMO.png"
+        Title="IUmo" MinHeight="450" MinWidth="800">
+    
+    <Grid x:Name="main_grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="34"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <!--Верхняя панель-->
+        <Grid Grid.Row="0" Style="{StaticResource color_bg_dark_grid}" MouseDown="TitleBar_MouseDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="34"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Логотип-->
+            <Image x:Name="img_holder_logo" Grid.Column="0" Source="Illustartions\IJournal_IUMO.png" Margin="5"/>
+
+            <!--Кнопки верхнего меню-->
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <Button Content="Файл" Style="{StaticResource btn_menu}" Click="btn_file_l_click" MouseRightButtonUp="btn_file_r_click">
+                    <Button.ContextMenu>
+                        <ContextMenu Name="btn_file_cm" Style="{StaticResource btn_context_menu}">
+                            <MenuItem Name="btn_file_new" Header="Создать"/>
+                            <MenuItem Name="btn_file_open" Header="Открыть"/>
+                            <MenuItem Name="btn_file_save" Header="Сохранить"/>
+                            <MenuItem Name="btn_file_save_as" Header="Сохранить как..."/>
+                            <MenuItem Name="btn_file_print" Header="Печать"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+                <Button Content="Главная" Style="{StaticResource btn_menu}" Click="btn_main_l_click" MouseRightButtonUp="btn_main_r_click">
+                    <Button.ContextMenu>
+                        <ContextMenu Name="btn_main_cm" Style="{StaticResource btn_context_menu}">
+                            <MenuItem Name="btn_main_num_dem" Header="Редактор числителей / знаменателей"/>
+                            <MenuItem Name="btn_main_techers" Header="Редактор педагогов"/>
+                            <MenuItem Name="btn_main_list" Header="Редактор листов / групп"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+                <Button Content="Вставка" Style="{StaticResource btn_menu}" Click="btn_insert_l_click" MouseRightButtonUp="btn_insert_r_click">
+                    <Button.ContextMenu>
+                        <ContextMenu Name="btn_insert_cm" Style="{StaticResource btn_context_menu}">
+                            <MenuItem Name="btn_insert_new_empty" Header="Добавить пустую пару"/>
+                            <MenuItem Name="btn_insert_new_row" Header="Добавить пару"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+            </StackPanel>
+
+            <!--Кнопки развернуть / свернуть / закрыть-->
+            <StackPanel Orientation="Horizontal" Grid.Column="3">
+                <Button x:Name="btn_hide" Click="btn_hide_Click" Width="34" Height="34" Padding="0" Style="{StaticResource btn_menu}">
+                    <Image Source="Icons\btn_hide.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+                <Button x:Name="btn_max_min" Click="btn_max_min_Click" Width="34" Height="34" Padding="0" Style="{StaticResource btn_menu}">
+                    <Image x:Name="img_btn_max_min" Source="Icons\btn_maximilize.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+                <Button x:Name="btn_close" Click="btn_close_Click" Width="34" Height="34" Padding="0" Style="{StaticResource btn_menu}">
+                    <Image Source="Icons\btn_close.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+        <Frame x:Name="main_frame" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>
