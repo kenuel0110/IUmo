@@ -11,7 +11,7 @@
         AllowsTransparency="True"
         ResizeMode="CanResizeWithGrip"
         Icon="Illustartions/IJournal_IUMO.png"
-        Title="IUmo" MinHeight="450" MinWidth="800">
+        Title="IUmo" MinHeight="450" MinWidth="800" SizeChanged="Window_SizeChanged" StateChanged="Window_StateChanged">
     
     <Grid x:Name="main_grid">
         <Grid.RowDefinitions>
