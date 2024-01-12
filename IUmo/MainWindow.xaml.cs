@@ -21,19 +21,27 @@ namespace IUmo
     public partial class MainWindow : Window
     {
         #region global_varibles
+        //private Functions.PageFunctions.NavigationService _navigationService;
+        //public Classes.Class_Events.Class_Current_Page page_class = new Classes.Class_Events.Class_Current_Page();
+        #endregion
+
+        #region local_varibles
         Functions.IOFunctions ioFunctions = new Functions.IOFunctions();
         double newWindowHeight;
         double newWindowWidth;
         Classes.Class_types.WindowState maximilize_window_;
-        
         #endregion
+
         public MainWindow()
         {
             InitializeComponent();
             Closing += MainWindow_Closing; //Счётчик закрытия
+            //page_class.Current_page_changed += pageChangedHandler;
+            //page_class.current_page = Classes.Class_types.Pages.Page_None;
             init();
         }
 
+        //Инициализация
         private void init()
         {
             ioFunctions.chkFirstStart("settings", "settings.json");
@@ -43,8 +51,39 @@ namespace IUmo
             Application.Current.MainWindow.Width = setting.size_window[1];
             newWindowHeight = setting.size_window[0];
             newWindowWidth = setting.size_window[1];
+            main_frame.NavigationService.Navigate(new Pages.Page_start());
+            //_navigationService = new Functions.PageFunctions.NavigationService(main_frame);
+           // _navigationService.NavigateToPage(Classes.Class_types.Pages.Page_Start);
+           // page_class.current_page = _navigationService.currentPage;
         }
 
+        //Событие изменения переменной current_page
+        private void pageChangedHandler(object sender, Classes.Class_types.Pages page)
+        {
+            switch (page) {
+                case Classes.Class_types.Pages.Page_None:
+                    btn_file.IsEnabled = false;
+                    btn_main.IsEnabled = false;
+                    btn_insert.IsEnabled = false;
+                    break;
+                case Classes.Class_types.Pages.Page_Start:
+                    btn_file.IsEnabled = false;
+                    btn_main.IsEnabled = false;
+                    btn_insert.IsEnabled = false;
+                    break;
+                case Classes.Class_types.Pages.Page_Course:
+                    btn_file.IsEnabled = false;
+                    btn_main.IsEnabled = false;
+                    btn_insert.IsEnabled = false;
+                    break;
+                case Classes.Class_types.Pages.Page_Main:
+                    btn_file.IsEnabled = true;
+                    btn_main.IsEnabled = true;
+                    btn_insert.IsEnabled = true;
+                    break;
+            }
+        }
+        //Собитие закрытия
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             ioFunctions.saveJSONSetting(
@@ -84,6 +123,7 @@ namespace IUmo
             WindowSizeState();
         }
 
+        //Событие изменение состояния окна
         private void Window_StateChanged(object sender, EventArgs e)
         {
             switch (this.WindowState) 
@@ -108,6 +148,7 @@ namespace IUmo
             }
         }
 
+        //Изменение состояния окна
         private void WindowSizeState(Classes.Class_types.WindowState key = Classes.Class_types.WindowState.None)
         {
             if (this.WindowState == WindowState.Maximized || key == Classes.Class_types.WindowState.False)
@@ -126,6 +167,7 @@ namespace IUmo
             }
         }
 
+        //Собитие изменения размеров окна
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             newWindowHeight = e.NewSize.Height;

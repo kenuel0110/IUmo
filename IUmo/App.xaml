@@ -14,7 +14,88 @@
             </ResourceDictionary.MergedDictionaries>
             
             <!--Стиль-->
+            <Style TargetType="Label" BasedOn="{StaticResource MaterialDesignLabel}" x:Key="lbl_title">
+                <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
+                <Setter Property="Foreground" Value="#FFFFFF" />
+            </Style>
+
+            <Style TargetType="Label" BasedOn="{StaticResource MaterialDesignLabel}" x:Key="lbl_heading">
+                <Setter Property="FontFamily" Value="Fonts/Acrom_B.ttf #Acrom Bold"/>
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="Foreground" Value="#FFFFFF"/>
+            </Style>
+
+            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignCaptionTextBlock}" x:Key="lbl_list_item">
+                <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Foreground" Value="#a6a6a6"/>
+            </Style>
+
+            <Style TargetType="Label" BasedOn="{StaticResource MaterialDesignLabel}" x:Key="lbl_primary">
+                <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Foreground" Value="#FFFFFF"/>
+            </Style>
+            
+            <!--Border-->
+            <Style x:Key="border_drag" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}" TargetType="Border">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="CornerRadius" Value="24"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderBrush" Value="LightGray"/>
+            </Style>
+
             <!--Кнопки-->
+            <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}" x:Key="btn_primary">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="CornerRadius" Value="17"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderBrush" Value="#087558"/>
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="#087558" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="Transparent" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}" x:Key="btn_secondary">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="CornerRadius" Value="17"/>
+                <Setter Property="BorderBrush" Value="#087558"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="#087558" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="Transparent" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+
             <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatDarkBgButton}" x:Key="btn_menu">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Foreground" Value="#FFFFFF"/>
@@ -30,14 +111,14 @@
 
             <!--Контекстное меню-->
             <Style TargetType="ContextMenu" BasedOn="{StaticResource MaterialDesignContextMenu}" x:Key="btn_context_menu">
-                <Setter Property="Background" Value="#FF333333"/>
+                <Setter Property="Background" Value="#FF222222"/>
                 <Setter Property="Foreground" Value="#FFFFFF"/>
                 <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="BorderBrush" Value="Transparent"/>
-                        <Setter Property="Background" Value="#FF343434"/>
+                        <Setter Property="Background" Value="#FF242424"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -50,7 +131,15 @@
             <Style TargetType="Grid" x:Key="color_bg_dark_grid">
                 <Setter Property="Background" Value="#181818" />
             </Style>
-            
+
+            <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}" x:Key="color_bg_IUMO_grid">
+                <Setter Property="Background" Value="#1C1C1C" />
+            </Style>
+
+            <Style TargetType="Grid" x:Key="color_bg_title_grid">
+                <Setter Property="Background" Value="#222222" />
+            </Style>
+
             <Style TargetType="Grid" x:Key="color_bg_grid">
                 <Setter Property="Background" Value="#333333" />
             </Style>

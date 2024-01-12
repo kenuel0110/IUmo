@@ -20,7 +20,7 @@
         </Grid.RowDefinitions>
         
         <!--Верхняя панель-->
-        <Grid Grid.Row="0" Style="{StaticResource color_bg_dark_grid}" MouseDown="TitleBar_MouseDown">
+        <Grid Grid.Row="0" Style="{StaticResource color_bg_title_grid}" MouseDown="TitleBar_MouseDown">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="34"/>
                 <ColumnDefinition Width="auto"/>
@@ -29,11 +29,13 @@
             </Grid.ColumnDefinitions>
 
             <!--Логотип-->
-            <Image x:Name="img_holder_logo" Grid.Column="0" Source="Illustartions\IJournal_IUMO.png" Margin="5"/>
+            <Image x:Name="img_holder_logo" Grid.Column="0" Source="/Illustartions\IJournal_IUMO.png" Margin="5"/>
+
+            <Label Name="title_window" Style="{StaticResource lbl_title}" Margin="5" Content="IUMO" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
             <!--Кнопки верхнего меню-->
             <StackPanel Orientation="Horizontal" Grid.Column="1">
-                <Button Content="Файл" Style="{StaticResource btn_menu}" Click="btn_file_l_click" MouseRightButtonUp="btn_file_r_click">
+                <Button Name="btn_file" Content="Файл" Style="{StaticResource btn_menu}" Click="btn_file_l_click" MouseRightButtonUp="btn_file_r_click">
                     <Button.ContextMenu>
                         <ContextMenu Name="btn_file_cm" Style="{StaticResource btn_context_menu}">
                             <MenuItem Name="btn_file_new" Header="Создать"/>
@@ -44,7 +46,7 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <Button Content="Главная" Style="{StaticResource btn_menu}" Click="btn_main_l_click" MouseRightButtonUp="btn_main_r_click">
+                <Button Name="btn_main" Content="Главная" Style="{StaticResource btn_menu}" Click="btn_main_l_click" MouseRightButtonUp="btn_main_r_click">
                     <Button.ContextMenu>
                         <ContextMenu Name="btn_main_cm" Style="{StaticResource btn_context_menu}">
                             <MenuItem Name="btn_main_num_dem" Header="Редактор числителей / знаменателей"/>
@@ -53,7 +55,7 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <Button Content="Вставка" Style="{StaticResource btn_menu}" Click="btn_insert_l_click" MouseRightButtonUp="btn_insert_r_click">
+                <Button Name="btn_insert" Content="Вставка" Style="{StaticResource btn_menu}" Click="btn_insert_l_click" MouseRightButtonUp="btn_insert_r_click">
                     <Button.ContextMenu>
                         <ContextMenu Name="btn_insert_cm" Style="{StaticResource btn_context_menu}">
                             <MenuItem Name="btn_insert_new_empty" Header="Добавить пустую пару"/>
@@ -77,6 +79,6 @@
             </StackPanel>
 
         </Grid>
-        <Frame x:Name="main_frame" NavigationUIVisibility="Hidden"/>
+        <Frame Grid.Row="1"  Name="main_frame" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
