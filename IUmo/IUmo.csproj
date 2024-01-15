@@ -118,6 +118,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Page_select_course.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Page_start.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -126,6 +130,9 @@
   <ItemGroup>
     <Compile Include="Pages\Page_main.xaml.cs">
       <DependentUpon>Page_main.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Page_select_course.xaml.cs">
+      <DependentUpon>Page_select_course.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Page_start.xaml.cs">
       <DependentUpon>Page_start.xaml</DependentUpon>
@@ -210,6 +217,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\ic_file_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Illustartions\img_select_cource.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />

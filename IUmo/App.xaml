@@ -14,9 +14,25 @@
             </ResourceDictionary.MergedDictionaries>
             
             <!--Стиль-->
+            <!--Цвета-->
+            <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#087558"/>
+            <SolidColorBrush x:Key="PrimaryHueLightBrushForeground" Color="#FFFFFF"/>
+            <!--Шрифты-->
             <Style TargetType="Label" BasedOn="{StaticResource MaterialDesignLabel}" x:Key="lbl_title">
                 <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
                 <Setter Property="Foreground" Value="#FFFFFF" />
+            </Style>
+
+            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignCaptionTextBlock}" x:Key="lbl_title_">
+                <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
+                <Setter Property="Foreground" Value="#FFFFFF" />
+                <Setter Property="FontSize" Value="22" />
+            </Style>
+
+            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignCaptionTextBlock}" x:Key="lbl_regular_error">
+                <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Foreground" Value="#FFFF4E4E"/>
             </Style>
 
             <Style TargetType="Label" BasedOn="{StaticResource MaterialDesignLabel}" x:Key="lbl_heading">
@@ -123,9 +139,96 @@
                 </Style.Triggers>
             </Style>
 
+            <!--Комбобоксы-->
+            <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}" x:Key="combobox_accent">
+                <Setter Property="Background" Value="#DC256C" />
+                <Setter Property="Foreground" Value="#FFFFFF" />
+                <Setter Property="Padding" Value="2" />
+                <Setter Property="TextBox.TextDecorations" Value="None"/>
+                <Setter Property="TextBox.Foreground" Value="#FFFFFF"/>
+                <Setter Property="Border.CornerRadius" Value="15"/>
+                <Setter Property="materialDesign:TextFieldAssist.DecorationVisibility" Value="Hidden" />
+                <Setter Property="IsEditable" Value="False"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="#FFFFFF"/>
+                <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
+                <Setter Property="FontSize" Value="15" />
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Foreground" Value="#ffffff" />
+                        <Setter Property="Background" Value="{DynamicResource MaterialDesignSelection}" />
+                        <Setter Property="BorderBrush" Value="#9a194b" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Trigger>
+
+                    <Trigger Property="IsDropDownOpen" Value="True">
+                        <Setter Property="Foreground" Value="#ffffff" />
+                        <Setter Property="Background" Value="#cd2264" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Trigger>
+
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="#ffffff" />
+                        <Setter Property="Background" Value="#cd2264" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}" x:Key="combobox_main">
+                <Setter Property="Background" Value="#087558" />
+                <Setter Property="Foreground" Value="#FFFFFF" />
+                <Setter Property="Padding" Value="2" />
+                <Setter Property="TextBox.TextDecorations" Value="None"/>
+                <Setter Property="TextBox.Foreground" Value="#FFFFFF"/>
+                <Setter Property="Border.CornerRadius" Value="15"/>
+                <Setter Property="materialDesign:TextFieldAssist.DecorationVisibility" Value="Hidden" />
+                <Setter Property="IsEditable" Value="False"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="#FFFFFF"/>
+                <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
+                <Setter Property="FontSize" Value="15" />
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Foreground" Value="#ffffff" />
+                        <Setter Property="Background" Value="{DynamicResource MaterialDesignSelection}" />
+                        <Setter Property="BorderBrush" Value="#9a194b" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Trigger>
+
+                    <Trigger Property="IsDropDownOpen" Value="True">
+                        <Setter Property="Foreground" Value="#ffffff" />
+                        <Setter Property="Background" Value="#05523e" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Trigger>
+
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Foreground" Value="#ffffff" />
+                        <Setter Property="Background" Value="#05523e" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            
             <!--Плэйсхолдеры-->
             <Style TargetType="Window" x:Key="color_bg_window">
                 <Setter Property="Background" Value="#333333" />    
+            </Style>
+
+            <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}" x:Key="color_bg_info_popup">
+                <Setter Property="Background" Value="#222320" />
+                <Setter Property="CornerRadius" Value="16" />
+            </Style>
+
+            <Style x:Key="border_main" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}" TargetType="Border">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="CornerRadius" Value="24"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderBrush" Value="LightGray"/>
             </Style>
 
             <Style TargetType="Grid" x:Key="color_bg_dark_grid">

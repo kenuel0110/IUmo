@@ -51,7 +51,7 @@ namespace IUmo
             Application.Current.MainWindow.Width = setting.size_window[1];
             newWindowHeight = setting.size_window[0];
             newWindowWidth = setting.size_window[1];
-            main_frame.NavigationService.Navigate(new Pages.Page_start());
+            main_frame.NavigationService.Navigate(new Pages.Page_select_course());
             //_navigationService = new Functions.PageFunctions.NavigationService(main_frame);
            // _navigationService.NavigateToPage(Classes.Class_types.Pages.Page_Start);
            // page_class.current_page = _navigationService.currentPage;
