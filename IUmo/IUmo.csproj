@@ -221,6 +221,17 @@
   <ItemGroup>
     <Resource Include="Illustartions\img_select_cource.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_friday.png" />
+    <Resource Include="Icons\ic_monday.png" />
+    <Resource Include="Icons\ic_saturday.png" />
+    <Resource Include="Icons\ic_thursday.png" />
+    <Resource Include="Icons\ic_tuesday.png" />
+    <Resource Include="Icons\ic_wednesday.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\btn_num_den.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

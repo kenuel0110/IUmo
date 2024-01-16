@@ -24,6 +24,7 @@ namespace IUmo.Pages
         private MainWindow mainWindow = App.Current.MainWindow as MainWindow;
         Functions.IOFunctions ioFunctions = new Functions.IOFunctions();
         List<Classes.Class_JSON_RecenFiles> recent_files = new List<Classes.Class_JSON_RecenFiles>();
+        Classes.Class_JSON_Temp temp_file;
         #endregion
 
         public Page_start()
@@ -34,6 +35,7 @@ namespace IUmo.Pages
 
         private void init()
         {
+            
             mainWindow.btn_file.IsEnabled = false;
             mainWindow.btn_main.IsEnabled = false;
             mainWindow.btn_insert.IsEnabled = false;
@@ -42,6 +44,8 @@ namespace IUmo.Pages
             recent_files = ioFunctions.openJSONRecentFiles(this);
             if (recent_files != null)
                 recent_files.ForEach(file => lv_recent_files.Items.Add(file.name));
+
+            temp_file = ioFunctions.openJSONTemp();
         }
 
         private void btn_new_document_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -55,6 +59,10 @@ namespace IUmo.Pages
                 if (extension == ".xlsx")
                 {
                     ioFunctions.saveJSONRecentFiles(new Classes.Class_JSON_RecenFiles() { name = System.IO.Path.GetFileName(filePath), path = filePath });
+                    temp_file.path = filePath;
+                    temp_file.tempType = Classes.Class_types.TempType.Temp_new;
+                    ioFunctions.saveTemp(temp_file);
+                    this.NavigationService.Navigate(new Pages.Page_select_course());
                 }
                 else
                 {
@@ -77,6 +85,10 @@ namespace IUmo.Pages
                 if (extension == ".xlsx")
                 {
                     ioFunctions.saveJSONRecentFiles(new Classes.Class_JSON_RecenFiles() { name = System.IO.Path.GetFileName(filePath), path = filePath });
+                    temp_file.path = filePath;
+                    temp_file.tempType = Classes.Class_types.TempType.Temp_open;
+                    ioFunctions.saveTemp(temp_file);
+                    this.NavigationService.Navigate(new Pages.Page_select_course());
                 }
                 else
                 {
@@ -100,9 +112,11 @@ namespace IUmo.Pages
                     border_dragndrop.Background = Brushes.Transparent;
                     border_dragndrop.Opacity = 1;
 
-
-
                     ioFunctions.saveJSONRecentFiles(new Classes.Class_JSON_RecenFiles() { name = System.IO.Path.GetFileName(file[0]), path = file[0] });
+                    temp_file.path = file[0];
+                    temp_file.tempType = Classes.Class_types.TempType.Temp_open;
+                    ioFunctions.saveTemp(temp_file);
+                    this.NavigationService.Navigate(new Pages.Page_select_course());
                 }
                 else
                 {

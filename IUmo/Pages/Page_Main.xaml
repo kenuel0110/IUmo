@@ -7,8 +7,105 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Page_Main">
-
     <Grid>
-        <Image Source="/Icons\btn_close.png"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="64"/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Panel.ZIndex="1" Style="{StaticResource color_bg_dark_grid}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Name="btn_change_num_den" Style="{StaticResource btn_squere}" Margin="0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+                    <Image x:Name="img_holder_logo" Grid.Column="0" Source="/Icons\btn_num_den.png" Margin="5"/>
+                    <Label Content="ЧИСЛИТЕЛИ / ЗНАМЕНАТЕЛИ" Style="{StaticResource lbl_primary}" FontSize="9" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+            <TabControl MaxWidth="300" Grid.Column="1" FontSize="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20 0 0 0" MaxHeight="50" x:Name="tabControl_num_den" Style="{StaticResource tab_control}" SelectionChanged="TabControl_SelectionChanged">
+                <TabItem Header="ЧИСЛИТЕЛЬ" FontSize="10" Style="{StaticResource tab_item}"/>
+                <TabItem Header="ЗНАМЕНАТЕЛЬ" FontSize="10" Style="{StaticResource tab_item}"/>
+            </TabControl>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Margin="0 -5 0 0" Panel.ZIndex="-1" Background="#181818">
+                <ListBox Name="lv_day_of_weeks" Margin="0 5 0 0" Style="{StaticResource MaterialDesignListBox}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Value}" Width="24" Height="24" Margin="5"/>
+                                <TextBlock Text="{Binding Key}" Style="{StaticResource lbl_list_item}" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#00100c"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </Border>
+        </Grid>
+        <Border Grid.Row="2" Background="#222222" Margin="0">
+        <ComboBox Name="combobox_list" Style="{StaticResource combobox_main}" SelectionChanged="ComboBox_Center_SelectionChanged"  Width="300" HorizontalAlignment="Left" Margin="10,5,0,5" Height="30" IsReadOnly="True" UseLayoutRounding="True">
+            <ComboBox.Resources>
+                <SolidColorBrush x:Key="MaterialDesignPaper" Color="#043c2d"/>
+                <SolidColorBrush x:Key="MaterialDesignSelection" Color="Transparent"/>
+            </ComboBox.Resources>
+            <ComboBoxItem Content="Выберите курс" IsSelected="True"/>
+            <ComboBoxItem Content="Первый курс"/>
+            <ComboBoxItem Content="Второй курс"/>
+            <ComboBoxItem Content="Третий курс"/>
+            <ComboBoxItem Content="Четвёртый курс"/>
+            <ComboBoxItem Content="Пятый курс"/>
+            <ComboBoxItem Content="Шестой курс"/>
+            <ComboBoxItem Content="Седьмой курс"/>
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ComboBoxItem">
+                                <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                Margin="2"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                SnapsToDevicePixels="True">
+
+                                    <TextBlock Foreground="#ffffff" FontSize="15" Margin="5"  Text="{TemplateBinding Content}"/>
+
+                                </Border>
+                                <ControlTemplate.Triggers>
+
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Foreground" Value="#ffffff"/>
+                                        <Setter Property="FontSize" Value="12" />
+                                        <Setter Property="Background" Value="{DynamicResource MaterialDesignSelection}" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="#ffffff" />
+                                        <Setter Property="FontSize" Value="12" />
+                                        <Setter Property="Background" Value="#022a20" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ComboBox.ItemContainerStyle>
+        </ComboBox>
+        </Border>
     </Grid>
 </Page>

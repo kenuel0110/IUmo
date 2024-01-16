@@ -9,6 +9,8 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -52,10 +54,10 @@ namespace IUmo
             Application.Current.MainWindow.Width = setting.size_window[1];
             newWindowHeight = setting.size_window[0];
             newWindowWidth = setting.size_window[1];
-            main_frame.NavigationService.Navigate(new Pages.Page_start());
+            main_frame.NavigationService.Navigate(new Pages.Page_main());
             //_navigationService = new Functions.PageFunctions.NavigationService(main_frame);
-           // _navigationService.NavigateToPage(Classes.Class_types.Pages.Page_Start);
-           // page_class.current_page = _navigationService.currentPage;
+            // _navigationService.NavigateToPage(Classes.Class_types.Pages.Page_Start);
+            // page_class.current_page = _navigationService.currentPage;
         }
 
         //Событие изменения переменной current_page
@@ -115,6 +117,7 @@ namespace IUmo
             Application.Current.Shutdown();
         }
 
+
         private void btn_hide_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
@@ -148,6 +151,76 @@ namespace IUmo
                     }
                     break;
             }
+        }
+
+        //Popup
+        private void btn_close_popup_Click(object sender, RoutedEventArgs e)
+        {
+            popup_window.Visibility = Visibility.Hidden;
+            deblurBackground();
+        }
+
+        public void blurBackground()
+        {
+            border_shadow.Visibility = Visibility.Visible;
+            BlurEffect blurEffect = new BlurEffect();
+            blurEffect.Radius = 0;
+            main_frame.Effect = blurEffect;
+
+            DoubleAnimation animation = new DoubleAnimation();
+            animation.From = 0;
+            animation.To = 5;
+            animation.Duration = new Duration(TimeSpan.FromSeconds(0.3));
+
+            DoubleAnimation animation_shadow = new DoubleAnimation();
+            animation_shadow.From = 0.0;
+            animation_shadow.To = 0.4;
+            animation_shadow.Duration = new Duration(TimeSpan.FromSeconds(0.3));
+
+            Storyboard storyboard = new Storyboard();
+            storyboard.Children.Add(animation);
+            storyboard.Children.Add(animation_shadow);
+
+            Storyboard.SetTarget(blurEffect, main_frame);
+            Storyboard.SetTargetProperty(animation, new PropertyPath("(UIElement.Effect).(BlurEffect.Radius)"));
+
+            Storyboard.SetTarget(animation_shadow, border_shadow);
+            Storyboard.SetTargetProperty(animation_shadow, new PropertyPath("Opacity"));
+
+            // Запустите анимацию
+            storyboard.Begin(main_frame);
+            border_shadow.Visibility = Visibility.Visible;
+        }
+
+        public void deblurBackground()
+        {
+            BlurEffect blurEffect = new BlurEffect();
+            blurEffect.Radius = 5;
+            main_frame.Effect = blurEffect;
+
+            DoubleAnimation animation = new DoubleAnimation();
+            animation.From = 5;
+            animation.To = 0;
+            animation.Duration = new Duration(TimeSpan.FromSeconds(0.3));
+
+            DoubleAnimation animation_shadow = new DoubleAnimation();
+            animation_shadow.From = 0.4;
+            animation_shadow.To = 0.0;
+            animation_shadow.Duration = new Duration(TimeSpan.FromSeconds(0.3));
+
+            Storyboard storyboard = new Storyboard();
+            storyboard.Children.Add(animation);
+            storyboard.Children.Add(animation_shadow);
+
+            Storyboard.SetTarget(blurEffect, main_frame);
+            Storyboard.SetTargetProperty(animation, new PropertyPath("(UIElement.Effect).(BlurEffect.Radius)"));
+
+            Storyboard.SetTarget(animation_shadow, border_shadow);
+            Storyboard.SetTargetProperty(animation_shadow, new PropertyPath("Opacity"));
+
+            // Запустите анимацию
+            storyboard.Begin(main_frame);
+            border_shadow.Visibility = Visibility.Hidden;
         }
 
         //Изменение состояния окна

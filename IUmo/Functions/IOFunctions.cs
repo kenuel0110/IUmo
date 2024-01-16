@@ -79,6 +79,7 @@ namespace IUmo.Functions
 
         }
 
+        //Создать временый файл, для передачи данных между элементами программы
         public void createTemp()
         {
             chkAndCreateFolder(Path.GetDirectoryName("Temp\\temp.json"));
@@ -93,9 +94,39 @@ namespace IUmo.Functions
             File.WriteAllText("Temp\\temp.json", tempString);
         }
 
+        public Classes.Class_JSON_Temp openJSONTemp()
+        {
+            FileStream file = null;
+            try
+            {
+                file = new FileStream("Temp\\temp.json", FileMode.OpenOrCreate);
+                byte[] buffer = new byte[file.Length];
+                file.Read(buffer, 0, buffer.Length);
+                Encoding.Default.GetString(buffer);
+                Classes.Class_JSON_Temp temp = JsonSerializer.Deserialize<Classes.Class_JSON_Temp>(buffer);
+                return temp;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally { file?.Close(); }
+            return null;
+        }
+
+        //Удалить временый файл, для передачи данных между элементами программы
         public void removeTemp()
         {
             Directory.Delete("Temp", true);
+        }
+        
+        public void saveTemp(Classes.Class_JSON_Temp new_temp)
+        {
+            string temp = JsonSerializer.Serialize(new_temp);
+            using (StreamWriter sw = new StreamWriter("Temp\\temp.json"))
+            {
+                sw.Write(temp);
+            }
         }
 
         //Открытие файла настроек

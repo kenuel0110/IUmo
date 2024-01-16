@@ -24,6 +24,7 @@ namespace IUmo.Pages
         #region local_varibles
         private MainWindow mainWindow = App.Current.MainWindow as MainWindow;
         private Functions.IOFunctions ioFunctions = new Functions.IOFunctions();
+        Classes.Class_JSON_Temp temp_file;
         #endregion
 
 
@@ -38,6 +39,9 @@ namespace IUmo.Pages
             mainWindow.btn_file.IsEnabled = false;
             mainWindow.btn_main.IsEnabled = false;
             mainWindow.btn_insert.IsEnabled = false;
+
+            temp_file = ioFunctions.openJSONTemp();
+            mainWindow.title_window.Content = System.IO.Path.GetFileName(temp_file.path);
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

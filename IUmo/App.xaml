@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+                <materialDesign:CustomColorTheme BaseTheme="Dark" PrimaryColor="#087558" SecondaryColor="#152521" />
             </ResourceDictionary.MergedDictionaries>
             
             <!--Стиль-->
@@ -87,6 +88,31 @@
                 </Style.Triggers>
             </Style>
 
+            <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}" x:Key="btn_squere">
+                <Setter Property="Background" Value="#087558"/>
+                <Setter Property="CornerRadius" Value="0"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="#087558"/>
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="#044131" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="#087558" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+
             <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}" x:Key="btn_secondary">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="CornerRadius" Value="17"/>
@@ -121,6 +147,35 @@
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="BorderBrush" Value="Transparent"/>
                         <Setter Property="Background" Value="Transparent"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="TabControl" BasedOn="{StaticResource MaterialDesignTabControl}" x:Key="tab_control">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="#FFFFFF"/>
+                <Setter Property="BorderBrush" Value="#FFFFFF"/>
+                <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="materialDesign:ColorZoneAssist.Foreground" Value="#f1f1f1" />
+                        <Setter Property="materialDesign:HintAssist.Foreground" Value="#f1f1f1"/>
+                        <Setter Property="Foreground" Value="#f1f1f1"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="TabItem" BasedOn="{StaticResource MaterialDesignTabItem}" x:Key="tab_item">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="#FFFFFF"/>
+                <Setter Property="BorderBrush" Value="#FFFFFF"/>
+                <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="materialDesign:ColorZoneAssist.Foreground" Value="#f1f1f1" />
+                        <Setter Property="materialDesign:HintAssist.Foreground" Value="#f1f1f1"/>
+                        <Setter Property="Foreground" Value="#f1f1f1"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
