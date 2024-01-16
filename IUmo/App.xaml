@@ -88,6 +88,31 @@
                 </Style.Triggers>
             </Style>
 
+            <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}" x:Key="btn_add_lesson">
+                <Setter Property="Background" Value="#272727"/>
+                <Setter Property="CornerRadius" Value="12"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="#087558"/>
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="#152521" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                            To="#272727" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+
             <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}" x:Key="btn_squere">
                 <Setter Property="Background" Value="#087558"/>
                 <Setter Property="CornerRadius" Value="0"/>

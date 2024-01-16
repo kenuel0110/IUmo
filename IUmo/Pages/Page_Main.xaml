@@ -20,7 +20,7 @@
             </Grid.ColumnDefinitions>
             <Border Name="btn_change_num_den" Style="{StaticResource btn_squere}" Margin="0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-                    <Image x:Name="img_holder_logo" Grid.Column="0" Source="/Icons\btn_num_den.png" Margin="5"/>
+                    <Image Grid.Column="0" Source="/Icons\btn_num_den.png" Margin="5"/>
                     <Label Content="ЧИСЛИТЕЛИ / ЗНАМЕНАТЕЛИ" Style="{StaticResource lbl_primary}" FontSize="9" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
             </Border>
@@ -56,6 +56,50 @@
                     </ListBox.ItemContainerStyle>
                 </ListBox>
             </Border>
+
+            <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Disabled" Style="{StaticResource MaterialDesignScrollViewer}"  VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical">
+                    <ListView Name="lv_lessons" ItemsSource="{Binding list_lesson}" Style="{StaticResource MaterialDesignListView}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="1" Content="Удалить" Command="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding}" Style="{StaticResource MaterialDesignFlatButton}"/>
+                                    <ListView Name="lv_group" Margin="5" ItemsSource="{Binding list_group}" Style="{StaticResource MaterialDesignListBox}">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="{Binding Value}" Width="24" Height="24" Margin="5"/>
+                                                    <TextBlock Text="{Binding Key}" Style="{StaticResource lbl_list_item}" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="Background" Value="#00100c"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                    </ListView>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Border x:Name="btn_add_lesson" Style="{StaticResource btn_add_lesson}" Margin="5">
+                        <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Source="/Icons\ic_add_lesson.png" Width="32" Height="32" />
+                            <Label Content="ДОБАВИТЬ ПАРУ" Style="{StaticResource lbl_primary}" FontSize="15" Margin="5 0 0 0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+            
         </Grid>
         <Border Grid.Row="2" Background="#222222" Margin="0">
         <ComboBox Name="combobox_list" Style="{StaticResource combobox_main}" SelectionChanged="ComboBox_Center_SelectionChanged"  Width="300" HorizontalAlignment="Left" Margin="10,5,0,5" Height="30" IsReadOnly="True" UseLayoutRounding="True">

@@ -32,6 +32,41 @@ namespace IUmo.Pages
             new KeyValuePair<String, String>("ПЯТНИЦА", "/Icons\\ic_friday.png"),
             new KeyValuePair<String, String>("СУББОТА", "/Icons\\ic_saturday.png")
         };
+
+        public class LessonItem
+        {
+            public List<GroupItem> list_group { get; set; }
+        }
+
+        public class GroupItem
+        {
+            public string Key { get; set; }
+            public string Value { get; set; }
+        }
+
+        // Создайте коллекции объектов для источников данных
+        ObservableCollection<LessonItem> list_lesson = new ObservableCollection<LessonItem>()
+{
+    new LessonItem()
+    {
+        list_group = new List<GroupItem>()
+        {
+            new GroupItem() { Key = "Group 1", Value = "/Images\\ic_tuesday.png" },
+            new GroupItem() { Key = "Group 2", Value = "/Images\\ic_Monday.png" }
+        }
+    },
+    new LessonItem()
+    {
+        list_group = new List<GroupItem>()
+        {
+            new GroupItem() { Key = "Group 1", Value = "/Images\\ic_tuesday.png" },
+            new GroupItem() { Key = "Group 2", Value = "/Images\\ic_Monday.png" }
+        }
+    }
+};
+        // Создайте команду удаления элемента списка
+        public ICommand DeleteItemCommand { get; set; }
+
         Classes.Class_JSON_Temp temp_file;
         #endregion
         public Page_main()
@@ -40,14 +75,31 @@ namespace IUmo.Pages
             init();
         }
 
+        public void LessonItem_()
+        {
+            DeleteItemCommand = new Classes.RelayCommand(DeleteItem);
+        }
+
+        // Метод удаления элемента из списка
+        private void DeleteItem(object parameter)
+        {
+            if (parameter is LessonItem lessonItem)
+            {
+                list_lesson.Remove(lessonItem);
+            }
+        }
+
         private void init()
         {
             mainWindow.btn_file.IsEnabled = true;
             mainWindow.btn_main.IsEnabled = true;
             mainWindow.btn_insert.IsEnabled = true;
 
+            lv_lessons.ItemsSource = list_lesson;
+
             lv_day_of_weeks.ItemsSource = dayofweeks_list;
-            DataContext = this;
+            LessonItem lesson = new LessonItem();
+            lv_lessons.DataContext = lesson;
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
