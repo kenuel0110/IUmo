@@ -24,5 +24,11 @@ namespace IUmo.Classes
             Page_Course = 2,
             Page_Main = 3
         }
+        public enum TempType
+        {
+            Temp_none = 0,
+            Temp_new = 1,
+            Temp_open = 2
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace IUmo.Pages
             mainWindow.btn_insert.IsEnabled = false;
 
             ioFunctions.chkFirstStart("settings", "recent_files.json");
-            recent_files = ioFunctions.openJSONRecentFiles();
+            recent_files = ioFunctions.openJSONRecentFiles(this);
             if (recent_files != null)
                 recent_files.ForEach(file => lv_recent_files.Items.Add(file.name));
         }
@@ -59,7 +59,9 @@ namespace IUmo.Pages
                 else
                 {
                     // Файл не имеет расширения .xlsx, обработка ошибки или вывод сообщения
-                    MessageBox.Show("Файл, который вы пытаетесь создать, не является Excel книгой!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    popup_f_info.Visibility = Visibility.Visible;
+                    lbl_info_popup.Text = "Файл, который вы пытаетесь создать, не является Excel книгой!";
+                    //MessageBox.Show("Файл, который вы пытаетесь создать, не является Excel книгой!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -79,7 +81,9 @@ namespace IUmo.Pages
                 else
                 {
                     // Файл не имеет расширения .xlsx, обработка ошибки или вывод сообщения
-                    MessageBox.Show("Файл, который вы пытаетесь открыть, не является Excel книгой!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    popup_f_info.Visibility = Visibility.Visible;
+                    lbl_info_popup.Text = "Файл, который вы пытаетесь открыть, не является Excel книгой!";
+                    //MessageBox.Show("Файл, который вы пытаетесь открыть, не является Excel книгой!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -106,7 +110,9 @@ namespace IUmo.Pages
                     img_status_drop.Source = new BitmapImage(new Uri("pack://application:,,,/Illustartions/img_no_dragndrop.png"));
                     border_dragndrop.Background = Brushes.Transparent;
                     border_dragndrop.Opacity = 1;
-                    MessageBox.Show("Файл, который вы пытаетесь открыть, не является Excel книгой!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    popup_f_info.Visibility = Visibility.Visible;
+                    lbl_info_popup.Text = "Файл, который вы пытаетесь открыть, не является Excel книгой!";
+                    //MessageBox.Show("Файл, который вы пытаетесь открыть, не является Excel книгой!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -123,6 +129,11 @@ namespace IUmo.Pages
             img_status_drop.Source = new BitmapImage(new Uri("pack://application:,,,/Illustartions/img_no_dragndrop.png"));
             border_dragndrop.Background = Brushes.Transparent;
             border_dragndrop.Opacity = 1;
+        }
+
+        private void btn_close_info_Click(object sender, RoutedEventArgs e)
+        {
+            popup_f_info.Visibility = Visibility.Hidden;
         }
 
         /*private void Button_Click(object sender, RoutedEventArgs e)

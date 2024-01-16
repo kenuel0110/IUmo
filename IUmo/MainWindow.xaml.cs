@@ -45,13 +45,14 @@ namespace IUmo
         private void init()
         {
             ioFunctions.chkFirstStart("settings", "settings.json");
+            ioFunctions.createTemp();
             Classes.Class_JSON_Setting setting = ioFunctions.openJSONSetting();
             WindowSizeState(setting.maximilize_window);
             Application.Current.MainWindow.Height = setting.size_window[0];
             Application.Current.MainWindow.Width = setting.size_window[1];
             newWindowHeight = setting.size_window[0];
             newWindowWidth = setting.size_window[1];
-            main_frame.NavigationService.Navigate(new Pages.Page_select_course());
+            main_frame.NavigationService.Navigate(new Pages.Page_start());
             //_navigationService = new Functions.PageFunctions.NavigationService(main_frame);
            // _navigationService.NavigateToPage(Classes.Class_types.Pages.Page_Start);
            // page_class.current_page = _navigationService.currentPage;
@@ -86,6 +87,7 @@ namespace IUmo
         //Собитие закрытия
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            ioFunctions.removeTemp();
             ioFunctions.saveJSONSetting(
                 new Classes.Class_JSON_Setting{
                     maximilize_window = maximilize_window_,

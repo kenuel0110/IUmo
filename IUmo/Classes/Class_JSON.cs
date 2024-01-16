@@ -18,4 +18,11 @@ namespace IUmo.Classes
         public string name { get; set; }
         public string path { get; set; }
     }
+
+    public class Class_JSON_Temp
+    {
+        public string path { get; set; }
+        public Class_types.TempType tempType { get; set; }
+        public int course { get; set; }
+    }
 }

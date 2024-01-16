@@ -50,19 +50,66 @@
             </ListBox>
         </Grid>
 
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height ="150"/>
-                <RowDefinition Height ="32"/>
-                <RowDefinition Height ="*"/>
-                <RowDefinition Height ="80"/>
-            </Grid.RowDefinitions>
-            <Image Name="img_status_drop" Grid.Row="0" Source="/Illustartions\img_no_dragndrop.png" Width="100"  Margin="38"/>
-            <Label Content="ДОБРО ПОЖАЛОВАТЬ В IUMO" Grid.Row="1" Style="{StaticResource lbl_heading}" HorizontalAlignment="Center"/>
-            <Border Grid.Row="2" Margin="20" Name="border_dragndrop" Style="{StaticResource border_drag}" Drop="border_dragndrop_Drop" AllowDrop="true" DragEnter="border_dragndrop_DragEnter" DragLeave="border_dragndrop_DragLeave">
-                <Label Content="МОЖЕТЕ ПЕРЕНЕСТИ ДОКУМЕНТ СЮДА, ЧТОБЫ НАЧАТЬ" Grid.Row="1" FontSize="16" VerticalAlignment="Center" Style="{StaticResource lbl_heading}" HorizontalAlignment="Center"/>
+        <Grid Grid.Column="1" Name="grid_main">
+            <Grid.Resources>
+                <Storyboard x:Key="SlideInAnimation">
+                    <DoubleAnimation From="0" To="1" Duration="0:0:0.5" Storyboard.TargetProperty="Opacity"/>
+                    <DoubleAnimation From="-50" To="0" Duration="0:0:0.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"/>
+                </Storyboard>
+                <Storyboard x:Key="SlideOutAnimation">
+                    <DoubleAnimation From="1" To="0" Duration="0:0:0.5" Storyboard.TargetProperty="Opacity"/>
+                    <DoubleAnimation From="0" To="-50" Duration="0:0:0.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"/>
+                </Storyboard>
+            </Grid.Resources>
+            <Border Name="popup_f_info" Visibility="Hidden" Padding="5" VerticalAlignment="Top" Panel.ZIndex="1" Margin="5 5 5 0" MinHeight="64">
+                <Border.RenderTransform>
+                    <TranslateTransform Y="-69"/>
+                </Border.RenderTransform>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="#222320" />
+                        <Setter Property="CornerRadius" Value="16" />
+                        <Style.Triggers>
+                            <Trigger Property="Visibility" Value="Visible">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource SlideInAnimation}"/>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource SlideOutAnimation}"/>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="24"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="24"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Row="0" Grid.Column="1" Name="btn_close_info" Style="{StaticResource btn_menu}" Padding="0" Height="20" Width="20" Click="btn_close_info_Click">
+                        <Image Source="/Icons\btn_close.png" Margin="2"/>
+                    </Button>
+                    <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Name="lbl_info_popup" TextWrapping="Wrap" Text="Empty cock" Margin="5 -8 5 5" VerticalAlignment="Top" HorizontalAlignment="Center" Style="{StaticResource lbl_regular_error}"/>
+                </Grid>
             </Border>
-            <Image Grid.Row="3" Source="/Illustartions\img_polytech.png" Width="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height ="150"/>
+                    <RowDefinition Height ="32"/>
+                    <RowDefinition Height ="*"/>
+                    <RowDefinition Height ="80"/>
+                </Grid.RowDefinitions>
+                <Image Name="img_status_drop" Grid.Row="0" Source="/Illustartions\img_no_dragndrop.png" Width="100"  Margin="38"/>
+                <Label Content="ДОБРО ПОЖАЛОВАТЬ В IUMO" Grid.Row="1" Style="{StaticResource lbl_heading}" HorizontalAlignment="Center"/>
+                <Border Grid.Row="2" Margin="20" Name="border_dragndrop" Style="{StaticResource border_drag}" Drop="border_dragndrop_Drop" AllowDrop="true" DragEnter="border_dragndrop_DragEnter" DragLeave="border_dragndrop_DragLeave">
+                    <Label Content="МОЖЕТЕ ПЕРЕНЕСТИ ДОКУМЕНТ СЮДА, ЧТОБЫ НАЧАТЬ" Grid.Row="1" FontSize="16" VerticalAlignment="Center" Style="{StaticResource lbl_heading}" HorizontalAlignment="Center"/>
+                </Border>
+                <Image Grid.Row="3" Source="/Illustartions\img_polytech.png" Width="150" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20"/>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

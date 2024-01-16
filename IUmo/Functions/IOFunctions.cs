@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace IUmo.Functions
 {
@@ -25,7 +26,7 @@ namespace IUmo.Functions
         }
 
         //Открытие файла recent_files.json
-        public List<Classes.Class_JSON_RecenFiles> openJSONRecentFiles()
+        public List<Classes.Class_JSON_RecenFiles> openJSONRecentFiles(Pages.Page_start page = null)
         {
             FileStream file = null;
             try
@@ -33,12 +34,21 @@ namespace IUmo.Functions
                 file = new FileStream($"settings\\recent_files.json", FileMode.OpenOrCreate);
                 byte[] buffer = new byte[file.Length];
                 file.Read(buffer, 0, buffer.Length);
-                Encoding.Default.GetString(buffer);
-                List<Classes.Class_JSON_RecenFiles> files = JsonSerializer.Deserialize<List<Classes.Class_JSON_RecenFiles>>(buffer);
+                List<Classes.Class_JSON_RecenFiles> files = new List<Classes.Class_JSON_RecenFiles>();
+                if (buffer.Length > 0)
+                {
+                    Encoding.Default.GetString(buffer);
+                    files = JsonSerializer.Deserialize<List<Classes.Class_JSON_RecenFiles>>(buffer);
+                }
                 return files;
             }
             catch (Exception ex)
             {
+                if (page != null)
+                {
+                    page.lbl_info_popup.Text = ex.Message;
+                    page.popup_f_info.Visibility = System.Windows.Visibility.Visible;
+                }
             }
             finally { file?.Close(); }
             return null;
@@ -56,10 +66,36 @@ namespace IUmo.Functions
                 File.Create(path);
         }
         //Проверка и создание файла настроек
-        public void chkFirstStart(string path, string file_name)
+        public void chkFirstStart(string folder, string file_name)
         {
-            if (!Directory.Exists(path) && !File.Exists(path))
+            
+            if (!File.Exists($"{folder}\\{file_name}"))
                 create_json(file_name);
+            else
+            {
+                chkAndCreateFolder(Path.GetDirectoryName($"{folder}\\{file_name}"));
+                chkAndCreateFile($"{folder}\\{file_name}");
+            }
+
+        }
+
+        public void createTemp()
+        {
+            chkAndCreateFolder(Path.GetDirectoryName("Temp\\temp.json"));
+            Classes.Class_JSON_Temp json_temp = new Classes.Class_JSON_Temp
+            {
+                tempType = Classes.Class_types.TempType.Temp_none,
+                path = "",
+                course = 0
+            };
+
+            string tempString = JsonSerializer.Serialize(json_temp);
+            File.WriteAllText("Temp\\temp.json", tempString);
+        }
+
+        public void removeTemp()
+        {
+            Directory.Delete("Temp", true);
         }
 
         //Открытие файла настроек
@@ -77,6 +113,7 @@ namespace IUmo.Functions
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally { file?.Close(); }
             return null;
@@ -96,7 +133,6 @@ namespace IUmo.Functions
                     });
             }
             File.WriteAllText("settings\\settings.json", settingsString_);
-
         }
 
         //Создание файла JSON
