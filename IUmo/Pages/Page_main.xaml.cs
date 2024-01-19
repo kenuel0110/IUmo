@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,39 +34,18 @@ namespace IUmo.Pages
             new KeyValuePair<String, String>("СУББОТА", "/Icons\\ic_saturday.png")
         };
 
-        public class LessonItem
-        {
-            public List<GroupItem> list_group { get; set; }
-        }
-
-        public class GroupItem
-        {
-            public string Key { get; set; }
-            public string Value { get; set; }
-        }
-
         // Создайте коллекции объектов для источников данных
-        ObservableCollection<LessonItem> list_lesson = new ObservableCollection<LessonItem>()
-{
-    new LessonItem()
-    {
-        list_group = new List<GroupItem>()
+
+        List<Classes.Groups_data> list_group = new List<Classes.Groups_data>();
+        ObservableCollection<KeyValuePair<int, List<Classes.Groups_data>>> list_lesson = new ObservableCollection<KeyValuePair<int, List<Classes.Groups_data>>>()
         {
-            new GroupItem() { Key = "Group 1", Value = "/Images\\ic_tuesday.png" },
-            new GroupItem() { Key = "Group 2", Value = "/Images\\ic_Monday.png" }
-        }
-    },
-    new LessonItem()
-    {
-        list_group = new List<GroupItem>()
-        {
-            new GroupItem() { Key = "Group 1", Value = "/Images\\ic_tuesday.png" },
-            new GroupItem() { Key = "Group 2", Value = "/Images\\ic_Monday.png" }
-        }
-    }
-};
-        // Создайте команду удаления элемента списка
-        public ICommand DeleteItemCommand { get; set; }
+            new KeyValuePair<int, List<Classes.Groups_data>>(0, new List<Classes.Groups_data>(){
+                new Classes.Groups_data(){
+                title="ОСНОВЫ РОССИЙСКОЙ ГОСУДАРСТВЕННОСТИ", teacher="АНИСИМОВА В.А.",
+                cabinet="216", type="ПЗ", editions= new List<string>(){ "25.09","Прикол"}
+                }
+            })
+        };
 
         Classes.Class_JSON_Temp temp_file;
         #endregion
@@ -75,18 +55,18 @@ namespace IUmo.Pages
             init();
         }
 
-        public void LessonItem_()
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            DeleteItemCommand = new Classes.RelayCommand(DeleteItem);
-        }
-
-        // Метод удаления элемента из списка
-        private void DeleteItem(object parameter)
-        {
-            if (parameter is LessonItem lessonItem)
+            Classes.Groups_data lesson = (sender as Button)?.DataContext as Classes.Groups_data;
+            if (lesson != null)
             {
-                list_lesson.Remove(lessonItem);
+                list_group.Remove(lesson);
+                if (list_group.Count == 0)
+                {
+                    list_lesson.RemoveAt(list_lesson.Count()-1);
+                }
             }
+
         }
 
         private void init()
@@ -98,7 +78,7 @@ namespace IUmo.Pages
             lv_lessons.ItemsSource = list_lesson;
 
             lv_day_of_weeks.ItemsSource = dayofweeks_list;
-            LessonItem lesson = new LessonItem();
+            ObservableCollection<KeyValuePair<int, List<Classes.Groups_data>>> lesson = new ObservableCollection<KeyValuePair<int, List<Classes.Groups_data>>>();
             lv_lessons.DataContext = lesson;
         }
 

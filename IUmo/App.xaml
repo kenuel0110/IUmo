@@ -62,6 +62,20 @@
                 <Setter Property="BorderBrush" Value="LightGray"/>
             </Style>
 
+            <Style x:Key="border_group_num" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}" TargetType="Border">
+                <Setter Property="Background" Value="#212121"/>
+                <Setter Property="CornerRadius" Value="12"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="#212121"/>
+            </Style>
+
+            <Style x:Key="border_lesson_num" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}" TargetType="Border">
+                <Setter Property="Background" Value="#272727"/>
+                <Setter Property="CornerRadius" Value="12"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="#272727"/>
+            </Style>
+
             <!--Кнопки-->
             <Style TargetType="Border" BasedOn="{StaticResource MaterialDesignToolBarMainPanelBorderStyle}" x:Key="btn_primary">
                 <Setter Property="Background" Value="Transparent"/>

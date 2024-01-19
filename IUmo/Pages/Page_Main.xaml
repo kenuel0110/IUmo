@@ -36,7 +36,7 @@
             </Grid.ColumnDefinitions>
 
             <Border Grid.Column="0" Margin="0 -5 0 0" Panel.ZIndex="-1" Background="#181818">
-                <ListBox Name="lv_day_of_weeks" Margin="0 5 0 0" Style="{StaticResource MaterialDesignListBox}">
+                <ListBox Name="lv_day_of_weeks" Margin="0 5 0 0" Style="{StaticResource MaterialDesignListBox}" SelectedIndex="0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -59,38 +59,66 @@
 
             <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Disabled" Style="{StaticResource MaterialDesignScrollViewer}"  VerticalScrollBarVisibility="Auto">
                 <StackPanel Orientation="Vertical">
-                    <ListView Name="lv_lessons" ItemsSource="{Binding list_lesson}" Style="{StaticResource MaterialDesignListView}">
-                        <ListView.ItemTemplate>
+
+                    <ItemsControl VerticalAlignment="Center" Padding="0 5 0 0" Name="lv_lessons" ItemsSource="{Binding list_lesson}" >
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Button Grid.Column="1" Content="Удалить" Command="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding}" Style="{StaticResource MaterialDesignFlatButton}"/>
-                                    <ListView Name="lv_group" Margin="5" ItemsSource="{Binding list_group}" Style="{StaticResource MaterialDesignListBox}">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Image Source="{Binding Value}" Width="24" Height="24" Margin="5"/>
-                                                    <TextBlock Text="{Binding Key}" Style="{StaticResource lbl_list_item}" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="White"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                        <ListView.ItemContainerStyle>
-                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource MaterialDesignListBoxItem}">
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsSelected" Value="True">
-                                                        <Setter Property="Background" Value="#00100c"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ListView.ItemContainerStyle>
-                                    </ListView>
-                                </Grid>
+                                <Border Style="{StaticResource border_lesson_num}" Margin="8 5 8 0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Margin="5" Content="{Binding Key}" Style="{StaticResource lbl_title}" Name="lbl_num_lesson"/>
+                                        <ItemsControl x:Name="lv_group" Padding="0 8 4 8" Grid.Column="1" ItemsSource="{Binding Value}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Margin="0 3 5 3" Style="{StaticResource border_group_num}">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="24"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="40"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Content="2" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_title}" Name="lbl_num_group"/>
+                                                            <Grid Grid.Column="1">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock Grid.Column="0" TextWrapping="Wrap" Text="{Binding title}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_title_}"/>
+                                                                <TextBlock Grid.Column="1" TextWrapping="Wrap" Text="{Binding teacher}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_title_}"/>
+                                                                <TextBlock Grid.Column="2" TextWrapping="Wrap" Text="{Binding cabinet}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_title_}"/>
+                                                                <TextBlock Grid.Column="3"  TextWrapping="Wrap" Text="{Binding type}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_title_}"/>
+                                                                <Border Name="lv_editions" Background="#087558" Grid.Column="4 " CornerRadius="10" Margin="3">
+                                                                    <ListBox IsHitTestVisible="False" ItemsSource="{Binding editions}" Style="{StaticResource MaterialDesignFilterChipListBox}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                                </Border>
+                                                            </Grid>
+                                                            <Grid Grid.Column="2" Margin="4">
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition/>
+                                                                    <RowDefinition/>
+                                                                </Grid.RowDefinitions>
+                                                                <Button Width="28" Tag="{Binding}" Grid.Row="0" Height="28" Padding="0" Click="DeleteButton_Click" Style="{StaticResource btn_menu}">
+                                                                    <Image Source="/Icons\ic_delete.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                </Button>
+                                                                <Button Grid.Row="1" Width="28" Height="28" Padding="0" Click="DeleteButton_Click" Style="{StaticResource btn_menu}">
+                                                                    <Image Source="/Icons\ic_add_group.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                </Button>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </Grid>
+                                </Border>
                             </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                     <Border x:Name="btn_add_lesson" Style="{StaticResource btn_add_lesson}" Margin="5">
                         <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Image Source="/Icons\ic_add_lesson.png" Width="32" Height="32" />
