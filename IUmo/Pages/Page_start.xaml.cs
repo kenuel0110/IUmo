@@ -62,13 +62,16 @@ namespace IUmo.Pages
                     temp_file.path = filePath;
                     temp_file.tempType = Classes.Class_types.TempType.Temp_new;
                     ioFunctions.saveTemp(temp_file);
-                    this.NavigationService.Navigate(new Pages.Page_select_course());
+                    string excel = mainWindow.new_document(filePath);
+                    if (excel == "")
+                        this.NavigationService.Navigate(new Pages.Page_select_course());
+                    else
+                        showInfo(excel); 
                 }
                 else
                 {
                     // Файл не имеет расширения .xlsx, обработка ошибки или вывод сообщения
-                    popup_f_info.Visibility = Visibility.Visible;
-                    lbl_info_popup.Text = "Файл, который вы пытаетесь создать, не является Excel книгой!";
+                    showInfo("Файл, который вы пытаетесь создать, не является Excel книгой!");
                     //MessageBox.Show("Файл, который вы пытаетесь создать, не является Excel книгой!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -93,11 +96,17 @@ namespace IUmo.Pages
                 else
                 {
                     // Файл не имеет расширения .xlsx, обработка ошибки или вывод сообщения
-                    popup_f_info.Visibility = Visibility.Visible;
-                    lbl_info_popup.Text = "Файл, который вы пытаетесь открыть, не является Excel книгой!";
+                    showInfo("Файл, который вы пытаетесь открыть, не является Excel книгой!");
                     //MessageBox.Show("Файл, который вы пытаетесь открыть, не является Excel книгой!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+        }
+
+        public void showInfo(string info) 
+        {
+            // Файл не имеет расширения .xlsx, обработка ошибки или вывод сообщения
+            popup_f_info.Visibility = Visibility.Visible;
+            lbl_info_popup.Text = info;
         }
 
         private void border_dragndrop_Drop(object sender, DragEventArgs e)
@@ -124,8 +133,8 @@ namespace IUmo.Pages
                     img_status_drop.Source = new BitmapImage(new Uri("pack://application:,,,/Illustartions/img_no_dragndrop.png"));
                     border_dragndrop.Background = Brushes.Transparent;
                     border_dragndrop.Opacity = 1;
-                    popup_f_info.Visibility = Visibility.Visible;
-                    lbl_info_popup.Text = "Файл, который вы пытаетесь открыть, не является Excel книгой!";
+
+                    showInfo("Файл, который вы пытаетесь открыть, не является Excel книгой!");
                     //MessageBox.Show("Файл, который вы пытаетесь открыть, не является Excel книгой!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }

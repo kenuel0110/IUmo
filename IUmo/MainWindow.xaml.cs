@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,11 +21,13 @@ namespace IUmo
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         #region global_varibles
         //private Functions.PageFunctions.NavigationService _navigationService;
         //public Classes.Class_Events.Class_Current_Page page_class = new Classes.Class_Events.Class_Current_Page();
+        public Microsoft.Office.Interop.Excel.Application _excel;
+        public Workbook _excel_book;
         #endregion
 
         #region local_varibles
@@ -50,18 +53,34 @@ namespace IUmo
             ioFunctions.createTemp();
             Classes.Class_JSON_Setting setting = ioFunctions.openJSONSetting();
             WindowSizeState(setting.maximilize_window);
-            Application.Current.MainWindow.Height = setting.size_window[0];
-            Application.Current.MainWindow.Width = setting.size_window[1];
+            System.Windows.Application.Current.MainWindow.Height = setting.size_window[0];
+            System.Windows.Application.Current.MainWindow.Width = setting.size_window[1];
             newWindowHeight = setting.size_window[0];
             newWindowWidth = setting.size_window[1];
-            main_frame.NavigationService.Navigate(new Pages.Page_main());
+            main_frame.NavigationService.Navigate(new Pages.Page_start());
             //_navigationService = new Functions.PageFunctions.NavigationService(main_frame);
             // _navigationService.NavigateToPage(Classes.Class_types.Pages.Page_Start);
             // page_class.current_page = _navigationService.currentPage;
         }
 
+        //Публичные функции
+        public string new_document(string path)
+        {
+            string state = ioFunctions.copyTemplate(path);
+            try
+            {
+                _excel = new Microsoft.Office.Interop.Excel.Application();
+                _excel_book = _excel.Workbooks.Open(path);
+            }
+            catch (Exception ex)
+            {
+                state += $" {ex}";
+            }
+            return state;
+        }
+
         //Событие изменения переменной current_page
-        private void pageChangedHandler(object sender, Classes.Class_types.Pages page)
+        /*private void pageChangedHandler(object sender, Classes.Class_types.Pages page)
         {
             switch (page) {
                 case Classes.Class_types.Pages.Page_None:
@@ -85,7 +104,7 @@ namespace IUmo
                     btn_insert.IsEnabled = true;
                     break;
             }
-        }
+        }*/
         //Собитие закрытия
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -107,14 +126,14 @@ namespace IUmo
                 }
                 else
                 {
-                    Application.Current.MainWindow.DragMove();
+                    System.Windows.Application.Current.MainWindow.DragMove();
                 }
         }
 
         //Главные кнопки окна
         private void btn_close_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
 
 

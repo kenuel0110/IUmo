@@ -6,12 +6,36 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Resources;
 
 namespace IUmo.Functions
 {
     //Здесь описаны все взаимодействия с файлами и папками
     class IOFunctions
     {
+
+        public string copyTemplate(string path)
+        {
+           string state = "";
+            try 
+            {
+                using (Stream resourceStream = Application.GetResourceStream(new Uri("pack://application:,,,/Files/Template.xlsx")).Stream)
+                {
+                    using (FileStream fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        resourceStream.CopyTo(fileStream);
+                    }
+                }
+                File.Move($"{Path.GetDirectoryName(path)}\\Template.xlsx", Path.GetFileName(path));
+            } 
+            catch(Exception ex) 
+            {
+                state = ex.ToString();
+                return state;
+            }
+            state = "Файл создан";
+            return state;
+        }
 
         //Сохранение файла recent_files.json
         public void saveJSONRecentFiles(Classes.Class_JSON_RecenFiles last_file)
