@@ -19,7 +19,9 @@ namespace IUmo.Functions
            string state = "";
             try 
             {
-                using (Stream resourceStream = Application.GetResourceStream(new Uri("pack://application:,,,/Files/Template.xlsx")).Stream)
+                StreamResourceInfo resourceInfo = Application.GetResourceStream(new Uri("pack://application:,,,/Files/Template.xlsx"));
+
+                using (Stream resourceStream = resourceInfo.Stream)
                 {
                     using (FileStream fileStream = new FileStream(path, FileMode.Create))
                     {
