@@ -26,9 +26,9 @@ namespace IUmo.Functions
                     using (FileStream fileStream = new FileStream(path, FileMode.Create))
                     {
                         resourceStream.CopyTo(fileStream);
+                        resourceStream.Close();
                     }
                 }
-                File.Move($"{Path.GetDirectoryName(path)}\\Template.xlsx", Path.GetFileName(path));
             } 
             catch(Exception ex) 
             {
