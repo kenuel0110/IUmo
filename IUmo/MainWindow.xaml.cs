@@ -114,9 +114,9 @@ namespace IUmo
 
                 case 2:
                     if (DateTime.Now.Month >= 9 && DateTime.Now.Month <= 12)
-                        cell2_string = $"1 СЕМЕСТР {DateTime.Now.Year}-{DateTime.Now.Year + 1} УЧЕБНОГО ГОДА";
+                        cell2_string = $"3 СЕМЕСТР {DateTime.Now.Year}-{DateTime.Now.Year + 1} УЧЕБНОГО ГОДА";
                     else if (DateTime.Now.Month >= 1 && DateTime.Now.Month <= 9)
-                        cell2_string = $"2 СЕМЕСТР {DateTime.Now.Year - 1}-{DateTime.Now.Year} УЧЕБНОГО ГОДА";
+                        cell2_string = $"4 СЕМЕСТР {DateTime.Now.Year - 1}-{DateTime.Now.Year} УЧЕБНОГО ГОДА";
 
                     foreach (KeyValuePair<String, String> sheetName in groups)
                     {
@@ -125,7 +125,7 @@ namespace IUmo
 
 
                         Range cell1 = copiedSheet.Cells[2, 4];
-                        cell1.Value = "ОЧНАЯ ФОРМА ОБУЧЕНИЯ 1 КУРС";
+                        cell1.Value = "ОЧНАЯ ФОРМА ОБУЧЕНИЯ 2 КУРС";
                         Range cell2 = copiedSheet.Cells[3, 4];
                         cell2.Value = cell2_string;
                         Range cell3 = copiedSheet.Cells[5, 4];
@@ -140,9 +140,9 @@ namespace IUmo
 
                 case 3:
                     if (DateTime.Now.Month >= 9 && DateTime.Now.Month <= 12)
-                        cell2_string = $"1 СЕМЕСТР {DateTime.Now.Year}-{DateTime.Now.Year + 1} УЧЕБНОГО ГОДА";
+                        cell2_string = $"5 СЕМЕСТР {DateTime.Now.Year}-{DateTime.Now.Year + 1} УЧЕБНОГО ГОДА";
                     else if (DateTime.Now.Month >= 1 && DateTime.Now.Month <= 9)
-                        cell2_string = $"2 СЕМЕСТР {DateTime.Now.Year - 1}-{DateTime.Now.Year} УЧЕБНОГО ГОДА";
+                        cell2_string = $"6 СЕМЕСТР {DateTime.Now.Year - 1}-{DateTime.Now.Year} УЧЕБНОГО ГОДА";
 
                     foreach (KeyValuePair<String, String> sheetName in groups)
                     {
@@ -151,7 +151,7 @@ namespace IUmo
 
 
                         Range cell1 = copiedSheet.Cells[2, 4];
-                        cell1.Value = "ОЧНАЯ ФОРМА ОБУЧЕНИЯ 1 КУРС";
+                        cell1.Value = "ОЧНАЯ ФОРМА ОБУЧЕНИЯ 3 КУРС";
                         Range cell2 = copiedSheet.Cells[3, 4];
                         cell2.Value = cell2_string;
                         Range cell3 = copiedSheet.Cells[5, 4];
