@@ -7,19 +7,28 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Popup_loading">
-
     <Grid>
         <Border Background="#333333" CornerRadius="25" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Image Source="/Illustrations\img_logo_poletech_loading.png" Width="100" Height="100">
+            <Image Source="/Illustartions\img_logo_poletech_loading.png" Width="150" Height="150" Margin="150 60" RenderTransformOrigin="0.5, 0.5">
                 <Image.RenderTransform>
-                    <RotateTransform x:Name="spinner" CenterX="50" CenterY="50" />
+                    <!-- giving the transform a name tells the framework not to freeze it -->
+                    <RotateTransform x:Name="noFreeze" />
                 </Image.RenderTransform>
                 <Image.Triggers>
                     <EventTrigger RoutedEvent="Loaded">
-                        <BeginStoryboard Storyboard="{StaticResource RotationAnimation}" />
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                        Storyboard.TargetProperty="(Image.RenderTransform).(RotateTransform.Angle)"
+                        To="360" Duration="0:0:1" RepeatBehavior="Forever" />
+                            </Storyboard>
+                        </BeginStoryboard>
                     </EventTrigger>
                 </Image.Triggers>
             </Image>
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Opacity="0.5" Direction="640" ShadowDepth="0" BlurRadius="20"/>
+            </Border.Effect>
         </Border>
     </Grid>
 </Page>

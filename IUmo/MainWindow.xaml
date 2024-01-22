@@ -79,11 +79,8 @@
             </StackPanel>
 
         </Grid>
-        <Grid Grid.Row="1" Panel.ZIndex="2" Name="popup_window" Visibility="Hidden" Margin="64">
-            <Button x:Name="btn_popup_close" Panel.ZIndex="1" Click="btn_close_popup_Click" VerticalAlignment="Top" Margin="0 8 8 0" HorizontalAlignment="Right" Width="34" Height="34" Padding="0" Style="{StaticResource btn_menu}">
-                <Image Source="Icons\btn_close.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Button>
-            <Frame Name="popup_frame" Panel.ZIndex="0" NavigationUIVisibility="Hidden"/>
+        <Grid Grid.Row="1" Panel.ZIndex="2" Name="popup_window" Visibility="Hidden">
+            <Frame Name="popup_frame" NavigationUIVisibility="Hidden"/>
         </Grid>
         <Border x:Name="border_shadow" Grid.Row="1" Panel.ZIndex="1" Visibility="Hidden" Opacity="0" Margin="-5" Background="Black"  />
         <Frame Grid.Row="1" Panel.ZIndex="0" Name="main_frame" NavigationUIVisibility="Hidden"/>

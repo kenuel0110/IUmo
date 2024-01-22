@@ -64,8 +64,19 @@ namespace IUmo.Pages
             List<Class_JSON_Courses_Settings> courses = ioFunctions.openJSONCourses();
             if (combobox_course_bottom.SelectedIndex != 0 || combobox_course_center.SelectedIndex != 0) 
             {
+                mainWindow.showLoading();
                 var element = courses.FirstOrDefault(x => x.number == combobox_course_bottom.SelectedIndex);
-                mainWindow.init_new_document(element.number, element.groups);
+                try
+                {
+                    mainWindow.init_new_document(element.number, element.groups);
+                }
+                catch (Exception ex) 
+                {
+                    mainWindow.hideLoading();
+                    mainWindow.showInfoPopup(ex.Message);
+                }
+                mainWindow.hideLoading();
+                NavigationService.Navigate(new Pages.Page_main());
             } 
         }
     }

@@ -146,6 +146,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Popup\Popup_show_info.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Pages\Page_main.xaml.cs">
@@ -159,6 +163,9 @@
     </Compile>
     <Compile Include="Popup\Popup_loading.xaml.cs">
       <DependentUpon>Popup_loading.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Popup\Popup_show_info.xaml.cs">
+      <DependentUpon>Popup_show_info.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

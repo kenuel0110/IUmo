@@ -185,7 +185,6 @@ namespace IUmo
         {
             blurBackground();
             popup_window.Visibility = Visibility.Visible;
-            btn_popup_close.Visibility = Visibility.Hidden;
             popup_frame.NavigationService.Navigate(new Popup.Popup_loading());
         }
 
@@ -193,8 +192,8 @@ namespace IUmo
         {
             deblurBackground();
             popup_window.Visibility = Visibility.Hidden;
-            btn_popup_close.Visibility = Visibility.Visible;
-            popup_frame.NavigationService.GoBack();
+            if (popup_frame.NavigationService.CanGoBack)
+                popup_frame.NavigationService.GoBack();
         }
 
         //Событие изменения переменной current_page
@@ -297,12 +296,13 @@ namespace IUmo
         }
 
         //Popup
-        private void btn_close_popup_Click(object sender, RoutedEventArgs e)
+        //Открыть popup с информацией
+        public void showInfoPopup(string message)
         {
-            popup_window.Visibility = Visibility.Hidden;
-            deblurBackground();
+            popup_window.Visibility = Visibility.Visible;
+            popup_frame.NavigationService.Navigate(new Popup.Popup_show_info(message));
+            blurBackground();
         }
-
         public void blurBackground()
         {
             border_shadow.Visibility = Visibility.Visible;
