@@ -29,8 +29,6 @@ namespace IUmo
         //public Classes.Class_Events.Class_Current_Page page_class = new Classes.Class_Events.Class_Current_Page();
         public Microsoft.Office.Interop.Excel.Application _excel;
         public Workbook _excel_book;
-        DateTime startDate = new DateTime(DateTime.Now.Year, 9, 1); // Дата начала курса (1 сентября текущего года)
-        DateTime endDate = new DateTime(DateTime.Now.Year + 1, 9, 1); // Дата окончания курса (31 августа года, следующего за текущим)
         #endregion
 
         #region local_varibles
@@ -85,34 +83,87 @@ namespace IUmo
         public void init_new_document(int course, List<KeyValuePair<String, String>> groups) 
         {
             Worksheet templateSheet = _excel_book.Sheets["Группа"];
+            string cell2_string = "";
             switch (course) 
             {
                 case 1:
-                    string cell2_string = "";
-                    if (DateTime.Now >= startDate && DateTime.Now <= endDate)
-                    {
-                        if (DateTime.Now.Year == startDate.Year)
-                            cell2_string = $"1 СЕМЕСТР {DateTime.Now.Year}-{DateTime.Now.Year + 1} УЧЕБНОГО ГОДА";
-                        else if (DateTime.Now.Year == endDate.Year)
-                            cell2_string = $"2 СЕМЕСТР {DateTime.Now.Year - 1}-{DateTime.Now.Year} УЧЕБНОГО ГОДА";
-                    }
-                    
+                    if (DateTime.Now.Month >= 9 && DateTime.Now.Month <= 12)
+                        cell2_string = $"1 СЕМЕСТР {DateTime.Now.Year}-{DateTime.Now.Year + 1} УЧЕБНОГО ГОДА";
+                    else if (DateTime.Now.Month >= 1 && DateTime.Now.Month <= 9)
+                        cell2_string = $"2 СЕМЕСТР {DateTime.Now.Year - 1}-{DateTime.Now.Year} УЧЕБНОГО ГОДА";
+
                     foreach (KeyValuePair<String, String> sheetName in groups)
                     {
                         templateSheet.Copy(After: _excel_book.Sheets[_excel_book.Sheets.Count]);
                         Worksheet copiedSheet = (Worksheet)_excel_book.Sheets[_excel_book.Sheets.Count];
 
                         
-                        Range cell1 = copiedSheet.Cells[4, 2];
+                        Range cell1 = copiedSheet.Cells[2, 4];
                         cell1.Value = "ОЧНАЯ ФОРМА ОБУЧЕНИЯ 1 КУРС";
-                        Range cell2 = copiedSheet.Cells[4, 2];
+                        Range cell2 = copiedSheet.Cells[3, 4];
                         cell2.Value = cell2_string;
-                        Range cell3 = copiedSheet.Cells[4, 5];
-                        cell2.Value = $"{sheetName.Key} ({sheetName.Value})";
+                        Range cell3 = copiedSheet.Cells[5, 4];
+                        cell3.Value = $"{sheetName.Key} ({sheetName.Value})";
                         copiedSheet.Name = sheetName.Value;
+
+                        _excel_book.Save();
                     }
+                    templateSheet.Delete();
                     _excel_book.Save();
                     break;
+
+                case 2:
+                    if (DateTime.Now.Month >= 9 && DateTime.Now.Month <= 12)
+                        cell2_string = $"1 СЕМЕСТР {DateTime.Now.Year}-{DateTime.Now.Year + 1} УЧЕБНОГО ГОДА";
+                    else if (DateTime.Now.Month >= 1 && DateTime.Now.Month <= 9)
+                        cell2_string = $"2 СЕМЕСТР {DateTime.Now.Year - 1}-{DateTime.Now.Year} УЧЕБНОГО ГОДА";
+
+                    foreach (KeyValuePair<String, String> sheetName in groups)
+                    {
+                        templateSheet.Copy(After: _excel_book.Sheets[_excel_book.Sheets.Count]);
+                        Worksheet copiedSheet = (Worksheet)_excel_book.Sheets[_excel_book.Sheets.Count];
+
+
+                        Range cell1 = copiedSheet.Cells[2, 4];
+                        cell1.Value = "ОЧНАЯ ФОРМА ОБУЧЕНИЯ 1 КУРС";
+                        Range cell2 = copiedSheet.Cells[3, 4];
+                        cell2.Value = cell2_string;
+                        Range cell3 = copiedSheet.Cells[5, 4];
+                        cell3.Value = $"{sheetName.Key} ({sheetName.Value})";
+                        copiedSheet.Name = sheetName.Value;
+
+                        _excel_book.Save();
+                    }
+                    templateSheet.Delete();
+                    _excel_book.Save();
+                    break;
+
+                case 3:
+                    if (DateTime.Now.Month >= 9 && DateTime.Now.Month <= 12)
+                        cell2_string = $"1 СЕМЕСТР {DateTime.Now.Year}-{DateTime.Now.Year + 1} УЧЕБНОГО ГОДА";
+                    else if (DateTime.Now.Month >= 1 && DateTime.Now.Month <= 9)
+                        cell2_string = $"2 СЕМЕСТР {DateTime.Now.Year - 1}-{DateTime.Now.Year} УЧЕБНОГО ГОДА";
+
+                    foreach (KeyValuePair<String, String> sheetName in groups)
+                    {
+                        templateSheet.Copy(After: _excel_book.Sheets[_excel_book.Sheets.Count]);
+                        Worksheet copiedSheet = (Worksheet)_excel_book.Sheets[_excel_book.Sheets.Count];
+
+
+                        Range cell1 = copiedSheet.Cells[2, 4];
+                        cell1.Value = "ОЧНАЯ ФОРМА ОБУЧЕНИЯ 1 КУРС";
+                        Range cell2 = copiedSheet.Cells[3, 4];
+                        cell2.Value = cell2_string;
+                        Range cell3 = copiedSheet.Cells[5, 4];
+                        cell3.Value = $"{sheetName.Key} ({sheetName.Value})";
+                        copiedSheet.Name = sheetName.Value;
+
+                        _excel_book.Save();
+                    }
+                    templateSheet.Delete();
+                    _excel_book.Save();
+                    break;
+                    // и т.д. пока проверим
             }
         }
 
