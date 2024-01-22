@@ -30,5 +30,6 @@ namespace IUmo.Classes
             Temp_new = 1,
             Temp_open = 2
         }
+
     }
 }

@@ -38,12 +38,12 @@
 
             <Label Content="Недавние" Grid.Row="2" Margin="20 5 5 5" Foreground="#a6a6a6" Style="{StaticResource lbl_primary}" HorizontalAlignment="Left"/>
 
-            <ListBox Name="lv_recent_files" Grid.Row="3" Style="{StaticResource MaterialDesignNavigationListBox}">
+            <ListBox Name="lv_recent_files" Grid.Row="3" Style="{StaticResource MaterialDesignNavigationListBox}" SelectionChanged="lv_recent_files_SelectionChanged" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Icons\ic_file_gray.png" Width="16" Height="16" Margin="5"/>
-                            <TextBlock Text="{Binding}" Style="{StaticResource lbl_list_item}" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding name}" Style="{StaticResource lbl_list_item}" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

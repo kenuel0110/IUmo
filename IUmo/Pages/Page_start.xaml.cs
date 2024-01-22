@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace IUmo.Pages
 {
@@ -23,7 +24,7 @@ namespace IUmo.Pages
         #region local_varibles
         private MainWindow mainWindow = App.Current.MainWindow as MainWindow;
         Functions.IOFunctions ioFunctions = new Functions.IOFunctions();
-        List<Classes.Class_JSON_RecenFiles> recent_files = new List<Classes.Class_JSON_RecenFiles>();
+        ObservableCollection<Classes.Class_JSON_RecenFiles> recent_files = new ObservableCollection<Classes.Class_JSON_RecenFiles>();
         Classes.Class_JSON_Temp temp_file;
         #endregion
 
@@ -41,9 +42,11 @@ namespace IUmo.Pages
             mainWindow.btn_insert.IsEnabled = false;
 
             ioFunctions.chkFirstStart("settings", "recent_files.json");
-            recent_files = ioFunctions.openJSONRecentFiles(this);
+            List<Classes.Class_JSON_RecenFiles> recent_list = new List<Classes.Class_JSON_RecenFiles>(ioFunctions.openJSONRecentFiles(this).Reverse());
+            recent_files = new ObservableCollection<Classes.Class_JSON_RecenFiles>(recent_list);
             if (recent_files != null)
-                recent_files.ForEach(file => lv_recent_files.Items.Add(file.name));
+                lv_recent_files.ItemsSource = recent_files;
+                //recent_files.ForEach(file => lv_recent_files.Items.Add(file.name));
 
             temp_file = ioFunctions.openJSONTemp();
         }
@@ -61,10 +64,12 @@ namespace IUmo.Pages
                     ioFunctions.saveJSONRecentFiles(new Classes.Class_JSON_RecenFiles() { name = System.IO.Path.GetFileName(filePath), path = filePath });
                     temp_file.path = filePath;
                     temp_file.tempType = Classes.Class_types.TempType.Temp_new;
-                    ioFunctions.saveTemp(temp_file);
                     string excel = mainWindow.new_document(filePath);
                     if (excel == "")
+                    {
+                        ioFunctions.saveTemp(temp_file);
                         this.NavigationService.Navigate(new Pages.Page_select_course());
+                    }
                     else
                         showInfo(excel); 
                 }
@@ -90,8 +95,14 @@ namespace IUmo.Pages
                     ioFunctions.saveJSONRecentFiles(new Classes.Class_JSON_RecenFiles() { name = System.IO.Path.GetFileName(filePath), path = filePath });
                     temp_file.path = filePath;
                     temp_file.tempType = Classes.Class_types.TempType.Temp_open;
-                    ioFunctions.saveTemp(temp_file);
-                    this.NavigationService.Navigate(new Pages.Page_select_course());
+                    string excel = mainWindow.open_document(filePath);
+                    if (excel == "")
+                    {
+                        ioFunctions.saveTemp(temp_file);
+                        this.NavigationService.Navigate(new Pages.Page_main());
+                    }
+                    else
+                        showInfo(excel);
                 }
                 else
                 {
@@ -124,8 +135,14 @@ namespace IUmo.Pages
                     ioFunctions.saveJSONRecentFiles(new Classes.Class_JSON_RecenFiles() { name = System.IO.Path.GetFileName(file[0]), path = file[0] });
                     temp_file.path = file[0];
                     temp_file.tempType = Classes.Class_types.TempType.Temp_open;
-                    ioFunctions.saveTemp(temp_file);
-                    this.NavigationService.Navigate(new Pages.Page_select_course());
+                    string excel = mainWindow.open_document(file[0]);
+                    if (excel == "")
+                    {
+                        ioFunctions.saveTemp(temp_file);
+                        this.NavigationService.Navigate(new Pages.Page_main());
+                    }
+                    else
+                        showInfo(excel);
                 }
                 else
                 {
@@ -157,6 +174,28 @@ namespace IUmo.Pages
         private void btn_close_info_Click(object sender, RoutedEventArgs e)
         {
             popup_f_info.Visibility = Visibility.Hidden;
+        }
+
+        private void lv_recent_files_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Classes.Class_JSON_RecenFiles item = lv_recent_files.SelectedItem as Classes.Class_JSON_RecenFiles;
+            if (item != null)
+            {
+                temp_file.path = item.path;
+                temp_file.tempType = Classes.Class_types.TempType.Temp_open;
+                string excel = mainWindow.open_document(item.path);
+                if (excel == "")
+                {
+                    ioFunctions.saveTemp(temp_file);
+                    this.NavigationService.Navigate(new Pages.Page_main());
+                }
+                else
+                {
+                    showInfo(excel);
+                    recent_files.Remove(item);
+                    ioFunctions.removeJSONRecentFile(new List<Classes.Class_JSON_RecenFiles>(recent_files.Reverse()));
+                }
+            }
         }
 
         /*private void Button_Click(object sender, RoutedEventArgs e)

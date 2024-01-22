@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IUmo.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,6 +43,7 @@ namespace IUmo.Pages
 
             temp_file = ioFunctions.openJSONTemp();
             mainWindow.title_window.Content = System.IO.Path.GetFileName(temp_file.path);
+            ioFunctions.chkFirstStart("settings", "courses.json");
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -55,6 +57,16 @@ namespace IUmo.Pages
             combobox_course_center.BorderBrush = new SolidColorBrush(Color.FromRgb(2, 37, 28));
             if (combobox_course_bottom != null)
                 combobox_course_bottom.SelectedIndex = combobox_course_center.SelectedIndex;
+        }
+
+        private void btn_open_document_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            List<Class_JSON_Courses_Settings> courses = ioFunctions.openJSONCourses();
+            if (combobox_course_bottom.SelectedIndex != 0 || combobox_course_center.SelectedIndex != 0) 
+            {
+                var element = courses.FirstOrDefault(x => x.number == combobox_course_bottom.SelectedIndex);
+                mainWindow.init_new_document(element.number, element.groups);
+            } 
         }
     }
 }

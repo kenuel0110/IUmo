@@ -1,6 +1,7 @@
 ﻿using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,8 @@ namespace IUmo
         //public Classes.Class_Events.Class_Current_Page page_class = new Classes.Class_Events.Class_Current_Page();
         public Microsoft.Office.Interop.Excel.Application _excel;
         public Workbook _excel_book;
+        DateTime startDate = new DateTime(DateTime.Now.Year, 9, 1); // Дата начала курса (1 сентября текущего года)
+        DateTime endDate = new DateTime(DateTime.Now.Year + 1, 9, 1); // Дата окончания курса (31 августа года, следующего за текущим)
         #endregion
 
         #region local_varibles
@@ -49,6 +52,7 @@ namespace IUmo
         //Инициализация
         private void init()
         {
+            _excel = new Microsoft.Office.Interop.Excel.Application();
             ioFunctions.chkFirstStart("settings", "settings.json");
             ioFunctions.createTemp();
             Classes.Class_JSON_Setting setting = ioFunctions.openJSONSetting();
@@ -63,18 +67,65 @@ namespace IUmo
             // page_class.current_page = _navigationService.currentPage;
         }
 
-        //Публичные функции
+        //Публичные функции связанные с EXCEl
         public string new_document(string path)
         {
             string state = ioFunctions.copyTemplate(path);
             try
             {
-                _excel = new Microsoft.Office.Interop.Excel.Application();
                 _excel_book = _excel.Workbooks.Open(path);
             }
             catch (Exception ex)
             {
-                state += $" {ex}";
+                state += $" {ex.Message}";
+            }
+            return state;
+        }
+
+        public void init_new_document(int course, List<KeyValuePair<String, String>> groups) 
+        {
+            Worksheet templateSheet = _excel_book.Sheets["Группа"];
+            switch (course) 
+            {
+                case 1:
+                    string cell2_string = "";
+                    if (DateTime.Now >= startDate && DateTime.Now <= endDate)
+                    {
+                        if (DateTime.Now.Year == startDate.Year)
+                            cell2_string = $"1 СЕМЕСТР {DateTime.Now.Year}-{DateTime.Now.Year + 1} УЧЕБНОГО ГОДА";
+                        else if (DateTime.Now.Year == endDate.Year)
+                            cell2_string = $"2 СЕМЕСТР {DateTime.Now.Year - 1}-{DateTime.Now.Year} УЧЕБНОГО ГОДА";
+                    }
+                    
+                    foreach (KeyValuePair<String, String> sheetName in groups)
+                    {
+                        templateSheet.Copy(After: _excel_book.Sheets[_excel_book.Sheets.Count]);
+                        Worksheet copiedSheet = (Worksheet)_excel_book.Sheets[_excel_book.Sheets.Count];
+
+                        
+                        Range cell1 = copiedSheet.Cells[4, 2];
+                        cell1.Value = "ОЧНАЯ ФОРМА ОБУЧЕНИЯ 1 КУРС";
+                        Range cell2 = copiedSheet.Cells[4, 2];
+                        cell2.Value = cell2_string;
+                        Range cell3 = copiedSheet.Cells[4, 5];
+                        cell2.Value = $"{sheetName.Key} ({sheetName.Value})";
+                        copiedSheet.Name = sheetName.Value;
+                    }
+                    _excel_book.Save();
+                    break;
+            }
+        }
+
+        public string open_document(string path)
+        {
+            string state = "";
+            try
+            {
+                _excel_book = _excel.Workbooks.Open(path);
+            }
+            catch (Exception ex)
+            {
+                state = ex.Message;
             }
             return state;
         }
@@ -114,6 +165,12 @@ namespace IUmo
                     maximilize_window = maximilize_window_,
                     size_window = new List<double>() {newWindowHeight, newWindowWidth}
                 });
+            try
+            {
+                _excel_book.Close();
+                _excel.Quit();
+            }
+            catch { }
         }
 
         //Перетаскивание окна

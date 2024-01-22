@@ -19,6 +19,13 @@ namespace IUmo.Classes
         public string path { get; set; }
     }
 
+    public class Class_JSON_Courses_Settings
+    {
+        public int number { get; set; }
+        public List<KeyValuePair<String, String>> groups { get; set; }
+    }
+
+
     public class Class_JSON_Temp
     {
         public string path { get; set; }

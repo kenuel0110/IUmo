@@ -78,7 +78,7 @@
                             </ComboBox.ItemContainerStyle>
                         </ComboBox>
                     </StackPanel>
-                    <Border Name="btn_open_document" Style="{StaticResource btn_secondary}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Margin="5">
+                    <Border Name="btn_open_document" Style="{StaticResource btn_secondary}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Margin="5" MouseLeftButtonDown="btn_open_document_MouseLeftButtonDown" >
                         <Label Style="{StaticResource lbl_primary}" Content="Далее" Margin="15 5 15 5"/>
                     </Border>
                 </Grid>

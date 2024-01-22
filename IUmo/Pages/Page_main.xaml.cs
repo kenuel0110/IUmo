@@ -75,6 +75,9 @@ namespace IUmo.Pages
             mainWindow.btn_main.IsEnabled = true;
             mainWindow.btn_insert.IsEnabled = true;
 
+            temp_file = ioFunctions.openJSONTemp();
+            mainWindow.title_window.Content = System.IO.Path.GetFileName(temp_file.path);
+
             lv_lessons.ItemsSource = list_lesson;
 
             lv_day_of_weeks.ItemsSource = dayofweeks_list;
