@@ -1,0 +1,25 @@
+﻿<Page x:Class="IUmo.Popup.Popup_loading"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:IUmo.Popup"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Popup_loading">
+
+    <Grid>
+        <Border Background="#333333" CornerRadius="25" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Image Source="/Illustrations\img_logo_poletech_loading.png" Width="100" Height="100">
+                <Image.RenderTransform>
+                    <RotateTransform x:Name="spinner" CenterX="50" CenterY="50" />
+                </Image.RenderTransform>
+                <Image.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard Storyboard="{StaticResource RotationAnimation}" />
+                    </EventTrigger>
+                </Image.Triggers>
+            </Image>
+        </Border>
+    </Grid>
+</Page>

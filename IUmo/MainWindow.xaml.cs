@@ -181,6 +181,22 @@ namespace IUmo
             return state;
         }
 
+        public void showLoading() 
+        {
+            blurBackground();
+            popup_window.Visibility = Visibility.Visible;
+            btn_popup_close.Visibility = Visibility.Hidden;
+            popup_frame.NavigationService.Navigate(new Popup.Popup_loading());
+        }
+
+        public void hideLoading()
+        {
+            deblurBackground();
+            popup_window.Visibility = Visibility.Hidden;
+            btn_popup_close.Visibility = Visibility.Visible;
+            popup_frame.NavigationService.GoBack();
+        }
+
         //Событие изменения переменной current_page
         /*private void pageChangedHandler(object sender, Classes.Class_types.Pages page)
         {
