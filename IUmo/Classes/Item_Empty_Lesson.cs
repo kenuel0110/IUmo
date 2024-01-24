@@ -9,6 +9,5 @@ namespace IUmo.Classes
     public class Item_Empty_Lesson
     {
         public int number { get; set; }
-        public string title { get; set; }
     }
 }

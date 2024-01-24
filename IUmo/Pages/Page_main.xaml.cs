@@ -37,17 +37,7 @@ namespace IUmo.Pages
         // Создайте коллекции объектов для источников данных
 
         List<Classes.Group_data> list_group = new List<Classes.Group_data>();
-        ObservableCollection<KeyValuePair<int, List<Classes.Group_data>>> list_lesson = new ObservableCollection<KeyValuePair<int, List<Classes.Group_data>>>()
-        {
-            new KeyValuePair<int, List<Classes.Group_data>>(0, new List<Classes.Group_data>(){
-                new Classes.Group_data(){ 
-                    number = 1, title="ОСНОВЫ РОССИЙСКОЙ ГОСУДАРСТВЕННОСТИ", teacher="АНИСИМОВА В.А.",
-                cabinet="216", type="ПЗ", editions= new List<string>(){ "25.09","Прикол"}
-                }
-            })
-        };
-
-        ObservableCollection<object> lesson_list = new ObservableCollection<object>();
+        ObservableCollection<object> list_lesson = new ObservableCollection<object>();
 
         Classes.Class_JSON_Temp temp_file;
         #endregion
@@ -55,6 +45,26 @@ namespace IUmo.Pages
         {
             InitializeComponent();
             init();
+        }
+
+        private void DeleteButtonLesson_Click(object sender, RoutedEventArgs e)
+        {
+            Classes.Item_New_Lesson lesson = (sender as Button)?.DataContext as Classes.Item_New_Lesson;
+            if (lesson != null)
+            {
+                list_lesson.Remove(lesson);
+            }
+
+        }
+
+        private void DeleteButtonEmpty_Click(object sender, RoutedEventArgs e)
+        {
+            Classes.Item_Empty_Lesson lesson = (sender as Button)?.DataContext as Classes.Item_Empty_Lesson;
+            if (lesson != null)
+            {
+                list_lesson.Remove(lesson);
+            }
+
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -79,12 +89,14 @@ namespace IUmo.Pages
 
             temp_file = ioFunctions.openJSONTemp();
             mainWindow.title_window.Content = System.IO.Path.GetFileName(temp_file.path);
-
-            lv_lessons.ItemsSource = list_lesson;
-
             lv_day_of_weeks.ItemsSource = dayofweeks_list;
-            ObservableCollection<KeyValuePair<int, List<Classes.Group_data>>> lesson = new ObservableCollection<KeyValuePair<int, List<Classes.Group_data>>>();
+
+            //действия с lv_lessons
+            ObservableCollection<object> lesson = new ObservableCollection<object>();
             lv_lessons.DataContext = lesson;
+            lv_lessons.ItemsSource = list_lesson;
+            list_lesson.Add(new Classes.Item_Empty_Lesson() { number = 1 });
+            list_lesson.Add(new Classes.Item_New_Lesson() { number = 1, title = "ОСНОВЫ РОССИЙСКОЙ ГОСУДАРСТВЕННОСТИ", teacher = "АНИСИМОВА В.А.", cabinet="217", type="ПЗ", editions = new List<string>() {"Прикол", "Прикол2" } });
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

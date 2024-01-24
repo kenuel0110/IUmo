@@ -13,8 +13,6 @@ namespace IUmo.Classes
         public string teacher { get; set; }
         public string cabinet { get; set; }
         public string type { get; set; }
-        public bool empty_lesson { get; set; }
-        public bool have_group { get; set; }
         public List<string> editions { get; set; }
     }
 }

@@ -62,15 +62,62 @@
                 <StackPanel Orientation="Vertical">
 
                     <ItemsControl VerticalAlignment="Center" Padding="0 5 0 0" Name="lv_lessons" ItemsSource="{Binding list_lesson}" >
-                        <ItemsControl.ItemTemplate>
+                        <ItemsControl.Resources>
+                            <DataTemplate DataType="{x:Type Classes:Item_New_Lesson}">
+                                <Border Style="{StaticResource border_lesson_num}" MinHeight="80" Margin="8 5 8 0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="24"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding number}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_list_lesson}" Name="lbl_num_group"/>
+                                        <Grid Grid.Column="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition MinWidth="180"/>
+                                                <ColumnDefinition MinWidth="50"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Margin="5" TextWrapping="Wrap" Text="{Binding title}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_list_lesson}"/>
+                                            <TextBlock Grid.Column="1" Margin="5" TextWrapping="Wrap" Text="{Binding teacher}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_list_lesson}"/>
+                                            <TextBlock Grid.Column="2" Margin="5" TextWrapping="Wrap" Text="{Binding cabinet}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_list_lesson}"/>
+                                            <TextBlock Grid.Column="3" Margin="5" TextWrapping="Wrap" Text="{Binding type}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_list_lesson}"/>
+                                            <Border Name="lv_editions" Background="#087558" Grid.Column="4 " CornerRadius="10" Margin="3">
+                                                <ListBox IsHitTestVisible="False" ItemsSource="{Binding editions}" Style="{StaticResource MaterialDesignFilterChipListBox}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                            </Border>
+                                        </Grid>
+                                        <Button Grid.Column="2" Margin="4" Width="28" Grid.Row="0" Height="28" Padding="0" Click="DeleteButtonLesson_Click" Style="{StaticResource btn_menu}">
+                                            <Image Source="/Icons\ic_delete.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type Classes:Item_Empty_Lesson}">
+                                <Border Style="{StaticResource border_lesson_num}" MinHeight="80" Margin="8 5 8 0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="40"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding number}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_list_group}" Name="lbl_num_group"/>
+                                        <TextBlock Grid.Column="1" Margin="5" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Text="ПРОПУСК" Style="{StaticResource lbl_list_lesson}"/>
+                                        <Button Grid.Column="2" Margin="4" Width="28" Grid.Row="0" Height="28" Padding="0" Click="DeleteButtonEmpty_Click" Style="{StaticResource btn_menu}">
+                                            <Image Source="/Icons\ic_delete.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Button>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
                             <DataTemplate DataType="{x:Type Classes:Item_Group}">
-                                <Border Style="{StaticResource border_lesson_num}" Margin="8 5 8 0">
+                                <Border Style="{StaticResource border_lesson_num}" MinHeight="80" Margin="8 5 8 0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="32"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Margin="5" Text="{Binding Key}" Style="{StaticResource lbl_list_lesson}" Name="lbl_num_lesson"/>
+                                        <TextBlock Grid.Column="0" Margin="5" Text="{Binding number}" Style="{StaticResource lbl_list_lesson}" Name="lbl_num_lesson"/>
                                         <ItemsControl x:Name="lv_group" Padding="0 8 4 8" Grid.Column="1" ItemsSource="{Binding Value}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
@@ -81,7 +128,7 @@
                                                                 <ColumnDefinition Width="*"/>
                                                                 <ColumnDefinition Width="40"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <TextBlock Grid.Column="0" Text="2" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_list_group}" Name="lbl_num_group"/>
+                                                            <TextBlock Grid.Column="0" Text="{Binding number}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_list_group}" Name="lbl_num_group"/>
                                                             <Grid Grid.Column="1">
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition MinWidth="180"/>
@@ -118,7 +165,7 @@
                                     </Grid>
                                 </Border>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
+                        </ItemsControl.Resources>
                     </ItemsControl>
                     <Border x:Name="btn_add_lesson" Style="{StaticResource btn_add_lesson}" Margin="5">
                         <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
