@@ -59,7 +59,7 @@ namespace IUmo
             System.Windows.Application.Current.MainWindow.Width = setting.size_window[1];
             newWindowHeight = setting.size_window[0];
             newWindowWidth = setting.size_window[1];
-            main_frame.NavigationService.Navigate(new Pages.Page_start());
+            main_frame.NavigationService.Navigate(new Pages.Page_main());
             //_navigationService = new Functions.PageFunctions.NavigationService(main_frame);
             // _navigationService.NavigateToPage(Classes.Class_types.Pages.Page_Start);
             // page_class.current_page = _navigationService.currentPage;
@@ -108,8 +108,6 @@ namespace IUmo
 
                         _excel_book.Save();
                     }
-                    templateSheet.Delete();
-                    _excel_book.Save();
                     break;
 
                 case 2:
@@ -134,8 +132,6 @@ namespace IUmo
 
                         _excel_book.Save();
                     }
-                    templateSheet.Delete();
-                    _excel_book.Save();
                     break;
 
                 case 3:
@@ -160,11 +156,12 @@ namespace IUmo
 
                         _excel_book.Save();
                     }
-                    templateSheet.Delete();
-                    _excel_book.Save();
                     break;
                     // и т.д. пока проверим
             }
+
+            templateSheet.Delete();
+            _excel_book.Save();
         }
 
         public string open_document(string path)

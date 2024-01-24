@@ -124,6 +124,9 @@
     <Compile Include="Classes\Class_inside.cs" />
     <Compile Include="Classes\Class_JSON.cs" />
     <Compile Include="Classes\Class_types.cs" />
+    <Compile Include="Classes\Item_Empty_Lesson.cs" />
+    <Compile Include="Classes\Item_Group.cs" />
+    <Compile Include="Classes\Item_New_Lesson.cs" />
     <Compile Include="Functions\IOFunctions.cs" />
     <Compile Include="Functions\PageFunctions.cs" />
     <Compile Include="MainWindow.xaml.cs">

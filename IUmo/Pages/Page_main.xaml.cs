@@ -29,23 +29,25 @@ namespace IUmo.Pages
             new KeyValuePair<String, String>("ПОНЕДЕЛЬНИК", "/Icons\\ic_monday.png"),
             new KeyValuePair<String, String>("ВТОРНИК", "/Icons\\ic_tuesday.png"),
             new KeyValuePair<String, String>("СРЕДА", "/Icons\\ic_wednesday.png"),
-            new KeyValuePair<String, String>("ЧЕТВЕРГ", "/Icons\\ic_thursday.png"),
+            //new KeyValuePair<String, String>("ЧЕТВЕРГ", "/Icons\\ic_thursday.png"),
             new KeyValuePair<String, String>("ПЯТНИЦА", "/Icons\\ic_friday.png"),
             new KeyValuePair<String, String>("СУББОТА", "/Icons\\ic_saturday.png")
         };
 
         // Создайте коллекции объектов для источников данных
 
-        List<Classes.Groups_data> list_group = new List<Classes.Groups_data>();
-        ObservableCollection<KeyValuePair<int, List<Classes.Groups_data>>> list_lesson = new ObservableCollection<KeyValuePair<int, List<Classes.Groups_data>>>()
+        List<Classes.Group_data> list_group = new List<Classes.Group_data>();
+        ObservableCollection<KeyValuePair<int, List<Classes.Group_data>>> list_lesson = new ObservableCollection<KeyValuePair<int, List<Classes.Group_data>>>()
         {
-            new KeyValuePair<int, List<Classes.Groups_data>>(0, new List<Classes.Groups_data>(){
-                new Classes.Groups_data(){
-                title="ОСНОВЫ РОССИЙСКОЙ ГОСУДАРСТВЕННОСТИ", teacher="АНИСИМОВА В.А.",
+            new KeyValuePair<int, List<Classes.Group_data>>(0, new List<Classes.Group_data>(){
+                new Classes.Group_data(){ 
+                    number = 1, title="ОСНОВЫ РОССИЙСКОЙ ГОСУДАРСТВЕННОСТИ", teacher="АНИСИМОВА В.А.",
                 cabinet="216", type="ПЗ", editions= new List<string>(){ "25.09","Прикол"}
                 }
             })
         };
+
+        ObservableCollection<object> lesson_list = new ObservableCollection<object>();
 
         Classes.Class_JSON_Temp temp_file;
         #endregion
@@ -57,7 +59,7 @@ namespace IUmo.Pages
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            Classes.Groups_data lesson = (sender as Button)?.DataContext as Classes.Groups_data;
+            Classes.Group_data lesson = (sender as Button)?.DataContext as Classes.Group_data;
             if (lesson != null)
             {
                 list_group.Remove(lesson);
@@ -81,7 +83,7 @@ namespace IUmo.Pages
             lv_lessons.ItemsSource = list_lesson;
 
             lv_day_of_weeks.ItemsSource = dayofweeks_list;
-            ObservableCollection<KeyValuePair<int, List<Classes.Groups_data>>> lesson = new ObservableCollection<KeyValuePair<int, List<Classes.Groups_data>>>();
+            ObservableCollection<KeyValuePair<int, List<Classes.Group_data>>> lesson = new ObservableCollection<KeyValuePair<int, List<Classes.Group_data>>>();
             lv_lessons.DataContext = lesson;
         }
 

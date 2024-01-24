@@ -31,5 +31,12 @@ namespace IUmo.Classes
             Temp_open = 2
         }
 
+        public enum TypeItem
+        {
+            Type_empty = 0,
+            Type_base = 1,
+            Type_group = 2
+        }
+
     }
 }

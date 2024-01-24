@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace IUmo.Classes
 {
-    public class Group_data
+    public class Item_Empty_Lesson
     {
         public int number { get; set; }
         public string title { get; set; }
-        public string teacher { get; set; }
-        public string cabinet { get; set; }
-        public string type { get; set; }
-        public List<string> editions { get; set; }
     }
 }
