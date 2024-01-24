@@ -29,14 +29,14 @@ namespace IUmo.Pages
             new KeyValuePair<String, String>("ПОНЕДЕЛЬНИК", "/Icons\\ic_monday.png"),
             new KeyValuePair<String, String>("ВТОРНИК", "/Icons\\ic_tuesday.png"),
             new KeyValuePair<String, String>("СРЕДА", "/Icons\\ic_wednesday.png"),
-            //new KeyValuePair<String, String>("ЧЕТВЕРГ", "/Icons\\ic_thursday.png"),
+            new KeyValuePair<String, String>("ЧЕТВЕРГ", "/Icons\\ic_thursday.png"),
             new KeyValuePair<String, String>("ПЯТНИЦА", "/Icons\\ic_friday.png"),
             new KeyValuePair<String, String>("СУББОТА", "/Icons\\ic_saturday.png")
         };
 
         // Создайте коллекции объектов для источников данных
 
-        List<Classes.Group_data> list_group = new List<Classes.Group_data>();
+        ObservableCollection<Classes.Group_data> list_group = new ObservableCollection<Classes.Group_data>();
         ObservableCollection<object> list_lesson = new ObservableCollection<object>();
 
         Classes.Class_JSON_Temp temp_file;
@@ -69,16 +69,25 @@ namespace IUmo.Pages
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            Classes.Group_data lesson = (sender as Button)?.DataContext as Classes.Group_data;
-            if (lesson != null)
+            Classes.Group_data group_ = (sender as Button)?.DataContext as Classes.Group_data;
+            if (group_ != null)
             {
-                list_group.Remove(lesson);
-                if (list_group.Count == 0)
+                List<object> _list_lesson = new List<object>(list_lesson);
+                int index = _list_lesson.FindIndex(item =>
                 {
-                    list_lesson.RemoveAt(list_lesson.Count()-1);
+                    if (item is Classes.Item_Group itemGroup)
+                    {
+                        return itemGroup.groups.Any(_item => _item == group_);
+                    }
+                    return false;
+                });
+
+                list_group.Remove(group_);
+                if (list_group.Count == 0 && index != -1) 
+                {
+                    list_lesson.RemoveAt(index);
                 }
             }
-
         }
 
         private void init()
@@ -97,6 +106,11 @@ namespace IUmo.Pages
             lv_lessons.ItemsSource = list_lesson;
             list_lesson.Add(new Classes.Item_Empty_Lesson() { number = 1 });
             list_lesson.Add(new Classes.Item_New_Lesson() { number = 1, title = "ОСНОВЫ РОССИЙСКОЙ ГОСУДАРСТВЕННОСТИ", teacher = "АНИСИМОВА В.А.", cabinet="217", type="ПЗ", editions = new List<string>() {"Прикол", "Прикол2" } });
+            
+            list_group.Add(new Classes.Group_data() { number = 1, title = "ОСНОВЫ РОССИЙСКОЙ ГОСУДАРСТВЕННОСТИ", teacher = "АНИСИМОВА В.А.", cabinet = "217", type = "ПЗ", editions = new List<string>() { "Прикол", "Прикол2" } });
+            list_group.Add(new Classes.Group_data() { number = 2, title = "ФИЗИЧЕСКАЯ КУЛЬТУРА И СПОРТ", teacher = "КУЛАКОВ И.И.", cabinet = "Акт. зал", type = "Л", editions = new List<string>() { "Прикол", "456" } });
+            
+            list_lesson.Add(new Classes.Item_Group() { number = 1, groups = list_group });
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -51,14 +51,14 @@
 
             <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignCaptionTextBlock}" x:Key="lbl_list_group">
                 <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
-                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="FontSize" Value="12"/>
                 <Setter Property="TextAlignment" Value="Center"/>
                 <Setter Property="Foreground" Value="#a6a6a6"/>
             </Style>
 
             <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignCaptionTextBlock}" x:Key="lbl_list_item">
                 <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
-                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FontSize" Value="13"/>
                 <Setter Property="Foreground" Value="#a6a6a6"/>
             </Style>
 

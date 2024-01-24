@@ -110,6 +110,18 @@
                                     </Grid>
                                 </Border>
                             </DataTemplate>
+                            <DataTemplate DataType="{x:Type Classes:Item_New_Thursday}">
+                                <Border Style="{StaticResource border_lesson_num}" MinHeight="80" Margin="8 5 8 0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="32"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding number}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_list_group}" Name="lbl_num_group"/>
+                                        <TextBlock Grid.Column="1" Margin="5" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Text="ПРОЕКТНАЯ ДЕЯТЕЛЬНОСТЬ" Style="{StaticResource lbl_list_lesson}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
                             <DataTemplate DataType="{x:Type Classes:Item_Group}">
                                 <Border Style="{StaticResource border_lesson_num}" MinHeight="80" Margin="8 5 8 0">
                                     <Grid>
@@ -118,7 +130,7 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Column="0" Margin="5" Text="{Binding number}" Style="{StaticResource lbl_list_lesson}" Name="lbl_num_lesson"/>
-                                        <ItemsControl x:Name="lv_group" Padding="0 8 4 8" Grid.Column="1" ItemsSource="{Binding Value}">
+                                        <ItemsControl x:Name="lv_group" Padding="0 8 4 8" Grid.Column="1" ItemsSource="{Binding groups}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <Border Margin="0 3 5 3" Style="{StaticResource border_group_num}">
