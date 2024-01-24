@@ -60,6 +60,8 @@ namespace IUmo
             newWindowHeight = setting.size_window[0];
             newWindowWidth = setting.size_window[1];
             main_frame.NavigationService.Navigate(new Pages.Page_main());
+            add_new_lesson();
+
             //_navigationService = new Functions.PageFunctions.NavigationService(main_frame);
             // _navigationService.NavigateToPage(Classes.Class_types.Pages.Page_Start);
             // page_class.current_page = _navigationService.currentPage;
@@ -191,6 +193,14 @@ namespace IUmo
             popup_window.Visibility = Visibility.Hidden;
             if (popup_frame.NavigationService.CanGoBack)
                 popup_frame.NavigationService.GoBack();
+        }
+
+        public bool add_new_lesson()
+        {
+            blurBackground();
+            popup_window.Visibility = Visibility.Visible;
+            popup_frame.NavigationService.Navigate(new Popup.Popup_Add_Lesson());
+            return true;
         }
 
         //Событие изменения переменной current_page

@@ -31,5 +31,6 @@ namespace IUmo.Classes
         public string path { get; set; }
         public Class_types.TempType tempType { get; set; }
         public int course { get; set; }
+        public Classes.Add_Item_Lesson new_string { get; set; } = new Classes.Add_Item_Lesson();
     }
 }

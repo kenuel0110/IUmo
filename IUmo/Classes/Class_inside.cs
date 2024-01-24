@@ -15,4 +15,14 @@ namespace IUmo.Classes
         public string type { get; set; }
         public List<string> editions { get; set; }
     }
+
+    public class Add_Item_Lesson
+    {
+        public string title { get; set; }
+        public string teacher { get; set; }
+        public string cabinet { get; set; }
+        public string type { get; set; }
+        public bool empty_lesson { get; set; }
+        public List<string> editions { get; set; }
+    }
 }

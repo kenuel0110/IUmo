@@ -232,6 +232,22 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+            
+            <!--Стили Textbox-->
+            <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignFilledTextBox}" x:Key="tb_main">
+                <Setter Property="Foreground" Value="#FFFFFF"/>
+                <Setter Property="FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Background" Value="#FF292929"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="CaretBrush" Value="#a6a6a6"/>
+
+                <Setter Property="materialDesign:TextFieldAssist.TextFieldCornerRadius" Value="6"/>
+                <Setter Property="materialDesign:TextFieldAssist.UnderlineBrush" Value="Transparent"/>
+                <Setter Property="materialDesign:HintAssist.FontFamily" Value="Fonts/Acrom_R.ttf #Acrom Regular"/>
+                <Setter Property="materialDesign:HintAssist.Foreground" Value="#a6a6a6"/>
+                <Setter Property="materialDesign:HintAssist.IsFloating" Value="False"/>
+            </Style>
 
             <!--Контекстное меню-->
             <Style TargetType="ContextMenu" BasedOn="{StaticResource MaterialDesignContextMenu}" x:Key="btn_context_menu">

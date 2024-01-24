@@ -111,6 +111,7 @@ namespace IUmo.Pages
             list_group.Add(new Classes.Group_data() { number = 2, title = "ФИЗИЧЕСКАЯ КУЛЬТУРА И СПОРТ", teacher = "КУЛАКОВ И.И.", cabinet = "Акт. зал", type = "Л", editions = new List<string>() { "Прикол", "456" } });
             
             list_lesson.Add(new Classes.Item_Group() { number = 1, groups = list_group });
+            list_lesson.Add(new Classes.Item_New_Thursday() {});
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

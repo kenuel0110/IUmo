@@ -146,6 +146,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Popup\Popup_Add_Lesson.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Popup\Popup_loading.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -164,6 +168,10 @@
     </Compile>
     <Compile Include="Pages\Page_start.xaml.cs">
       <DependentUpon>Page_start.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Popup\ObsoleteAttribute.cs" />
+    <Compile Include="Popup\Popup_Add_Lesson.xaml.cs">
+      <DependentUpon>Popup_Add_Lesson.xaml</DependentUpon>
     </Compile>
     <Compile Include="Popup\Popup_loading.xaml.cs">
       <DependentUpon>Popup_loading.xaml</DependentUpon>
