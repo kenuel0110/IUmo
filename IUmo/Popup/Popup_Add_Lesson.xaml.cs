@@ -25,7 +25,13 @@ namespace IUmo.Popup
         #region local_varibles
         private MainWindow mainWindow = App.Current.MainWindow as MainWindow;
         private ObservableCollection<String> list_changes = new ObservableCollection<String>();
+        private bool is_empty_lesson;
         #endregion
+
+        #region global_varibles
+        public bool Add_Lesson_Result { get; set; }
+        #endregion
+
         public Popup_Add_Lesson()
         {
             InitializeComponent();
@@ -47,6 +53,7 @@ namespace IUmo.Popup
             mainWindow.deblurBackground();
             if (NavigationService.CanGoBack)
                 NavigationService.GoBack();
+            ((MainWindow)Application.Current.MainWindow).SetDialogResult_AddLesson(false);
         }
 
         private void tb_title_KeyUp(object sender, KeyEventArgs e)
@@ -145,6 +152,43 @@ namespace IUmo.Popup
                     list_changes.Add(tb_changes.Text.ToString());
                 tb_changes.Clear();
             }
+        }
+
+        private void togle_empty_lesson_Checked(object sender, RoutedEventArgs e)
+        {
+            if (togle_empty_lesson.IsChecked == true) 
+            {
+                is_empty_lesson = true;
+                tb_title.IsEnabled = false;
+                tb_teacher.IsEnabled = false;
+                combobox_cabinets.IsEnabled = false;
+                combobox_type.IsEnabled = false;
+                tb_changes.IsEnabled = false;
+                lv_changes.IsEnabled = false;
+                pop_tb_teacher.IsOpen = false;
+                pop_tb_title.IsOpen = false;
+            }
+            else
+            {
+                is_empty_lesson = false;
+                tb_title.IsEnabled = true;
+                tb_teacher.IsEnabled = true;
+                combobox_cabinets.IsEnabled = true;
+                combobox_type.IsEnabled = true;
+                tb_changes.IsEnabled = true;
+                lv_changes.IsEnabled = true;
+                pop_tb_teacher.IsOpen = false;
+                pop_tb_title.IsOpen = false;
+            }
+        }
+
+        private void btn_popup_done_Click(object sender, RoutedEventArgs e)
+        {
+            mainWindow.popup_window.Visibility = Visibility.Hidden;
+            mainWindow.deblurBackground();
+            if (NavigationService.CanGoBack)
+                NavigationService.GoBack();
+            mainWindow.SetDialogResult_AddLesson(true);
         }
     }
 }

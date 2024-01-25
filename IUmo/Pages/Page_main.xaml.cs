@@ -126,5 +126,11 @@ namespace IUmo.Pages
             combobox_list.BorderBrush = new SolidColorBrush(Color.FromRgb(2, 37, 28));
         }
 
+        private async void btn_add_lesson_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            bool result = await mainWindow.add_new_lesson();
+            if (result == true)
+                list_lesson.Add(new Classes.Item_New_Thursday() { });
+        }
     }
 }

@@ -188,7 +188,7 @@
                             </DataTemplate>
                         </ItemsControl.Resources>
                     </ItemsControl>
-                    <Border x:Name="btn_add_lesson" Style="{StaticResource btn_add_lesson}" Margin="5">
+                    <Border x:Name="btn_add_lesson" MouseLeftButtonDown="btn_add_lesson_MouseLeftButtonDown" Style="{StaticResource btn_add_lesson}" Margin="5">
                         <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Image Source="/Icons\ic_add_lesson.png" Width="32" Height="32" />
                             <Label Content="ДОБАВИТЬ ПАРУ" Style="{StaticResource lbl_primary}" FontSize="15" Margin="5 0 0 0" VerticalAlignment="Center"/>

@@ -36,6 +36,8 @@ namespace IUmo
         double newWindowHeight;
         double newWindowWidth;
         Classes.Class_types.WindowState maximilize_window_;
+        bool setdialogResult_addLesson;
+        private TaskCompletionSource<bool> tcs;
         #endregion
 
         public MainWindow()
@@ -60,12 +62,12 @@ namespace IUmo
             newWindowHeight = setting.size_window[0];
             newWindowWidth = setting.size_window[1];
             main_frame.NavigationService.Navigate(new Pages.Page_main());
-            add_new_lesson();
-
             //_navigationService = new Functions.PageFunctions.NavigationService(main_frame);
             // _navigationService.NavigateToPage(Classes.Class_types.Pages.Page_Start);
             // page_class.current_page = _navigationService.currentPage;
         }
+
+        
 
         //Публичные функции связанные с EXCEl
         public string new_document(string path)
@@ -195,12 +197,27 @@ namespace IUmo
                 popup_frame.NavigationService.GoBack();
         }
 
-        public bool add_new_lesson()
+        internal void SetDialogResult_AddLesson(bool result)
+        {
+            setdialogResult_addLesson = result;
+            if (result == true)
+                tcs.SetResult(true);
+            else
+                tcs.SetResult(false);
+            tcs.TrySetCanceled();
+        }
+
+        public async Task<bool> add_new_lesson()
         {
             blurBackground();
             popup_window.Visibility = Visibility.Visible;
-            popup_frame.NavigationService.Navigate(new Popup.Popup_Add_Lesson());
-            return true;
+            Popup.Popup_Add_Lesson add_lesson_page = new Popup.Popup_Add_Lesson();
+            popup_frame.NavigationService.Navigate(add_lesson_page);
+            tcs = new TaskCompletionSource<bool>();
+
+            // Ждем, пока переменная не изменится
+            bool result = await tcs.Task;
+            return result;
         }
 
         //Событие изменения переменной current_page
