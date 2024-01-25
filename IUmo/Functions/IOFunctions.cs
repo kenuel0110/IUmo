@@ -146,6 +146,20 @@ namespace IUmo.Functions
             File.WriteAllText("Temp\\temp.json", tempString);
         }
 
+        public void editTemp(object _new_string)
+        {
+            switch (_new_string) 
+            {
+                case Classes.Add_Item_Lesson addLesson:
+                    Classes.Class_JSON_Temp json_temp = openJSONTemp();
+                    json_temp.new_string = addLesson;
+                    chkAndCreateFolder(Path.GetDirectoryName("Temp\\temp.json"));
+                    string tempString = JsonSerializer.Serialize(json_temp);
+                    File.WriteAllText("Temp\\temp.json", tempString);
+                    break;
+            }
+        }
+
         public Classes.Class_JSON_Temp openJSONTemp()
         {
             FileStream file = null;

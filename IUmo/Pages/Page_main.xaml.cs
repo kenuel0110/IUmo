@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Text.Json;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -53,6 +54,14 @@ namespace IUmo.Pages
             if (lesson != null)
             {
                 list_lesson.Remove(lesson);
+
+                for (int i = 0; i < list_lesson.Count; i++)
+                {
+                    if (list_lesson[i] is Classes.Item_New_Lesson item)
+                    {
+                        item.number = i + 1;
+                    }
+                }
             }
 
         }
@@ -130,7 +139,25 @@ namespace IUmo.Pages
         {
             bool result = await mainWindow.add_new_lesson();
             if (result == true)
-                list_lesson.Add(new Classes.Item_New_Thursday() { });
+            {
+                temp_file = ioFunctions.openJSONTemp();
+                var temp_fileString = temp_file.new_string.ToString(); // Предполагается, что new_string содержит JSON-строку
+                var new_string = JsonSerializer.Deserialize<Classes.Add_Item_Lesson>(temp_fileString);
+                if (new_string.empty_lesson == true)
+                    list_lesson.Add(new Classes.Item_Empty_Lesson() { number = list_lesson.Count + 1 });
+                else 
+                {
+                    list_lesson.Add(
+                        new Classes.Item_New_Lesson() { 
+                            number = list_lesson.Count + 1,
+                            title = new_string.title,
+                            teacher = new_string.teacher,
+                            cabinet = new_string.cabinet,
+                            type = new_string.type,
+                            editions = new_string.editions
+                        });
+                }
+            }
         }
     }
 }

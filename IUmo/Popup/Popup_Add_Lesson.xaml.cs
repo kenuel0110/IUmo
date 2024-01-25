@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
 
 namespace IUmo.Popup
 {
@@ -25,7 +26,9 @@ namespace IUmo.Popup
         #region local_varibles
         private MainWindow mainWindow = App.Current.MainWindow as MainWindow;
         private ObservableCollection<String> list_changes = new ObservableCollection<String>();
-        private bool is_empty_lesson;
+        bool is_empty_lesson;
+        private Functions.IOFunctions ioFunctions = new Functions.IOFunctions();
+        Classes.Class_JSON_Temp temp_file;
         #endregion
 
         #region global_varibles
@@ -40,10 +43,7 @@ namespace IUmo.Popup
 
         private void init()
         {
-            list_changes.Add("sdsadsad");
-            list_changes.Add("234");
-            list_changes.Add("ret");
-            list_changes.Add("2.12");
+            temp_file = ioFunctions.openJSONTemp();
             lv_changes.ItemsSource = list_changes;
         }
 
@@ -156,6 +156,21 @@ namespace IUmo.Popup
 
         private void togle_empty_lesson_Checked(object sender, RoutedEventArgs e)
         {
+            tb_title.BorderThickness = new Thickness(0);
+            tb_teacher.BorderThickness = new Thickness(0);
+            tb_title.BorderBrush = Brushes.Transparent;
+            tb_teacher.BorderBrush = Brushes.Transparent;
+            TextFieldAssist.SetUnderlineBrush(tb_title, Brushes.Transparent);
+            TextFieldAssist.SetUnderlineBrush(tb_teacher, Brushes.Transparent);
+            HintAssist.SetHelperText(tb_title, "");
+            HintAssist.SetHelperText(tb_teacher, "");
+
+            lbl_cabinet_helptext.Text = "";
+            combobox_cabinets.Foreground = Brushes.White;
+            lbl_type_helptext.Text = "";
+            combobox_type.Foreground = Brushes.White;
+
+
             if (togle_empty_lesson.IsChecked == true) 
             {
                 is_empty_lesson = true;
@@ -184,11 +199,113 @@ namespace IUmo.Popup
 
         private void btn_popup_done_Click(object sender, RoutedEventArgs e)
         {
-            mainWindow.popup_window.Visibility = Visibility.Hidden;
-            mainWindow.deblurBackground();
-            if (NavigationService.CanGoBack)
-                NavigationService.GoBack();
-            mainWindow.SetDialogResult_AddLesson(true);
+            Classes.Add_Item_Lesson new_item;
+            if (is_empty_lesson == true)
+            {
+                new_item = new Classes.Add_Item_Lesson()
+                {
+                    title = null,
+                    teacher = null,
+                    cabinet = null,
+                    type = null,
+                    editions = null,
+                    empty_lesson = true
+                };
+                ioFunctions.editTemp(new_item);
+
+                mainWindow.popup_window.Visibility = Visibility.Hidden;
+                mainWindow.deblurBackground();
+                if (NavigationService.CanGoBack)
+                    NavigationService.GoBack();
+                mainWindow.SetDialogResult_AddLesson(true);
+            }
+            else 
+            {
+                string title = "";
+                string teacher = "";
+                var cabinet = combobox_cabinets.SelectedItem as ComboBoxItem;
+                var type = combobox_type.SelectedItem as ComboBoxItem;
+                string _cabinet = "";
+                string _type = "";
+
+
+                if (string.IsNullOrEmpty(tb_title.Text))
+                {
+                    title = "";
+                    tb_title.BorderThickness = new Thickness(2);
+                    TextFieldAssist.SetUnderlineBrush(tb_title, Brushes.Transparent);
+                    tb_title.BorderBrush = Brushes.DarkRed;
+                    HintAssist.SetHelperText(tb_title, "*Поле должно быть заполненно");
+                }
+                else
+                {
+                    title = tb_title.Text;
+                    tb_title.BorderThickness = new Thickness(0);
+                    tb_title.BorderBrush = Brushes.Transparent;
+                    TextFieldAssist.SetUnderlineBrush(tb_title, Brushes.Transparent);
+                    HintAssist.SetHelperText(tb_title, "");
+                }
+
+                if (string.IsNullOrEmpty(tb_teacher.Text))
+                {
+                    teacher = "";
+                    tb_teacher.BorderThickness = new Thickness(2);
+                    TextFieldAssist.SetUnderlineBrush(tb_teacher, Brushes.Transparent);
+                    tb_teacher.BorderBrush = Brushes.DarkRed;
+                    HintAssist.SetHelperText(tb_teacher, "*Поле должно быть заполненно");
+                }
+                else 
+                {
+                    teacher = tb_teacher.Text;
+                    tb_teacher.BorderThickness = new Thickness(0);
+                    tb_teacher.BorderBrush = Brushes.Transparent;
+                    TextFieldAssist.SetUnderlineBrush(tb_teacher, Brushes.Transparent);
+                    HintAssist.SetHelperText(tb_teacher, "");
+                }
+
+                if (cabinet.Content.ToString() == "=========" || combobox_cabinets.SelectedIndex == 0)
+                {
+                    lbl_cabinet_helptext.Text = "*Выберите другой элемент";
+                    _cabinet = "";
+                }
+                else {
+                    lbl_cabinet_helptext.Text = "";
+                    _cabinet = cabinet.Content.ToString();
+                }
+
+                if (combobox_type.SelectedIndex == 0)
+                {
+                    lbl_type_helptext.Text = "*Выберите тип";
+                    _type = "";
+                }
+                else
+                {
+                    lbl_type_helptext.Text = "";
+                    _type = type.Content.ToString();
+                }
+
+                if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(teacher) && !string.IsNullOrEmpty(_cabinet) && !string.IsNullOrEmpty(_type)) 
+                {
+                    new_item = new Classes.Add_Item_Lesson()
+                    {
+                        title = title,
+                        teacher = teacher,
+                        cabinet = _cabinet,
+                        type = _type,
+                        editions = new List<string>(list_changes),
+                        empty_lesson = false
+                    };
+                    ioFunctions.editTemp(new_item);
+
+                    mainWindow.popup_window.Visibility = Visibility.Hidden;
+                    mainWindow.deblurBackground();
+                    if (NavigationService.CanGoBack)
+                        NavigationService.GoBack();
+                    mainWindow.SetDialogResult_AddLesson(true);
+                }
+
+            }
+
         }
     }
 }

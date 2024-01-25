@@ -173,6 +173,7 @@
                                 </Style>
                             </ComboBox.ItemContainerStyle>
                         </ComboBox>
+                        <TextBlock x:Name="lbl_cabinet_helptext" Foreground="Red" Text="" Margin="20 2 0 0" TextWrapping="Wrap" FontSize="9" Style="{StaticResource lbl_list_item}"/>
                     </StackPanel>
 
                     <StackPanel Margin="0 32 0 0" Grid.Column="1" Orientation="Vertical">
@@ -220,6 +221,7 @@
                                 </Style>
                             </ComboBox.ItemContainerStyle>
                         </ComboBox>
+                        <TextBlock x:Name="lbl_type_helptext" Text="" Foreground="Red" Margin="20 2 0 0" TextWrapping="Wrap" FontSize="9" Style="{StaticResource lbl_list_item}"/>
                     </StackPanel>
                 </Grid>
 
@@ -228,7 +230,7 @@
                         <ToggleButton x:Name="togle_empty_lesson" IsChecked="False" Click="togle_empty_lesson_Checked" Style="{StaticResource MaterialDesignSwitchToggleButton}"/>
                         <TextBlock Margin="2 0 0 0" Text="ПУСТАЯ ПАРА" FontSize="13" Style="{StaticResource lbl_title_}"/>
                     </StackPanel>
-                    <TextBlock Text="*данный переключатель подразумевает пропуск" FontSize="10" Foreground="#a6a6a6" Style="{StaticResource lbl_title_}"/>
+                    <TextBlock Text="*данный переключатель подразумевает пропуск" FontSize="9" Foreground="#a6a6a6" Style="{StaticResource lbl_title_}"/>
                 </StackPanel>
 
                 <ScrollViewer Margin="100 15" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
