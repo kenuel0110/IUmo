@@ -55,11 +55,30 @@ namespace IUmo.Pages
             {
                 list_lesson.Remove(lesson);
 
-                for (int i = 0; i < list_lesson.Count; i++)
+                int i = 0;
+                foreach (var item in list_lesson.ToList())
                 {
-                    if (list_lesson[i] is Classes.Item_New_Lesson item)
+                    i++;
+                    if (item is Classes.Item_New_Lesson)
                     {
-                        item.number = i + 1;
+                        Classes.Item_New_Lesson item_lesson = (Classes.Item_New_Lesson)item;
+                        item_lesson.number = i;
+                        list_lesson.RemoveAt(i - 1);
+                        list_lesson.Insert(i - 1, item_lesson);
+                    }
+                    else if (item is Classes.Item_Empty_Lesson)
+                    {
+                        Classes.Item_Empty_Lesson item_empty = (Classes.Item_Empty_Lesson)item;
+                        item_empty.number = i;
+                        list_lesson.RemoveAt(i - 1);
+                        list_lesson.Insert(i - 1, item_empty);
+                    }
+                    else if (item is Classes.Item_Group)
+                    {
+                        Classes.Item_Group item_group = (Classes.Item_Group)item;
+                        item_group.number = i;
+                        list_lesson.RemoveAt(i - 1);
+                        list_lesson.Insert(i - 1, item_group);
                     }
                 }
             }
@@ -72,8 +91,34 @@ namespace IUmo.Pages
             if (lesson != null)
             {
                 list_lesson.Remove(lesson);
-            }
 
+                int i = 0;
+                foreach (var item in list_lesson.ToList())
+                {
+                    i++;
+                    if (item is Classes.Item_New_Lesson)
+                    {
+                        Classes.Item_New_Lesson item_lesson = (Classes.Item_New_Lesson)item;
+                        item_lesson.number = i;
+                        list_lesson.RemoveAt(i - 1);
+                        list_lesson.Insert(i - 1, item_lesson);
+                    }
+                    else if (item is Classes.Item_Empty_Lesson)
+                    {
+                        Classes.Item_Empty_Lesson item_empty = (Classes.Item_Empty_Lesson)item;
+                        item_empty.number = i;
+                        list_lesson.RemoveAt(i - 1);
+                        list_lesson.Insert(i - 1, item_empty);
+                    }
+                    else if (item is Classes.Item_Group)
+                    {
+                        Classes.Item_Group item_group = (Classes.Item_Group)item;
+                        item_group.number = i;
+                        list_lesson.RemoveAt(i - 1);
+                        list_lesson.Insert(i - 1, item_group);
+                    }
+                }
+            }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -95,6 +140,33 @@ namespace IUmo.Pages
                 if (list_group.Count == 0 && index != -1) 
                 {
                     list_lesson.RemoveAt(index);
+                    int i = 0;
+
+                    foreach (var item in list_lesson.ToList())
+                    {
+                        i++;
+                        if (item is Classes.Item_New_Lesson)
+                        {
+                            Classes.Item_New_Lesson item_lesson = (Classes.Item_New_Lesson)item;
+                            item_lesson.number = i;
+                            list_lesson.RemoveAt(i - 1);
+                            list_lesson.Insert(i - 1, item_lesson);
+                        }
+                        else if (item is Classes.Item_Empty_Lesson)
+                        {
+                            Classes.Item_Empty_Lesson item_empty = (Classes.Item_Empty_Lesson)item;
+                            item_empty.number = i;
+                            list_lesson.RemoveAt(i - 1);
+                            list_lesson.Insert(i - 1, item_empty);
+                        }
+                        else if (item is Classes.Item_Group)
+                        {
+                            Classes.Item_Group item_group = (Classes.Item_Group)item;
+                            item_group.number = i;
+                            list_lesson.RemoveAt(i - 1);
+                            list_lesson.Insert(i - 1, item_group);
+                        }
+                    }
                 }
             }
         }
@@ -113,14 +185,14 @@ namespace IUmo.Pages
             ObservableCollection<object> lesson = new ObservableCollection<object>();
             lv_lessons.DataContext = lesson;
             lv_lessons.ItemsSource = list_lesson;
-            list_lesson.Add(new Classes.Item_Empty_Lesson() { number = 1 });
+            /*list_lesson.Add(new Classes.Item_Empty_Lesson() { number = 1 });
             list_lesson.Add(new Classes.Item_New_Lesson() { number = 1, title = "ОСНОВЫ РОССИЙСКОЙ ГОСУДАРСТВЕННОСТИ", teacher = "АНИСИМОВА В.А.", cabinet="217", type="ПЗ", editions = new List<string>() {"Прикол", "Прикол2" } });
             
             list_group.Add(new Classes.Group_data() { number = 1, title = "ОСНОВЫ РОССИЙСКОЙ ГОСУДАРСТВЕННОСТИ", teacher = "АНИСИМОВА В.А.", cabinet = "217", type = "ПЗ", editions = new List<string>() { "Прикол", "Прикол2" } });
             list_group.Add(new Classes.Group_data() { number = 2, title = "ФИЗИЧЕСКАЯ КУЛЬТУРА И СПОРТ", teacher = "КУЛАКОВ И.И.", cabinet = "Акт. зал", type = "Л", editions = new List<string>() { "Прикол", "456" } });
             
             list_lesson.Add(new Classes.Item_Group() { number = 1, groups = list_group });
-            list_lesson.Add(new Classes.Item_New_Thursday() {});
+            list_lesson.Add(new Classes.Item_New_Thursday() {});*/
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
