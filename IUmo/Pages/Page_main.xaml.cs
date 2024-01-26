@@ -209,12 +209,9 @@ namespace IUmo.Pages
                 case "ЧИСЛИТЕЛЬ":
                     if (current_numden != Classes.Class_types.NumDen.NumDen_Numerator)
                     {
-                        if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
+                        if (list_lesson.Count > 0)
                         {
-                            if (list_lesson.Count > 0)
-                            {
-                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
-                            }
+                            ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
                         }
                         list_lesson.Clear();
                         current_numden = Classes.Class_types.NumDen.NumDen_Numerator;
@@ -245,12 +242,9 @@ namespace IUmo.Pages
                 case "ЗНАМЕНАТЕЛЬ":
                     if (current_numden != Classes.Class_types.NumDen.NumDen_Denominator)
                     {
-                        if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
+                        if (list_lesson.Count > 0)
                         {
-                            if (list_lesson.Count > 0)
-                            {
-                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
-                            }
+                            ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
                         }
                         list_lesson.Clear();
                         current_numden = Classes.Class_types.NumDen.NumDen_Denominator;
@@ -328,6 +322,7 @@ namespace IUmo.Pages
 
         private void lv_day_of_weeks_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            btn_add_lesson.IsEnabled = true;
             var item_dayweek = lv_day_of_weeks.SelectedItem;
             if (item_dayweek != null)
             {
@@ -335,15 +330,210 @@ namespace IUmo.Pages
                 switch (_item_dayweek.Key)
                 {
                     case "ПОНЕДЕЛЬНИК":
-                        dayOfWeek = Classes.Class_types.DayOfWeek.Monday;
-                        if (temp_file.tempType == Classes.Class_types.TempType.Temp_new) 
+                        if (dayOfWeek != Classes.Class_types.DayOfWeek.Monday)
                         {
-                            if (list_lesson.Count > 0) 
+                            //if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
+                            //{
+                                if (list_lesson.Count > 0)
+                                {
+                                    ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                                }
+                           // }
+                            list_lesson.Clear();
+                            dayOfWeek = Classes.Class_types.DayOfWeek.Monday;
+                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
                             {
-                                
+                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                                {
+                                    if (x is Classes.Item_New_Lesson item)
+                                        return item.number;
+                                    else if (x is Classes.Item_Group group)
+                                        return group.number;
+                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                        return emptyLesson.number;
+                                    else if (x is Classes.Item_New_Thursday thursday)
+                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    else
+                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                }))
+                                {
+                                    list_lesson.Add(item);
+                                }
                             }
                         }
-                        list_lesson.Clear();
+                        break;
+                    case "ВТОРНИК":
+                        if (dayOfWeek != Classes.Class_types.DayOfWeek.Tuesday)
+                        {
+                            //if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
+                            //{
+                            if (list_lesson.Count > 0)
+                            {
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                            }
+                            // }
+                            list_lesson.Clear();
+                            dayOfWeek = Classes.Class_types.DayOfWeek.Tuesday;
+                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
+                            {
+                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                                {
+                                    if (x is Classes.Item_New_Lesson item)
+                                        return item.number;
+                                    else if (x is Classes.Item_Group group)
+                                        return group.number;
+                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                        return emptyLesson.number;
+                                    else if (x is Classes.Item_New_Thursday thursday)
+                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    else
+                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                }))
+                                {
+                                    list_lesson.Add(item);
+                                }
+                            }
+                        }
+                        break;
+
+                    case "СРЕДА":
+                        if (dayOfWeek != Classes.Class_types.DayOfWeek.Wednesday)
+                        {
+                            //if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
+                            //{
+                            if (list_lesson.Count > 0)
+                            {
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                            }
+                            // }
+                            list_lesson.Clear();
+                            dayOfWeek = Classes.Class_types.DayOfWeek.Wednesday;
+                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
+                            {
+                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                                {
+                                    if (x is Classes.Item_New_Lesson item)
+                                        return item.number;
+                                    else if (x is Classes.Item_Group group)
+                                        return group.number;
+                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                        return emptyLesson.number;
+                                    else if (x is Classes.Item_New_Thursday thursday)
+                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    else
+                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                }))
+                                {
+                                    list_lesson.Add(item);
+                                }
+                            }
+                        }
+                        break;
+
+                    case "ЧЕТВЕРГ":
+                        if (dayOfWeek != Classes.Class_types.DayOfWeek.Thursday)
+                        {
+                            //if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
+                            //{
+                            if (list_lesson.Count > 0)
+                            {
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                            }
+                            // }
+                            list_lesson.Clear();
+                            list_lesson.Add(new Classes.Item_New_Thursday() { });
+                            dayOfWeek = Classes.Class_types.DayOfWeek.Thursday;
+                            ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                            list_lesson.Clear();
+                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
+                            {
+                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                                {
+                                    if (x is Classes.Item_New_Lesson item)
+                                        return item.number;
+                                    else if (x is Classes.Item_Group group)
+                                        return group.number;
+                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                        return emptyLesson.number;
+                                    else if (x is Classes.Item_New_Thursday thursday)
+                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    else
+                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                }))
+                                {
+                                    list_lesson.Add(item);
+                                }
+                            }
+                        }
+                        btn_add_lesson.IsEnabled = false;
+                        break;
+
+                    case "ПЯТНИЦА":
+                        if (dayOfWeek != Classes.Class_types.DayOfWeek.Friday)
+                        {
+                            //if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
+                            //{
+                            if (list_lesson.Count > 0)
+                            {
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                            }
+                            // }
+                            list_lesson.Clear();
+                            dayOfWeek = Classes.Class_types.DayOfWeek.Friday;
+                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
+                            {
+                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                                {
+                                    if (x is Classes.Item_New_Lesson item)
+                                        return item.number;
+                                    else if (x is Classes.Item_Group group)
+                                        return group.number;
+                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                        return emptyLesson.number;
+                                    else if (x is Classes.Item_New_Thursday thursday)
+                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    else
+                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                }))
+                                {
+                                    list_lesson.Add(item);
+                                }
+                            }
+                        }
+                        break;
+
+                    case "СУББОТА":
+                        if (dayOfWeek != Classes.Class_types.DayOfWeek.Saturday)
+                        {
+                            //if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
+                            //{
+                            if (list_lesson.Count > 0)
+                            {
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                            }
+                            // }
+                            list_lesson.Clear();
+                            dayOfWeek = Classes.Class_types.DayOfWeek.Saturday;
+                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
+                            {
+                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                                {
+                                    if (x is Classes.Item_New_Lesson item)
+                                        return item.number;
+                                    else if (x is Classes.Item_Group group)
+                                        return group.number;
+                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                        return emptyLesson.number;
+                                    else if (x is Classes.Item_New_Thursday thursday)
+                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    else
+                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                }))
+                                {
+                                    list_lesson.Add(item);
+                                }
+                            }
+                        }
                         break;
                 }
             }
