@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Linq;
 
 namespace IUmo.Pages
 {
@@ -220,7 +221,19 @@ namespace IUmo.Pages
                         //MessageBox.Show(ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).Count.ToString());
                         if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
                         {
-                            foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden))
+                            foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                            {
+                                if (x is Classes.Item_New_Lesson item)
+                                    return item.number;
+                                else if (x is Classes.Item_Group group)
+                                    return group.number;
+                                else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                    return emptyLesson.number;
+                                else if (x is Classes.Item_New_Thursday thursday)
+                                    return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                else
+                                    return 0; // Если класс неизвестен, сохраните текущий порядок
+                            }))
                             {
                                 list_lesson.Add(item);
                             }
@@ -243,7 +256,19 @@ namespace IUmo.Pages
                         current_numden = Classes.Class_types.NumDen.NumDen_Denominator;
                         if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null) 
                         {
-                            foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden))
+                            foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                            {
+                                if (x is Classes.Item_New_Lesson item)
+                                    return item.number;
+                                else if (x is Classes.Item_Group group)
+                                    return group.number;
+                                else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                    return emptyLesson.number;
+                                else if (x is Classes.Item_New_Thursday thursday)
+                                    return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                else
+                                    return 0; // Если класс неизвестен, сохраните текущий порядок
+                            }))
                             {
                                 list_lesson.Add(item);
                             }
