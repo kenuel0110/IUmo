@@ -443,7 +443,8 @@ namespace IUmo.Pages
                             list_lesson.Clear();
                             list_lesson.Add(new Classes.Item_New_Thursday() { });
                             dayOfWeek = Classes.Class_types.DayOfWeek.Thursday;
-                            ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                            ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, Classes.Class_types.NumDen.NumDen_Numerator);
+                            ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, Classes.Class_types.NumDen.NumDen_Denominator);
                             list_lesson.Clear();
                             if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
                             {
