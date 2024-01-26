@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace IUmo.Classes
 {
@@ -14,5 +15,6 @@ namespace IUmo.Classes
         public string cabinet { get; set; }
         public string type { get; set; }
         public List<string> editions { get; set; }
+        public Brush brush_border { get; set; } = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#272727"));
     }
 }

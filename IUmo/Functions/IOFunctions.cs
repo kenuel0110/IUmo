@@ -6,8 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Resources;
 
 namespace IUmo.Functions
@@ -64,7 +66,7 @@ namespace IUmo.Functions
             if (json_recent == null)
                 json_recent = new ObservableCollection<Classes.Class_JSON_RecenFiles>();
             json_recent.Add(last_file);   
-            string recentString = JsonSerializer.Serialize(json_recent);
+            string recentString = JsonSerializer.Serialize(json_recent, new JsonSerializerOptions { WriteIndented = true });
             chkAndCreateFolder("settings");
             File.WriteAllText($"settings\\recent_files.json", recentString);
         }
@@ -72,7 +74,7 @@ namespace IUmo.Functions
         //Сохранение файла recent_files.json
         public void removeJSONRecentFile(List<Classes.Class_JSON_RecenFiles> new_json)
         {
-            string recentString = JsonSerializer.Serialize(new_json);
+            string recentString = JsonSerializer.Serialize(new_json, new JsonSerializerOptions { WriteIndented = true });
             chkAndCreateFolder("settings");
             File.WriteAllText($"settings\\recent_files.json", recentString);
         }
@@ -137,12 +139,12 @@ namespace IUmo.Functions
             chkAndCreateFolder(Path.GetDirectoryName("Temp\\temp.json"));
             Classes.Class_JSON_Temp json_temp = new Classes.Class_JSON_Temp
             {
-                tempType = Classes.Class_types.TempType.Temp_none,
+                tempType = Classes.Class_types.TempType.Temp_new, //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 path = "",
                 course = 0
             };
 
-            string tempString = JsonSerializer.Serialize(json_temp);
+            string tempString = JsonSerializer.Serialize(json_temp, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText("Temp\\temp.json", tempString);
         }
 
@@ -154,7 +156,7 @@ namespace IUmo.Functions
                     Classes.Class_JSON_Temp json_temp = openJSONTemp();
                     json_temp.new_string = addLesson;
                     chkAndCreateFolder(Path.GetDirectoryName("Temp\\temp.json"));
-                    string tempString = JsonSerializer.Serialize(json_temp);
+                    string tempString = JsonSerializer.Serialize(json_temp, new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText("Temp\\temp.json", tempString);
                     break;
             }
@@ -188,7 +190,7 @@ namespace IUmo.Functions
         
         public void saveTemp(Classes.Class_JSON_Temp new_temp)
         {
-            string temp = JsonSerializer.Serialize(new_temp);
+            string temp = JsonSerializer.Serialize(new_temp, new JsonSerializerOptions { WriteIndented = true });
             using (StreamWriter sw = new StreamWriter("Temp\\temp.json"))
             {
                 sw.Write(temp);
@@ -237,18 +239,134 @@ namespace IUmo.Functions
             return null;
         }
 
+        public class Container
+        {
+            public List<Classes.Item_New_Lesson> NewLessons { get; set; } = new List<Item_New_Lesson>();
+            public List<Classes.Item_Group> Groups { get; set; } = new List<Item_Group>();
+            public List<Classes.Item_Empty_Lesson> EmptyLessons { get; set; } = new List<Item_Empty_Lesson>();
+            public List<Classes.Item_New_Thursday> NewThursdays { get; set; } = new List<Item_New_Thursday>();
+        }
+
+        //Сохранение дня недели
+        public void saveJSONDayOfWeek(ObservableCollection<object> lessons, Classes.Class_types.DayOfWeek dayOfWeek, Classes.Class_types.NumDen numden)
+        {
+            var container = new Container();
+
+            foreach (var item in lessons)
+            {
+                if (item is Classes.Item_New_Lesson)
+                {
+                    Classes.Item_New_Lesson item_lesson = (Classes.Item_New_Lesson)item;
+                    item_lesson.brush_border = null;
+                    container.NewLessons.Add(item_lesson);
+                }
+                else if (item is Classes.Item_Group)
+                {
+                    Classes.Item_Group item_lesson = (Classes.Item_Group)item;
+                    item_lesson.brush_border = null;
+                    container.Groups.Add(item_lesson);
+                }
+                else if (item is Classes.Item_Empty_Lesson)
+                {
+                    Classes.Item_Empty_Lesson item_lesson = (Classes.Item_Empty_Lesson)item;
+                    item_lesson.brush_border = null;
+                    container.EmptyLessons.Add(item_lesson);
+                }
+                else if (item is Classes.Item_New_Thursday)
+                {
+                    Classes.Item_New_Thursday item_lesson = (Classes.Item_New_Thursday)item;
+                    item_lesson.brush_border = null;
+                    container.NewThursdays.Add(item_lesson);
+                }
+            }
+
+            string lessonsString = JsonSerializer.Serialize(container, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText($"Temp\\{dayOfWeek.ToString()}_{numden.ToString()}.json", lessonsString);
+        }
+
+        //Открыть день недели
+        public List<object> openJSONDayOfWeek(Classes.Class_types.DayOfWeek dayOfWeek, Classes.Class_types.NumDen numden)
+        {
+            List<object> list_lessons = new List<object>();
+            try
+            {
+                var container = JsonSerializer.Deserialize<Container>(File.ReadAllText($"Temp\\{dayOfWeek.ToString()}_{numden.ToString()}.json"));
+
+                if (numden == Class_types.NumDen.NumDen_Numerator)
+                {
+                    list_lessons.AddRange(container.NewLessons.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#272727"));
+                        return (object)item;
+                    }));
+
+                    list_lessons.AddRange(container.Groups.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#272727"));
+                        return (object)item;
+                    }));
+
+                    list_lessons.AddRange(container.EmptyLessons.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#272727"));
+                        return (object)item;
+                    }));
+
+                    list_lessons.AddRange(container.NewThursdays.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#272727"));
+                        return (object)item;
+                    }));
+                }
+                else if (numden == Class_types.NumDen.NumDen_Denominator)
+                {
+                    list_lessons.AddRange(container.NewLessons.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1c242a"));
+                        return (object)item;
+                    }));
+
+                    list_lessons.AddRange(container.Groups.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1c242a"));
+                        return (object)item;
+                    }));
+
+                    list_lessons.AddRange(container.EmptyLessons.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1c242a"));
+                        return (object)item;
+                    }));
+
+                    list_lessons.AddRange(container.NewThursdays.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1c242a"));
+                        return (object)item;
+                    }));
+                }
+
+                return list_lessons;
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally { }
+            return null;
+        }
+
         //Сохранение файла настроек
         public void saveJSONSetting(Classes.Class_JSON_Setting json_Setting) {
             string settingsString_ = "";
             if (json_Setting.maximilize_window == Classes.Class_types.WindowState.False)
-                settingsString_ = JsonSerializer.Serialize(json_Setting);
+                settingsString_ = JsonSerializer.Serialize(json_Setting, new JsonSerializerOptions { WriteIndented = true });
             else if (json_Setting.maximilize_window == Classes.Class_types.WindowState.True) 
             {
                 settingsString_ = JsonSerializer.Serialize(
                     new Classes.Class_JSON_Setting() { 
                     maximilize_window = json_Setting.maximilize_window,
                     size_window = new List<double>() { 450, 800 }
-                    });
+                    }, new JsonSerializerOptions { WriteIndented = true });
             }
             File.WriteAllText("settings\\settings.json", settingsString_);
         }
@@ -263,7 +381,7 @@ namespace IUmo.Functions
                         size_window = new List<double>() { 450, 800 }
                     };
 
-                    string settingsString = JsonSerializer.Serialize(json_Setting);
+                    string settingsString = JsonSerializer.Serialize(json_Setting, new JsonSerializerOptions { WriteIndented = true });
 
                     chkAndCreateFolder("settings");
                     File.WriteAllText($"settings\\{file_name}", settingsString);
@@ -362,7 +480,7 @@ namespace IUmo.Functions
                         }
                     };
 
-                    string coursesString = JsonSerializer.Serialize(default_Courses);
+                    string coursesString = JsonSerializer.Serialize(default_Courses, new JsonSerializerOptions { WriteIndented = true });
 
                     chkAndCreateFolder("settings");
                     File.WriteAllText($"settings\\{file_name}", coursesString);

@@ -40,6 +40,9 @@ namespace IUmo.Pages
         ObservableCollection<Classes.Group_data> list_group = new ObservableCollection<Classes.Group_data>();
         ObservableCollection<object> list_lesson = new ObservableCollection<object>();
 
+        Classes.Class_types.DayOfWeek dayOfWeek = Classes.Class_types.DayOfWeek.None;
+        Classes.Class_types.NumDen current_numden = Classes.Class_types.NumDen.NumDen_None;
+
         Classes.Class_JSON_Temp temp_file;
         #endregion
         public Page_main()
@@ -199,7 +202,55 @@ namespace IUmo.Pages
         {
             TabItem selectedTab = (TabItem)tabControl_num_den.SelectedItem;
             string pageName = selectedTab.Header.ToString();
-            // Здесь можно выполнить необходимые действия при изменении выбранной вкладки
+            temp_file = ioFunctions.openJSONTemp();
+            switch (pageName) 
+            {
+                case "ЧИСЛИТЕЛЬ":
+                    if (current_numden != Classes.Class_types.NumDen.NumDen_Numerator)
+                    {
+                        if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
+                        {
+                            if (list_lesson.Count > 0)
+                            {
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                            }
+                        }
+                        list_lesson.Clear();
+                        current_numden = Classes.Class_types.NumDen.NumDen_Numerator;
+                        //MessageBox.Show(ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).Count.ToString());
+                        if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
+                        {
+                            foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden))
+                            {
+                                list_lesson.Add(item);
+                            }
+                        }
+                        
+                    }
+                    break;
+
+                case "ЗНАМЕНАТЕЛЬ":
+                    if (current_numden != Classes.Class_types.NumDen.NumDen_Denominator)
+                    {
+                        if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
+                        {
+                            if (list_lesson.Count > 0)
+                            {
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                            }
+                        }
+                        list_lesson.Clear();
+                        current_numden = Classes.Class_types.NumDen.NumDen_Denominator;
+                        if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null) 
+                        {
+                            foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden))
+                            {
+                                list_lesson.Add(item);
+                            }
+                        }
+                    }
+                    break;
+            }
         }
 
         private void ComboBox_Center_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -216,18 +267,59 @@ namespace IUmo.Pages
                 var temp_fileString = temp_file.new_string.ToString(); // Предполагается, что new_string содержит JSON-строку
                 var new_string = JsonSerializer.Deserialize<Classes.Add_Item_Lesson>(temp_fileString);
                 if (new_string.empty_lesson == true)
-                    list_lesson.Add(new Classes.Item_Empty_Lesson() { number = list_lesson.Count + 1 });
-                else 
                 {
-                    list_lesson.Add(
-                        new Classes.Item_New_Lesson() { 
+                    if (current_numden == Classes.Class_types.NumDen.NumDen_Numerator)
+                        list_lesson.Add(new Classes.Item_Empty_Lesson() { number = list_lesson.Count + 1 });
+                    else if (current_numden == Classes.Class_types.NumDen.NumDen_Denominator)
+                        list_lesson.Add(new Classes.Item_Empty_Lesson() { number = list_lesson.Count + 1, brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1c242a")) });
+                }
+                else
+                {
+                    if (current_numden == Classes.Class_types.NumDen.NumDen_Numerator)
+                        list_lesson.Add(
+                            new Classes.Item_New_Lesson()
+                            {
+                                number = list_lesson.Count + 1,
+                                title = new_string.title,
+                                teacher = new_string.teacher,
+                                cabinet = new_string.cabinet,
+                                type = new_string.type,
+                                editions = new_string.editions
+                            });
+                    else if (current_numden == Classes.Class_types.NumDen.NumDen_Denominator)
+                        list_lesson.Add(new Classes.Item_New_Lesson()
+                        {
                             number = list_lesson.Count + 1,
                             title = new_string.title,
                             teacher = new_string.teacher,
                             cabinet = new_string.cabinet,
                             type = new_string.type,
-                            editions = new_string.editions
+                            editions = new_string.editions,
+                            brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1c242a"))
                         });
+                }
+            }
+        }
+
+        private void lv_day_of_weeks_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item_dayweek = lv_day_of_weeks.SelectedItem;
+            if (item_dayweek != null)
+            {
+                var _item_dayweek = (KeyValuePair<string, string>)item_dayweek;
+                switch (_item_dayweek.Key)
+                {
+                    case "ПОНЕДЕЛЬНИК":
+                        dayOfWeek = Classes.Class_types.DayOfWeek.Monday;
+                        if (temp_file.tempType == Classes.Class_types.TempType.Temp_new) 
+                        {
+                            if (list_lesson.Count > 0) 
+                            {
+                                
+                            }
+                        }
+                        list_lesson.Clear();
+                        break;
                 }
             }
         }

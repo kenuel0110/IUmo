@@ -38,5 +38,23 @@ namespace IUmo.Classes
             Type_group = 2
         }
 
+        public enum DayOfWeek
+        {
+            None = 0,
+            Monday = 1,
+            Tuesday = 2,
+            Wednesday = 3,
+            Thursday = 4,
+            Friday = 5,
+            Saturday= 6,
+        }
+
+        public enum NumDen
+        {
+            NumDen_None = 0,
+            NumDen_Numerator = 1,
+            NumDen_Denominator = 2
+        }
+
     }
 }

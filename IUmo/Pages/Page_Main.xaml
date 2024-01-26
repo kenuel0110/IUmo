@@ -26,7 +26,7 @@
                 </StackPanel>
             </Border>
             <TabControl MaxWidth="300" Grid.Column="1" FontSize="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20 0 0 0" MaxHeight="50" x:Name="tabControl_num_den" Style="{StaticResource tab_control}" SelectionChanged="TabControl_SelectionChanged">
-                <TabItem Header="ЧИСЛИТЕЛЬ" FontSize="10" Style="{StaticResource tab_item}"/>
+                <TabItem Header="ЧИСЛИТЕЛЬ" FontSize="10" IsSelected="True" Style="{StaticResource tab_item}"/>
                 <TabItem Header="ЗНАМЕНАТЕЛЬ" FontSize="10" Style="{StaticResource tab_item}"/>
             </TabControl>
         </Grid>
@@ -37,7 +37,7 @@
             </Grid.ColumnDefinitions>
 
             <Border Grid.Column="0" Margin="0 -5 0 0" Panel.ZIndex="-1" Background="#181818">
-                <ListBox Name="lv_day_of_weeks" Margin="0 5 0 0" Style="{StaticResource MaterialDesignListBox}" SelectedIndex="0">
+                <ListBox Name="lv_day_of_weeks" Margin="0 5 0 0" Style="{StaticResource MaterialDesignListBox}" SelectionChanged="lv_day_of_weeks_SelectionChanged" SelectedIndex="0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -60,11 +60,10 @@
 
             <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Disabled" Style="{StaticResource MaterialDesignScrollViewer}"  VerticalScrollBarVisibility="Auto">
                 <StackPanel Orientation="Vertical">
-
                     <ItemsControl VerticalAlignment="Center" Padding="0 5 0 0" Name="lv_lessons" ItemsSource="{Binding list_lesson}" >
                         <ItemsControl.Resources>
                             <DataTemplate DataType="{x:Type Classes:Item_New_Lesson}">
-                                <Border Style="{StaticResource border_lesson_num}" MinHeight="80" Margin="8 5 8 0">
+                                <Border Style="{StaticResource border_lesson_num}" Background="{Binding brush_border}" MinHeight="80" Margin="8 5 8 0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="24"/>
@@ -104,7 +103,7 @@
                                 </Border>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type Classes:Item_Empty_Lesson}">
-                                <Border Style="{StaticResource border_lesson_num}" MinHeight="80" Margin="8 5 8 0">
+                                <Border Style="{StaticResource border_lesson_num}" Background="{Binding brush_border}" MinHeight="80" Margin="8 5 8 0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="32"/>
@@ -120,7 +119,7 @@
                                 </Border>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type Classes:Item_New_Thursday}">
-                                <Border Style="{StaticResource border_lesson_num}" MinHeight="80" Margin="8 5 8 0">
+                                <Border Style="{StaticResource border_lesson_num}" Background="{Binding brush_border}" MinHeight="80" Margin="8 5 8 0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="32"/>
@@ -132,7 +131,7 @@
                                 </Border>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type Classes:Item_Group}">
-                                <Border Style="{StaticResource border_lesson_num}" MinHeight="80" Margin="8 5 8 0">
+                                <Border Style="{StaticResource border_lesson_num}" Background="{Binding brush_border}" MinHeight="80" Margin="8 5 8 0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="32"/>
