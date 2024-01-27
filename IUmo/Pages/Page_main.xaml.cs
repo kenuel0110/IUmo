@@ -539,5 +539,112 @@ namespace IUmo.Pages
                 }
             }
         }
+
+        private async void btn_Add_Group_Item_New_Lesson_Click(object sender, RoutedEventArgs e)
+        {
+            bool result = await mainWindow.add_new_group();
+            if (result == true)
+            {
+                temp_file = ioFunctions.openJSONTemp();
+                var temp_fileString = temp_file.new_string.ToString(); // Предполагается, что new_string содержит JSON-строку
+                var new_string = JsonSerializer.Deserialize<Classes.Group_data>(temp_fileString);
+                if (new_string != null)
+                {
+                    Classes.Item_New_Lesson lesson = (sender as Button)?.DataContext as Classes.Item_New_Lesson;
+                    if (lesson != null)
+                    {
+                        int index = list_lesson.IndexOf(lesson);
+                        //list_lesson.Remove(lesson);
+
+                        if (index != -1)
+                        {
+                            int i = 0;
+                            foreach (var item in list_lesson.ToList())
+                            {
+                                i++;
+                                if (item is Classes.Item_New_Lesson)
+                                {
+                                    if (i - 1 != index)
+                                    {
+                                        Classes.Item_New_Lesson item_lesson = (Classes.Item_New_Lesson)item;
+                                        item_lesson.number = i;
+                                        list_lesson.RemoveAt(i - 1);
+                                        list_lesson.Insert(i - 1, item_lesson);
+                                    }
+                                    else if (i - 1 == index)
+                                    {
+                                        new_string.number = 2;
+                                        Classes.Item_New_Lesson item_lesson = (Classes.Item_New_Lesson)item;
+                                        Classes.Item_Group _item_Group = null;
+                                        if (current_numden == Classes.Class_types.NumDen.NumDen_Numerator)
+                                        {
+                                            Classes.Item_Group item_Group = new Classes.Item_Group()
+                                            {
+                                                number = i,
+                                                groups = new ObservableCollection<Classes.Group_data>()
+                                                {
+                                                    new Classes.Group_data()
+                                                    {
+                                                        number = 1,
+                                                        title = item_lesson.title,
+                                                        teacher = item_lesson.teacher,
+                                                        cabinet = item_lesson.cabinet,
+                                                        type = item_lesson.type,
+                                                        editions = item_lesson.editions
+                                                    },
+                                                    new_string
+                                                }
+                                            };
+                                            _item_Group = item_Group;
+                                        }
+                                        else if (current_numden == Classes.Class_types.NumDen.NumDen_Denominator) 
+                                        {
+                                            Classes.Item_Group item_Group = new Classes.Item_Group()
+                                            {
+                                                number = i,
+                                                groups = new ObservableCollection<Classes.Group_data>()
+                                                {
+                                                    new Classes.Group_data()
+                                                    {
+                                                        number = 1,
+                                                        title = item_lesson.title,
+                                                        teacher = item_lesson.teacher,
+                                                        cabinet = item_lesson.cabinet,
+                                                        type = item_lesson.type,
+                                                        editions = item_lesson.editions
+                                                    },
+                                                    new_string
+                                                },
+                                                brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1c242a"))
+                                        };
+                                            _item_Group = item_Group;
+                                        }
+                                        if (_item_Group != null)
+                                        {
+                                            list_lesson.RemoveAt(i - 1);
+                                            list_lesson.Insert(i - 1, _item_Group);
+                                        }
+                                    }
+                                }
+                                else if (item is Classes.Item_Empty_Lesson)
+                                {
+                                    Classes.Item_Empty_Lesson item_empty = (Classes.Item_Empty_Lesson)item;
+                                    item_empty.number = i;
+                                    list_lesson.RemoveAt(i - 1);
+                                    list_lesson.Insert(i - 1, item_empty);
+                                }
+                                else if (item is Classes.Item_Group)
+                                {
+                                    Classes.Item_Group item_group = (Classes.Item_Group)item;
+                                    item_group.number = i;
+                                    list_lesson.RemoveAt(i - 1);
+                                    list_lesson.Insert(i - 1, item_group);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

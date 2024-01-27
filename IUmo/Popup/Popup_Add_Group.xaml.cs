@@ -32,7 +32,7 @@ namespace IUmo.Popup
         #endregion
 
         #region global_varibles
-        public bool Add_Lesson_Result { get; set; }
+        public bool Add_Group_Result { get; set; }
         #endregion
 
         public Popup_Add_Group()
@@ -53,7 +53,7 @@ namespace IUmo.Popup
             mainWindow.deblurBackground();
             if (NavigationService.CanGoBack)
                 NavigationService.GoBack();
-            ((MainWindow)Application.Current.MainWindow).SetDialogResult_AddLesson(false);
+            ((MainWindow)Application.Current.MainWindow).SetDialogResult_AddGroup(false);
         }
 
         private void tb_title_KeyUp(object sender, KeyEventArgs e)
@@ -154,62 +154,19 @@ namespace IUmo.Popup
             }
         }
 
-        private void togle_empty_lesson_Checked(object sender, RoutedEventArgs e)
-        {
-            tb_title.BorderThickness = new Thickness(0);
-            tb_teacher.BorderThickness = new Thickness(0);
-            tb_title.BorderBrush = Brushes.Transparent;
-            tb_teacher.BorderBrush = Brushes.Transparent;
-            TextFieldAssist.SetUnderlineBrush(tb_title, Brushes.Transparent);
-            TextFieldAssist.SetUnderlineBrush(tb_teacher, Brushes.Transparent);
-            HintAssist.SetHelperText(tb_title, "");
-            HintAssist.SetHelperText(tb_teacher, "");
-
-            lbl_cabinet_helptext.Text = "";
-            combobox_cabinets.Foreground = Brushes.White;
-            lbl_type_helptext.Text = "";
-            combobox_type.Foreground = Brushes.White;
-
-
-            if (togle_empty_lesson.IsChecked == true) 
-            {
-                is_empty_lesson = true;
-                tb_title.IsEnabled = false;
-                tb_teacher.IsEnabled = false;
-                combobox_cabinets.IsEnabled = false;
-                combobox_type.IsEnabled = false;
-                tb_changes.IsEnabled = false;
-                lv_changes.IsEnabled = false;
-                pop_tb_teacher.IsOpen = false;
-                pop_tb_title.IsOpen = false;
-            }
-            else
-            {
-                is_empty_lesson = false;
-                tb_title.IsEnabled = true;
-                tb_teacher.IsEnabled = true;
-                combobox_cabinets.IsEnabled = true;
-                combobox_type.IsEnabled = true;
-                tb_changes.IsEnabled = true;
-                lv_changes.IsEnabled = true;
-                pop_tb_teacher.IsOpen = false;
-                pop_tb_title.IsOpen = false;
-            }
-        }
-
         private void btn_popup_done_Click(object sender, RoutedEventArgs e)
         {
-            Classes.Add_Item_Lesson new_item;
+            Classes.Group_data new_item;
             if (is_empty_lesson == true)
             {
-                new_item = new Classes.Add_Item_Lesson()
+                new_item = new Classes.Group_data()
                 {
+                    number = 0,
                     title = null,
                     teacher = null,
                     cabinet = null,
                     type = null,
-                    editions = null,
-                    empty_lesson = true
+                    editions = null
                 };
                 ioFunctions.editTemp(new_item);
 
@@ -217,7 +174,7 @@ namespace IUmo.Popup
                 mainWindow.deblurBackground();
                 if (NavigationService.CanGoBack)
                     NavigationService.GoBack();
-                mainWindow.SetDialogResult_AddLesson(true);
+                mainWindow.SetDialogResult_AddGroup(true);
             }
             else 
             {
@@ -286,14 +243,14 @@ namespace IUmo.Popup
 
                 if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(teacher) && !string.IsNullOrEmpty(_cabinet) && !string.IsNullOrEmpty(_type)) 
                 {
-                    new_item = new Classes.Add_Item_Lesson()
+                    new_item = new Classes.Group_data()
                     {
+                        number = 0,
                         title = title,
                         teacher = teacher,
                         cabinet = _cabinet,
                         type = _type,
                         editions = new List<string>(list_changes),
-                        empty_lesson = false
                     };
                     ioFunctions.editTemp(new_item);
 
@@ -301,7 +258,7 @@ namespace IUmo.Popup
                     mainWindow.deblurBackground();
                     if (NavigationService.CanGoBack)
                         NavigationService.GoBack();
-                    mainWindow.SetDialogResult_AddLesson(true);
+                    mainWindow.SetDialogResult_AddGroup(true);
                 }
 
             }

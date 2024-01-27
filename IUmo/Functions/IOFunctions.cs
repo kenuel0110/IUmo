@@ -159,6 +159,13 @@ namespace IUmo.Functions
                     string tempString = JsonSerializer.Serialize(json_temp, new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText("Temp\\temp.json", tempString);
                     break;
+                case Classes.Group_data addGroup:
+                    Classes.Class_JSON_Temp json_temp_addGroup = openJSONTemp();
+                    json_temp_addGroup.new_string = addGroup;
+                    chkAndCreateFolder(Path.GetDirectoryName("Temp\\temp.json"));
+                    string tempString_addGroup = JsonSerializer.Serialize(json_temp_addGroup, new JsonSerializerOptions { WriteIndented = true });
+                    File.WriteAllText("Temp\\temp.json", tempString_addGroup);
+                    break;
             }
         }
 

@@ -95,7 +95,7 @@
                                             <Button Width="28" Grid.Row="0" Height="28" Padding="0" Click="DeleteButtonLesson_Click" Style="{StaticResource btn_menu}">
                                                 <Image Source="/Icons\ic_delete.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Button>
-                                            <Button Grid.Row="1" Width="28" Height="28" Padding="0" Style="{StaticResource btn_menu}">
+                                            <Button Grid.Row="1" Width="28" Height="28" Padding="0" Click="btn_Add_Group_Item_New_Lesson_Click" Style="{StaticResource btn_menu}">
                                                 <Image Source="/Icons\ic_add_group.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Button>
                                         </Grid>

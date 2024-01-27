@@ -63,7 +63,7 @@
                     </Popup>
                 </StackPanel>
 
-                <Grid Grid.Row="1" Grid.Column="0">
+                <Grid Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -224,15 +224,6 @@
                         <TextBlock x:Name="lbl_type_helptext" Text="" Foreground="Red" Margin="20 2 0 0" TextWrapping="Wrap" FontSize="9" Style="{StaticResource lbl_list_item}"/>
                     </StackPanel>
                 </Grid>
-
-                <StackPanel Margin="10 0 0 0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal">
-                        <ToggleButton x:Name="togle_empty_lesson" IsChecked="False" Click="togle_empty_lesson_Checked" Style="{StaticResource MaterialDesignSwitchToggleButton}"/>
-                        <TextBlock Margin="2 0 0 0" Text="ПУСТАЯ ПАРА" FontSize="13" Style="{StaticResource lbl_title_}"/>
-                    </StackPanel>
-                    <TextBlock Text="*данный переключатель подразумевает пропуск" FontSize="9" Foreground="#a6a6a6" Style="{StaticResource lbl_title_}"/>
-                </StackPanel>
-
                 <ScrollViewer Margin="100 15" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
                     <StackPanel Margin="8" Orientation="Vertical">
                         <TextBlock Text="ДОПОЛНИТЕЛЬНЫЕ ИЗМЕНЕНИЯ" FontSize="11" Margin="10 0" Style="{StaticResource lbl_list_item}"/>
