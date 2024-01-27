@@ -37,6 +37,7 @@ namespace IUmo
         double newWindowWidth;
         Classes.Class_types.WindowState maximilize_window_;
         bool setdialogResult_addLesson;
+        bool setdialogResult_addGroup;
         private TaskCompletionSource<bool> tcs;
         #endregion
 
@@ -207,11 +208,34 @@ namespace IUmo
             tcs.TrySetCanceled();
         }
 
+        internal void SetDialogResult_AddGroup(bool result)
+        {
+            setdialogResult_addGroup = result;
+            if (result == true)
+                tcs.SetResult(true);
+            else
+                tcs.SetResult(false);
+            tcs.TrySetCanceled();
+        }
+
         public async Task<bool> add_new_lesson()
         {
             blurBackground();
             popup_window.Visibility = Visibility.Visible;
             Popup.Popup_Add_Lesson add_lesson_page = new Popup.Popup_Add_Lesson();
+            popup_frame.NavigationService.Navigate(add_lesson_page);
+            tcs = new TaskCompletionSource<bool>();
+
+            // Ждем, пока переменная не изменится
+            bool result = await tcs.Task;
+            return result;
+        }
+
+        public async Task<bool> add_new_group()
+        {
+            blurBackground();
+            popup_window.Visibility = Visibility.Visible;
+            Popup.Popup_Add_Group add_lesson_page = new Popup.Popup_Add_Group();
             popup_frame.NavigationService.Navigate(add_lesson_page);
             tcs = new TaskCompletionSource<bool>();
 
