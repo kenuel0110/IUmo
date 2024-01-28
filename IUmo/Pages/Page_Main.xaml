@@ -131,7 +131,7 @@
                                 </Border>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type Classes:Item_Group}">
-                                <Border Style="{StaticResource border_lesson_num}" Background="{Binding brush_border}" MinHeight="80" Margin="8 5 8 0">
+                                <Border Style="{StaticResource border_lesson_num}" MouseEnter="border_Item_Group_MouseEnter" Background="{Binding brush_border}" MinHeight="80" Margin="8 5 8 0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="32"/>
@@ -173,7 +173,7 @@
                                                                 <Button Width="28" Grid.Row="0" Height="28" Padding="0" Click="DeleteButton_Click" Style="{StaticResource btn_menu}">
                                                                     <Image Source="/Icons\ic_delete.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                                 </Button>
-                                                                <Button Grid.Row="1" Width="28" Height="28" Padding="0" Style="{StaticResource btn_menu}">
+                                                                <Button Grid.Row="1" Width="28" Height="28" Padding="0" Click="btn_Add_Group_Item_Group" Style="{StaticResource btn_menu}">
                                                                     <Image Source="/Icons\ic_add_group.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                                 </Button>
                                                             </Grid>

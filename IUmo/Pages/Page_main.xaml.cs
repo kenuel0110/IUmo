@@ -45,6 +45,7 @@ namespace IUmo.Pages
         Classes.Class_types.NumDen current_numden = Classes.Class_types.NumDen.NumDen_None;
 
         Classes.Class_JSON_Temp temp_file;
+        int curent_item_group = -1;
         #endregion
         public Page_main()
         {
@@ -130,45 +131,54 @@ namespace IUmo.Pages
             Classes.Group_data group_ = (sender as Button)?.DataContext as Classes.Group_data;
             if (group_ != null)
             {
-                List<object> _list_lesson = new List<object>(list_lesson);
-                int index = _list_lesson.FindIndex(item =>
+                var item_Group = list_lesson[curent_item_group] as Classes.Item_Group;
+                if (item_Group != null)
                 {
-                    if (item is Classes.Item_Group itemGroup)
-                    {
-                        return itemGroup.groups.Any(_item => _item == group_);
-                    }
-                    return false;
-                });
+                    var _list_group = item_Group.groups;
 
-                list_group.Remove(group_);
-                if (list_group.Count == 0 && index != -1) 
-                {
-                    list_lesson.RemoveAt(index);
+                    _list_group.Remove(group_);
+
                     int i = 0;
 
-                    foreach (var item in list_lesson.ToList())
+                    foreach (var group in _list_group.ToList())
                     {
                         i++;
-                        if (item is Classes.Item_New_Lesson)
+
+                        Classes.Group_data item_group = (Classes.Group_data)group;
+                        item_group.number = i;
+                        _list_group.RemoveAt(i - 1);
+                        _list_group.Insert(i - 1, item_group);
+                    }
+
+                    if (_list_group.Count == 0)
+                    {
+                        list_lesson.RemoveAt(curent_item_group);
+                        i = 0;
+
+                        foreach (var item in list_lesson.ToList())
                         {
-                            Classes.Item_New_Lesson item_lesson = (Classes.Item_New_Lesson)item;
-                            item_lesson.number = i;
-                            list_lesson.RemoveAt(i - 1);
-                            list_lesson.Insert(i - 1, item_lesson);
-                        }
-                        else if (item is Classes.Item_Empty_Lesson)
-                        {
-                            Classes.Item_Empty_Lesson item_empty = (Classes.Item_Empty_Lesson)item;
-                            item_empty.number = i;
-                            list_lesson.RemoveAt(i - 1);
-                            list_lesson.Insert(i - 1, item_empty);
-                        }
-                        else if (item is Classes.Item_Group)
-                        {
-                            Classes.Item_Group item_group = (Classes.Item_Group)item;
-                            item_group.number = i;
-                            list_lesson.RemoveAt(i - 1);
-                            list_lesson.Insert(i - 1, item_group);
+                            i++;
+                            if (item is Classes.Item_New_Lesson)
+                            {
+                                Classes.Item_New_Lesson item_lesson = (Classes.Item_New_Lesson)item;
+                                item_lesson.number = i;
+                                list_lesson.RemoveAt(i - 1);
+                                list_lesson.Insert(i - 1, item_lesson);
+                            }
+                            else if (item is Classes.Item_Empty_Lesson)
+                            {
+                                Classes.Item_Empty_Lesson item_empty = (Classes.Item_Empty_Lesson)item;
+                                item_empty.number = i;
+                                list_lesson.RemoveAt(i - 1);
+                                list_lesson.Insert(i - 1, item_empty);
+                            }
+                            else if (item is Classes.Item_Group)
+                            {
+                                Classes.Item_Group item_group = (Classes.Item_Group)item;
+                                item_group.number = i;
+                                list_lesson.RemoveAt(i - 1);
+                                list_lesson.Insert(i - 1, item_group);
+                            }
                         }
                     }
                 }
@@ -204,7 +214,7 @@ namespace IUmo.Pages
             TabItem selectedTab = (TabItem)tabControl_num_den.SelectedItem;
             string pageName = selectedTab.Header.ToString();
             temp_file = ioFunctions.openJSONTemp();
-            switch (pageName) 
+            switch (pageName)
             {
                 case "ЧИСЛИТЕЛЬ":
                     if (current_numden != Classes.Class_types.NumDen.NumDen_Numerator)
@@ -235,7 +245,7 @@ namespace IUmo.Pages
                                 list_lesson.Add(item);
                             }
                         }
-                        
+
                     }
                     break;
 
@@ -248,7 +258,7 @@ namespace IUmo.Pages
                         }
                         list_lesson.Clear();
                         current_numden = Classes.Class_types.NumDen.NumDen_Denominator;
-                        if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null) 
+                        if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
                         {
                             foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
                             {
@@ -334,11 +344,11 @@ namespace IUmo.Pages
                         {
                             //if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
                             //{
-                                if (list_lesson.Count > 0)
-                                {
-                                    ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
-                                }
-                           // }
+                            if (list_lesson.Count > 0)
+                            {
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                            }
+                            // }
                             list_lesson.Clear();
                             dayOfWeek = Classes.Class_types.DayOfWeek.Monday;
                             if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
@@ -597,7 +607,7 @@ namespace IUmo.Pages
                                             };
                                             _item_Group = item_Group;
                                         }
-                                        else if (current_numden == Classes.Class_types.NumDen.NumDen_Denominator) 
+                                        else if (current_numden == Classes.Class_types.NumDen.NumDen_Denominator)
                                         {
                                             Classes.Item_Group item_Group = new Classes.Item_Group()
                                             {
@@ -616,7 +626,7 @@ namespace IUmo.Pages
                                                     new_string
                                                 },
                                                 brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1c242a"))
-                                        };
+                                            };
                                             _item_Group = item_Group;
                                         }
                                         if (_item_Group != null)
@@ -644,6 +654,72 @@ namespace IUmo.Pages
                         }
                     }
                 }
+            }
+        }
+
+        private async void btn_Add_Group_Item_Group(object sender, RoutedEventArgs e)
+        {
+            bool result = await mainWindow.add_new_group();
+            if (result == true)
+            {
+                temp_file = ioFunctions.openJSONTemp();
+                var temp_fileString = temp_file.new_string.ToString(); // Предполагается, что new_string содержит JSON-строку
+                var new_string = JsonSerializer.Deserialize<Classes.Group_data>(temp_fileString);
+                if (new_string != null)
+                {
+                    Classes.Group_data group_ = (sender as Button)?.DataContext as Classes.Group_data;
+                    if (group_ != null)
+                    {
+                        var item_Group = list_lesson[curent_item_group] as Classes.Item_Group;
+                        if (item_Group != null)
+                        {
+                            var _list_group = item_Group.groups;
+
+                            int index_group = _list_group.IndexOf(group_);
+
+                            _list_group.Insert(index_group + 1, new_string);
+                            int i = 0;
+
+                            foreach (var group in _list_group.ToList())
+                            {
+                                i++;
+
+                                Classes.Group_data item_group = (Classes.Group_data)group;
+                                item_group.number = i;
+                                _list_group.RemoveAt(i - 1);
+                                _list_group.Insert(i - 1, item_group);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void border_Item_Group_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var itemGroup = (sender as FrameworkElement)?.DataContext;
+            var itemsControl = FindParent<ItemsControl>(sender as DependencyObject);
+            var index = itemsControl?.Items.IndexOf(itemGroup);
+
+            curent_item_group = Convert.ToInt32(index);
+        }
+
+        private T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            while (true)
+            {
+                var parentObject = VisualTreeHelper.GetParent(child);
+                if (parentObject == null)
+                {
+                    return null;
+                }
+
+                if (parentObject is T parent)
+                {
+                    return parent;
+                }
+
+                child = parentObject;
             }
         }
     }
