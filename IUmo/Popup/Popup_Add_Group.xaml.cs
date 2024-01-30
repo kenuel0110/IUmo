@@ -26,6 +26,7 @@ namespace IUmo.Popup
         #region local_varibles
         private MainWindow mainWindow = App.Current.MainWindow as MainWindow;
         private ObservableCollection<String> list_changes = new ObservableCollection<String>();
+        private ObservableCollection<String> list_teachers = new ObservableCollection<String>();
         private Functions.IOFunctions ioFunctions = new Functions.IOFunctions();
         Classes.Class_JSON_Temp temp_file;
         #endregion
@@ -44,6 +45,9 @@ namespace IUmo.Popup
         {
             temp_file = ioFunctions.openJSONTemp();
             lv_changes.ItemsSource = list_changes;
+
+            list_teachers = new ObservableCollection<string>(ioFunctions.openJSONTeacher());
+            lv_teacher.ItemsSource = list_teachers;
         }
 
         private void btn_close_popup_Click(object sender, RoutedEventArgs e)
@@ -77,22 +81,29 @@ namespace IUmo.Popup
 
         private void tb_teacher_KeyUp(object sender, KeyEventArgs e)
         {
-            string searchText = tb_title.Text.ToLower(); // Получение текста из TextBox и приведение к нижнему регистру
+            string searchText = tb_teacher.Text.ToLower(); // Получение текста из TextBox и приведение к нижнему регистру
 
-            // Фильтрация списка на основе текста поиска
-            //List<string> filteredItems = items.Where(item => item.ToLower().Contains(searchText)).ToList();
-
-            /*if (filteredItems.Count > 0)
+            // Проверяем, содержит ли TextBox символы или он пустой
+            if (!string.IsNullOrEmpty(searchText))
             {
-                // Отображение Popup с результатами поиска
-                Popup.IsOpen = true;
-                ListBox.ItemsSource = filteredItems;
+                // Фильтрация списка на основе текста поиска
+                List<string> filteredItems = list_teachers.Where(item => item.ToLower().Contains(searchText)).ToList();
+
+                if (filteredItems.Count > 0)
+                {
+                    pop_tb_teacher.IsOpen = true;
+                    lv_teacher.ItemsSource = new ObservableCollection<string>(filteredItems);
+                }
+                else
+                {
+                    // Скрытие Popup, если результатов нет
+                    pop_tb_teacher.IsOpen = false;
+                }
             }
             else
             {
-                // Скрытие Popup, если результатов нет
-                Popup.IsOpen = false;
-            }*/
+                lv_teacher.ItemsSource = list_teachers;
+            }
         }
 
         private void tb_title_GotFocus(object sender, RoutedEventArgs e)
@@ -218,7 +229,7 @@ namespace IUmo.Popup
             else
             {
                 lbl_type_helptext.Text = "";
-                _type = type.Content.ToString();
+                _type = type.Tag.ToString();
             }
 
             if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(teacher) && !string.IsNullOrEmpty(_cabinet) && !string.IsNullOrEmpty(_type))
@@ -242,5 +253,23 @@ namespace IUmo.Popup
             }
 
         }
+
+        private void lv_teacher_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedItem = lv_teacher.SelectedItem;
+            if (selectedItem != null)
+            {
+                string fullName = (string)selectedItem;
+                string[] nameParts = fullName.Split(' ');
+                string shortenedName = "";
+                if (nameParts.Length > 2)
+                {
+                    shortenedName = $"{nameParts[0]} {nameParts[1][0]}. {nameParts[nameParts.Length - 1][0]}.";
+                }
+                tb_teacher.Text = shortenedName;
+                lv_teacher.SelectedIndex = -1;
+            }
+        }
+
     }
 }

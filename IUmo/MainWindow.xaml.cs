@@ -79,6 +79,7 @@ namespace IUmo
         {
             _excel = new Microsoft.Office.Interop.Excel.Application();
             ioFunctions.chkFirstStart("settings", "settings.json");
+            ioFunctions.chkFirstStart("settings", "teachers.json");
             ioFunctions.createTemp();
             Classes.Class_JSON_Setting setting = ioFunctions.openJSONSetting();
             WindowSizeState(setting.maximilize_window);

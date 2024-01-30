@@ -58,7 +58,7 @@
                     <TextBox x:Name="tb_teacher" Margin="10 0" GotFocus="tb_teacher_GotFocus" LostFocus="tb_teacher_LostFocus"  materialDesign:HintAssist.Hint="Введите ФИО" Text="" Style="{StaticResource tb_main}" Grid.Column="0" Grid.Row="0" KeyUp="tb_teacher_KeyUp"/>
                     <Popup x:Name="pop_tb_teacher" IsOpen="False" AllowsTransparency="True" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=tb_teacher}" Width="{Binding ElementName=tb_teacher, Path=ActualWidth}">
                         <Border Background="#272727" MaxHeight="150" CornerRadius="6 6 6 6">
-                            <ListBox x:Name="lv_teacher" Margin="5" Style="{StaticResource MaterialDesignListBox}"/>
+                            <ListBox x:Name="lv_teacher" Margin="5"  Style="{StaticResource MaterialDesignListBox}" SelectionChanged="lv_teacher_SelectionChanged"/>
                         </Border>
                     </Popup>
                 </StackPanel>
@@ -183,9 +183,9 @@
                                 <SolidColorBrush x:Key="MaterialDesignPaper" Color="#043c2d"/>
                                 <SolidColorBrush x:Key="MaterialDesignSelection" Color="Transparent"/>
                             </ComboBox.Resources>
-                            <ComboBoxItem Content="Тип" IsSelected="True"/>
-                            <ComboBoxItem Content="Лекция"/>
-                            <ComboBoxItem Content="Практика"/>
+                            <ComboBoxItem Content="Тип" IsSelected="True" Tag=""/>
+                            <ComboBoxItem Content="Лекция" Tag="Л"/>
+                            <ComboBoxItem Content="Практика" Tag="ПЗ"/>
                             <ComboBox.ItemContainerStyle>
                                 <Style TargetType="ComboBoxItem">
                                     <Setter Property="Template">
