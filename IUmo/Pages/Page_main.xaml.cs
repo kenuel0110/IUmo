@@ -38,8 +38,9 @@ namespace IUmo.Pages
 
         // Создайте коллекции объектов для источников данных
 
-        ObservableCollection<Classes.Group_data> list_group = new ObservableCollection<Classes.Group_data>();
         ObservableCollection<object> list_lesson = new ObservableCollection<object>();
+        List<string> list_sheets = new List<string>();
+        string preview_cb_sheet;
 
         Classes.Class_types.DayOfWeek dayOfWeek = Classes.Class_types.DayOfWeek.None;
         Classes.Class_types.NumDen current_numden = Classes.Class_types.NumDen.NumDen_None;
@@ -53,39 +54,43 @@ namespace IUmo.Pages
             init();
         }
 
+        private void fixLessonNumeration()
+        {
+            int i = 0;
+            foreach (var item in list_lesson.ToList())
+            {
+                i++;
+                if (item is Classes.Item_New_Lesson)
+                {
+                    Classes.Item_New_Lesson item_lesson = (Classes.Item_New_Lesson)item;
+                    item_lesson.number = i;
+                    list_lesson.RemoveAt(i - 1);
+                    list_lesson.Insert(i - 1, item_lesson);
+                }
+                else if (item is Classes.Item_Empty_Lesson)
+                {
+                    Classes.Item_Empty_Lesson item_empty = (Classes.Item_Empty_Lesson)item;
+                    item_empty.number = i;
+                    list_lesson.RemoveAt(i - 1);
+                    list_lesson.Insert(i - 1, item_empty);
+                }
+                else if (item is Classes.Item_Group)
+                {
+                    Classes.Item_Group item_group = (Classes.Item_Group)item;
+                    item_group.number = i;
+                    list_lesson.RemoveAt(i - 1);
+                    list_lesson.Insert(i - 1, item_group);
+                }
+            }
+        }
+
         private void DeleteButtonLesson_Click(object sender, RoutedEventArgs e)
         {
             Classes.Item_New_Lesson lesson = (sender as Button)?.DataContext as Classes.Item_New_Lesson;
             if (lesson != null)
             {
                 list_lesson.Remove(lesson);
-
-                int i = 0;
-                foreach (var item in list_lesson.ToList())
-                {
-                    i++;
-                    if (item is Classes.Item_New_Lesson)
-                    {
-                        Classes.Item_New_Lesson item_lesson = (Classes.Item_New_Lesson)item;
-                        item_lesson.number = i;
-                        list_lesson.RemoveAt(i - 1);
-                        list_lesson.Insert(i - 1, item_lesson);
-                    }
-                    else if (item is Classes.Item_Empty_Lesson)
-                    {
-                        Classes.Item_Empty_Lesson item_empty = (Classes.Item_Empty_Lesson)item;
-                        item_empty.number = i;
-                        list_lesson.RemoveAt(i - 1);
-                        list_lesson.Insert(i - 1, item_empty);
-                    }
-                    else if (item is Classes.Item_Group)
-                    {
-                        Classes.Item_Group item_group = (Classes.Item_Group)item;
-                        item_group.number = i;
-                        list_lesson.RemoveAt(i - 1);
-                        list_lesson.Insert(i - 1, item_group);
-                    }
-                }
+                fixLessonNumeration();
             }
 
         }
@@ -96,33 +101,7 @@ namespace IUmo.Pages
             if (lesson != null)
             {
                 list_lesson.Remove(lesson);
-
-                int i = 0;
-                foreach (var item in list_lesson.ToList())
-                {
-                    i++;
-                    if (item is Classes.Item_New_Lesson)
-                    {
-                        Classes.Item_New_Lesson item_lesson = (Classes.Item_New_Lesson)item;
-                        item_lesson.number = i;
-                        list_lesson.RemoveAt(i - 1);
-                        list_lesson.Insert(i - 1, item_lesson);
-                    }
-                    else if (item is Classes.Item_Empty_Lesson)
-                    {
-                        Classes.Item_Empty_Lesson item_empty = (Classes.Item_Empty_Lesson)item;
-                        item_empty.number = i;
-                        list_lesson.RemoveAt(i - 1);
-                        list_lesson.Insert(i - 1, item_empty);
-                    }
-                    else if (item is Classes.Item_Group)
-                    {
-                        Classes.Item_Group item_group = (Classes.Item_Group)item;
-                        item_group.number = i;
-                        list_lesson.RemoveAt(i - 1);
-                        list_lesson.Insert(i - 1, item_group);
-                    }
-                }
+                fixLessonNumeration();
             }
         }
 
@@ -153,33 +132,7 @@ namespace IUmo.Pages
                     if (_list_group.Count == 0)
                     {
                         list_lesson.RemoveAt(curent_item_group);
-                        i = 0;
-
-                        foreach (var item in list_lesson.ToList())
-                        {
-                            i++;
-                            if (item is Classes.Item_New_Lesson)
-                            {
-                                Classes.Item_New_Lesson item_lesson = (Classes.Item_New_Lesson)item;
-                                item_lesson.number = i;
-                                list_lesson.RemoveAt(i - 1);
-                                list_lesson.Insert(i - 1, item_lesson);
-                            }
-                            else if (item is Classes.Item_Empty_Lesson)
-                            {
-                                Classes.Item_Empty_Lesson item_empty = (Classes.Item_Empty_Lesson)item;
-                                item_empty.number = i;
-                                list_lesson.RemoveAt(i - 1);
-                                list_lesson.Insert(i - 1, item_empty);
-                            }
-                            else if (item is Classes.Item_Group)
-                            {
-                                Classes.Item_Group item_group = (Classes.Item_Group)item;
-                                item_group.number = i;
-                                list_lesson.RemoveAt(i - 1);
-                                list_lesson.Insert(i - 1, item_group);
-                            }
-                        }
+                        fixLessonNumeration();
                     }
                 }
             }
@@ -199,6 +152,16 @@ namespace IUmo.Pages
             ObservableCollection<object> lesson = new ObservableCollection<object>();
             lv_lessons.DataContext = lesson;
             lv_lessons.ItemsSource = list_lesson;
+
+            list_sheets = mainWindow.get_Document_sheets();
+
+            if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
+                list_sheets.RemoveAt(0);
+
+            combobox_list.ItemsSource = list_sheets;
+            combobox_list.SelectedIndex = 0;
+
+            mainWindow.set_current_sheet(list_sheets[combobox_list.SelectedIndex]);
             /*list_lesson.Add(new Classes.Item_Empty_Lesson() { number = 1 });
             list_lesson.Add(new Classes.Item_New_Lesson() { number = 1, title = "ОСНОВЫ РОССИЙСКОЙ ГОСУДАРСТВЕННОСТИ", teacher = "АНИСИМОВА В.А.", cabinet="217", type="ПЗ", editions = new List<string>() {"Прикол", "Прикол2" } });
             
@@ -219,64 +182,72 @@ namespace IUmo.Pages
                 case "ЧИСЛИТЕЛЬ":
                     if (current_numden != Classes.Class_types.NumDen.NumDen_Numerator)
                     {
-                        if (list_lesson.Count > 0)
+                        if (list_sheets.Count > 0)
                         {
-                            ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
-                        }
-                        list_lesson.Clear();
-                        current_numden = Classes.Class_types.NumDen.NumDen_Numerator;
-                        //MessageBox.Show(ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).Count.ToString());
-                        if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
-                        {
-                            foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                            if (list_lesson.Count > 0)
                             {
-                                if (x is Classes.Item_New_Lesson item)
-                                    return item.number;
-                                else if (x is Classes.Item_Group group)
-                                    return group.number;
-                                else if (x is Classes.Item_Empty_Lesson emptyLesson)
-                                    return emptyLesson.number;
-                                else if (x is Classes.Item_New_Thursday thursday)
-                                    return -1; // Переместите 'Item_New_Thursday' в начало коллекции
-                                else
-                                    return 0; // Если класс неизвестен, сохраните текущий порядок
-                            }))
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden);
+                            }
+                            list_lesson.Clear();
+                            current_numden = Classes.Class_types.NumDen.NumDen_Numerator;
+                            //MessageBox.Show(ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).Count.ToString());
+
+                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden) != null)
                             {
-                                list_lesson.Add(item);
+                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden).OrderBy(x =>
+                                {
+                                    if (x is Classes.Item_New_Lesson item)
+                                        return item.number;
+                                    else if (x is Classes.Item_Group group)
+                                        return group.number;
+                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                        return emptyLesson.number;
+                                    else if (x is Classes.Item_New_Thursday thursday)
+                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    else
+                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                }))
+                                {
+                                    list_lesson.Add(item);
+                                }
                             }
                         }
-
+                        current_numden = Classes.Class_types.NumDen.NumDen_Numerator;
                     }
                     break;
 
                 case "ЗНАМЕНАТЕЛЬ":
                     if (current_numden != Classes.Class_types.NumDen.NumDen_Denominator)
                     {
-                        if (list_lesson.Count > 0)
+                        if (list_sheets.Count > 0)
                         {
-                            ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
-                        }
-                        list_lesson.Clear();
-                        current_numden = Classes.Class_types.NumDen.NumDen_Denominator;
-                        if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
-                        {
-                            foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                            if (list_lesson.Count > 0)
                             {
-                                if (x is Classes.Item_New_Lesson item)
-                                    return item.number;
-                                else if (x is Classes.Item_Group group)
-                                    return group.number;
-                                else if (x is Classes.Item_Empty_Lesson emptyLesson)
-                                    return emptyLesson.number;
-                                else if (x is Classes.Item_New_Thursday thursday)
-                                    return -1; // Переместите 'Item_New_Thursday' в начало коллекции
-                                else
-                                    return 0; // Если класс неизвестен, сохраните текущий порядок
-                            }))
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden);
+                            }
+                            list_lesson.Clear();
+                            current_numden = Classes.Class_types.NumDen.NumDen_Denominator;
+                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden) != null)
                             {
-                                list_lesson.Add(item);
+                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden).OrderBy(x =>
+                                {
+                                    if (x is Classes.Item_New_Lesson item)
+                                        return item.number;
+                                    else if (x is Classes.Item_Group group)
+                                        return group.number;
+                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                        return emptyLesson.number;
+                                    else if (x is Classes.Item_New_Thursday thursday)
+                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    else
+                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                }))
+                                {
+                                    list_lesson.Add(item);
+                                }
                             }
                         }
+                        current_numden = Classes.Class_types.NumDen.NumDen_Denominator;
                     }
                     break;
             }
@@ -285,6 +256,21 @@ namespace IUmo.Pages
         private void ComboBox_Center_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             combobox_list.BorderBrush = new SolidColorBrush(Color.FromRgb(2, 37, 28));
+
+            if (preview_cb_sheet != null)
+                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, preview_cb_sheet, current_numden);
+
+            list_lesson.Clear();
+
+            TabItem selectedTab = (TabItem)tabControl_num_den.SelectedItem;
+            string pageName = selectedTab.Header.ToString();
+            if (pageName == "ЧИСЛИТЕЛЬ")
+                current_numden = Classes.Class_types.NumDen.NumDen_Numerator;
+            else if (pageName == "ЗНАМЕНАТЕЛЬ")
+                current_numden = Classes.Class_types.NumDen.NumDen_Denominator;
+
+            lv_day_of_weeks.SelectedIndex = 0;
+            preview_cb_sheet = list_sheets[combobox_list.SelectedIndex];
         }
 
         private async void btn_add_lesson_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -344,30 +330,33 @@ namespace IUmo.Pages
                         {
                             //if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
                             //{
-                            if (list_lesson.Count > 0)
+                            if (list_lesson.Count > 0 && list_sheets.Count > 0)
                             {
-                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden);
                             }
                             // }
                             list_lesson.Clear();
                             dayOfWeek = Classes.Class_types.DayOfWeek.Monday;
-                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
+                            if (list_sheets.Count > 0)
                             {
-                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                                if (ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden) != null)
                                 {
-                                    if (x is Classes.Item_New_Lesson item)
-                                        return item.number;
-                                    else if (x is Classes.Item_Group group)
-                                        return group.number;
-                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
-                                        return emptyLesson.number;
-                                    else if (x is Classes.Item_New_Thursday thursday)
-                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden).OrderBy(x =>
+                                    {
+                                        if (x is Classes.Item_New_Lesson item)
+                                            return item.number;
+                                        else if (x is Classes.Item_Group group)
+                                            return group.number;
+                                        else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                            return emptyLesson.number;
+                                        else if (x is Classes.Item_New_Thursday thursday)
+                                            return -1; // Переместите 'Item_New_Thursday' в начало коллекции
                                     else
-                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                            return 0; // Если класс неизвестен, сохраните текущий порядок
                                 }))
-                                {
-                                    list_lesson.Add(item);
+                                    {
+                                        list_lesson.Add(item);
+                                    }
                                 }
                             }
                         }
@@ -377,64 +366,70 @@ namespace IUmo.Pages
                         {
                             //if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
                             //{
-                            if (list_lesson.Count > 0)
+                            if (list_lesson.Count > 0 && list_sheets.Count > 0)
                             {
-                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden);
                             }
                             // }
                             list_lesson.Clear();
                             dayOfWeek = Classes.Class_types.DayOfWeek.Tuesday;
-                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
+                            if (list_sheets.Count > 0)
                             {
-                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                                if (ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden) != null)
                                 {
-                                    if (x is Classes.Item_New_Lesson item)
-                                        return item.number;
-                                    else if (x is Classes.Item_Group group)
-                                        return group.number;
-                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
-                                        return emptyLesson.number;
-                                    else if (x is Classes.Item_New_Thursday thursday)
-                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden).OrderBy(x =>
+                                    {
+                                        if (x is Classes.Item_New_Lesson item)
+                                            return item.number;
+                                        else if (x is Classes.Item_Group group)
+                                            return group.number;
+                                        else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                            return emptyLesson.number;
+                                        else if (x is Classes.Item_New_Thursday thursday)
+                                            return -1; // Переместите 'Item_New_Thursday' в начало коллекции
                                     else
-                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                            return 0; // Если класс неизвестен, сохраните текущий порядок
                                 }))
-                                {
-                                    list_lesson.Add(item);
+                                    {
+                                        list_lesson.Add(item);
+                                    }
                                 }
                             }
                         }
                         break;
 
-                    case "СРЕДА":
+                        case "СРЕДА":
                         if (dayOfWeek != Classes.Class_types.DayOfWeek.Wednesday)
                         {
                             //if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
                             //{
-                            if (list_lesson.Count > 0)
+                            if (list_lesson.Count > 0 && list_sheets.Count > 0)
                             {
-                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden);
                             }
                             // }
                             list_lesson.Clear();
                             dayOfWeek = Classes.Class_types.DayOfWeek.Wednesday;
-                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
+                            if (list_sheets.Count > 0)
                             {
-                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                                if (ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden) != null)
                                 {
-                                    if (x is Classes.Item_New_Lesson item)
-                                        return item.number;
-                                    else if (x is Classes.Item_Group group)
-                                        return group.number;
-                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
-                                        return emptyLesson.number;
-                                    else if (x is Classes.Item_New_Thursday thursday)
-                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden).OrderBy(x =>
+                                    {
+                                        if (x is Classes.Item_New_Lesson item)
+                                            return item.number;
+                                        else if (x is Classes.Item_Group group)
+                                            return group.number;
+                                        else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                            return emptyLesson.number;
+                                        else if (x is Classes.Item_New_Thursday thursday)
+                                            return -1; // Переместите 'Item_New_Thursday' в начало коллекции
                                     else
-                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                            return 0; // Если класс неизвестен, сохраните текущий порядок
                                 }))
-                                {
-                                    list_lesson.Add(item);
+                                    {
+                                        list_lesson.Add(item);
+                                    }
                                 }
                             }
                         }
@@ -445,34 +440,37 @@ namespace IUmo.Pages
                         {
                             //if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
                             //{
-                            if (list_lesson.Count > 0)
+                            if (list_lesson.Count > 0 && list_sheets.Count > 0)
                             {
-                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden);
                             }
                             // }
                             list_lesson.Clear();
                             list_lesson.Add(new Classes.Item_New_Thursday() { });
                             dayOfWeek = Classes.Class_types.DayOfWeek.Thursday;
-                            ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, Classes.Class_types.NumDen.NumDen_Numerator);
-                            ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, Classes.Class_types.NumDen.NumDen_Denominator);
+                            ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], Classes.Class_types.NumDen.NumDen_Numerator);
+                            ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], Classes.Class_types.NumDen.NumDen_Denominator);
                             list_lesson.Clear();
-                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
+                            if (list_sheets.Count > 0)
                             {
-                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                                if (ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden) != null)
                                 {
-                                    if (x is Classes.Item_New_Lesson item)
-                                        return item.number;
-                                    else if (x is Classes.Item_Group group)
-                                        return group.number;
-                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
-                                        return emptyLesson.number;
-                                    else if (x is Classes.Item_New_Thursday thursday)
-                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden).OrderBy(x =>
+                                    {
+                                        if (x is Classes.Item_New_Lesson item)
+                                            return item.number;
+                                        else if (x is Classes.Item_Group group)
+                                            return group.number;
+                                        else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                            return emptyLesson.number;
+                                        else if (x is Classes.Item_New_Thursday thursday)
+                                            return -1; // Переместите 'Item_New_Thursday' в начало коллекции
                                     else
-                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                            return 0; // Если класс неизвестен, сохраните текущий порядок
                                 }))
-                                {
-                                    list_lesson.Add(item);
+                                    {
+                                        list_lesson.Add(item);
+                                    }
                                 }
                             }
                         }
@@ -484,30 +482,33 @@ namespace IUmo.Pages
                         {
                             //if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
                             //{
-                            if (list_lesson.Count > 0)
+                            if (list_lesson.Count > 0 && list_sheets.Count > 0)
                             {
-                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden);
                             }
                             // }
                             list_lesson.Clear();
                             dayOfWeek = Classes.Class_types.DayOfWeek.Friday;
-                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
+                            if (list_sheets.Count > 0)
                             {
-                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                                if (ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden) != null)
                                 {
-                                    if (x is Classes.Item_New_Lesson item)
-                                        return item.number;
-                                    else if (x is Classes.Item_Group group)
-                                        return group.number;
-                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
-                                        return emptyLesson.number;
-                                    else if (x is Classes.Item_New_Thursday thursday)
-                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden).OrderBy(x =>
+                                    {
+                                        if (x is Classes.Item_New_Lesson item)
+                                            return item.number;
+                                        else if (x is Classes.Item_Group group)
+                                            return group.number;
+                                        else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                            return emptyLesson.number;
+                                        else if (x is Classes.Item_New_Thursday thursday)
+                                            return -1; // Переместите 'Item_New_Thursday' в начало коллекции
                                     else
-                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                            return 0; // Если класс неизвестен, сохраните текущий порядок
                                 }))
-                                {
-                                    list_lesson.Add(item);
+                                    {
+                                        list_lesson.Add(item);
+                                    }
                                 }
                             }
                         }
@@ -518,30 +519,33 @@ namespace IUmo.Pages
                         {
                             //if (temp_file.tempType == Classes.Class_types.TempType.Temp_new)
                             //{
-                            if (list_lesson.Count > 0)
+                            if (list_lesson.Count > 0 && list_sheets.Count > 0)
                             {
-                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, current_numden);
+                                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden);
                             }
                             // }
                             list_lesson.Clear();
                             dayOfWeek = Classes.Class_types.DayOfWeek.Saturday;
-                            if (ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden) != null)
+                            if (list_sheets.Count > 0)
                             {
-                                foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, current_numden).OrderBy(x =>
+                                if (ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden) != null)
                                 {
-                                    if (x is Classes.Item_New_Lesson item)
-                                        return item.number;
-                                    else if (x is Classes.Item_Group group)
-                                        return group.number;
-                                    else if (x is Classes.Item_Empty_Lesson emptyLesson)
-                                        return emptyLesson.number;
-                                    else if (x is Classes.Item_New_Thursday thursday)
-                                        return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                    foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden).OrderBy(x =>
+                                    {
+                                        if (x is Classes.Item_New_Lesson item)
+                                            return item.number;
+                                        else if (x is Classes.Item_Group group)
+                                            return group.number;
+                                        else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                            return emptyLesson.number;
+                                        else if (x is Classes.Item_New_Thursday thursday)
+                                            return -1; // Переместите 'Item_New_Thursday' в начало коллекции
                                     else
-                                        return 0; // Если класс неизвестен, сохраните текущий порядок
+                                            return 0; // Если класс неизвестен, сохраните текущий порядок
                                 }))
-                                {
-                                    list_lesson.Add(item);
+                                    {
+                                        list_lesson.Add(item);
+                                    }
                                 }
                             }
                         }
@@ -720,6 +724,90 @@ namespace IUmo.Pages
                 }
 
                 child = parentObject;
+            }
+        }
+
+        private void btn_move_lesson_bottom_Click(object sender, RoutedEventArgs e)
+        {
+            if (list_lesson.Count > 0)
+            {
+                object lesson = (sender as Button)?.DataContext;
+                if (lesson != null)
+                {
+                    if (lesson is Classes.Item_New_Lesson)
+                    {
+                        var item = lesson as Classes.Item_New_Lesson;
+                        int index = list_lesson.IndexOf(item);
+                        if (index < list_lesson.Count - 1)
+                        {
+                            list_lesson.RemoveAt(index);
+                            list_lesson.Insert(index + 1, item);
+                        }
+                    }
+                    if (lesson is Classes.Item_Empty_Lesson)
+                    {
+                        var item = lesson as Classes.Item_Empty_Lesson;
+                        int index = list_lesson.IndexOf(item);
+                        if (index < list_lesson.Count - 1)
+                        {
+                            list_lesson.RemoveAt(index);
+                            list_lesson.Insert(index + 1, item);
+                        }
+                    }
+                    if (lesson is Classes.Item_Group)
+                    {
+                        var item = lesson as Classes.Item_Group;
+                        int index = list_lesson.IndexOf(item);
+                        if (index < list_lesson.Count - 1)
+                        {
+                            list_lesson.RemoveAt(index);
+                            list_lesson.Insert(index + 1, item);
+                        }
+                    }
+                    fixLessonNumeration();
+                }
+            }
+        }
+
+        private void btn_move_lesson_upper_Click(object sender, RoutedEventArgs e)
+        {
+            if (list_lesson.Count > 0)
+            {
+                object lesson = (sender as Button)?.DataContext;
+                if (lesson != null)
+                {
+                    if (lesson is Classes.Item_New_Lesson)
+                    {
+                        var item = lesson as Classes.Item_New_Lesson;
+                        int index = list_lesson.IndexOf(item);
+                        if (index > 0)
+                        {
+                            list_lesson.RemoveAt(index);
+                            list_lesson.Insert(index - 1, item);
+                        }
+                    }
+                    if (lesson is Classes.Item_Empty_Lesson)
+                    {
+                        var item = lesson as Classes.Item_Empty_Lesson;
+                        int index = list_lesson.IndexOf(item);
+                        if (index > 0)
+                        {
+                            list_lesson.RemoveAt(index);
+                            list_lesson.Insert(index - 1, item);
+                        }
+                    }
+                    if (lesson is Classes.Item_Group)
+                    {
+                        var item = lesson as Classes.Item_Group;
+                        int index = list_lesson.IndexOf(item);
+                        if (index > 0)
+                        {
+                            list_lesson.RemoveAt(index);
+                            list_lesson.Insert(index - 1, item);
+                        }
+                    }
+                    fixLessonNumeration();
+                }
             }
         }
     }

@@ -35,10 +35,34 @@ namespace IUmo
         Functions.IOFunctions ioFunctions = new Functions.IOFunctions();
         double newWindowHeight;
         double newWindowWidth;
+
+        double newWindowPosX;
+        double newWindowPosY;
+
         Classes.Class_types.WindowState maximilize_window_;
         bool setdialogResult_addLesson;
         bool setdialogResult_addGroup;
         private TaskCompletionSource<bool> tcs;
+
+        int column_changes = 3;
+        int column_title = 4;
+        int column_type = 5;
+        int column_teacher = 6;
+        int column_cabinet = 7;
+
+        List<int> numerator_monday = new List<int>() { 7, 9, 11, 13, 15, 17 };
+        List<int> numerator_tuesday = new List<int>() { 20, 22, 24, 26, 28, 30 };
+        List<int> numerator_wednesday = new List<int>() { 33, 35, 37, 39, 41, 43 };
+        List<int> numerator_friday = new List<int>() { 59, 61, 63, 65, 67, 69 };
+        List<int> numerator_saturday = new List<int>() { 72, 74, 76, 78, 80, 82 };
+
+        List<int> denominator_monday = new List<int>() { 8, 10, 12, 14, 16, 18 };
+        List<int> denominator_tuesday = new List<int>() { 21, 23, 25, 27, 29, 31 };
+        List<int> denominator_wednesday = new List<int>() { 34, 36, 38, 40, 42, 44 };
+        List<int> denominator_friday = new List<int>() { 60, 62, 64, 66, 68, 70 };
+        List<int> denominator_saturday = new List<int>() { 73, 75, 77, 79, 81, 83 };
+
+        Worksheet current_worksheet;
         #endregion
 
         public MainWindow()
@@ -60,9 +84,17 @@ namespace IUmo
             WindowSizeState(setting.maximilize_window);
             System.Windows.Application.Current.MainWindow.Height = setting.size_window[0];
             System.Windows.Application.Current.MainWindow.Width = setting.size_window[1];
+
+            this.Left = setting.position_window[0];
+            this.Top = setting.position_window[1];
+
             newWindowHeight = setting.size_window[0];
             newWindowWidth = setting.size_window[1];
-            main_frame.NavigationService.Navigate(new Pages.Page_main());
+
+            newWindowPosX = setting.position_window[0];
+            newWindowPosY = setting.position_window[1];
+
+            main_frame.NavigationService.Navigate(new Pages.Page_start());
             //_navigationService = new Functions.PageFunctions.NavigationService(main_frame);
             // _navigationService.NavigateToPage(Classes.Class_types.Pages.Page_Start);
             // page_class.current_page = _navigationService.currentPage;
@@ -71,6 +103,8 @@ namespace IUmo
         
 
         //Публичные функции связанные с EXCEl
+
+            //новый документ
         public string new_document(string path)
         {
             string state = ioFunctions.copyTemplate(path);
@@ -85,9 +119,10 @@ namespace IUmo
             return state;
         }
 
+        //создание и подготовка нового документа
         public void init_new_document(int course, List<KeyValuePair<String, String>> groups) 
         {
-            Worksheet templateSheet = _excel_book.Sheets["Группа"];
+            Worksheet templateSheet = _excel_book.Sheets[1];
             string cell2_string = "";
             switch (course) 
             {
@@ -109,6 +144,8 @@ namespace IUmo
                         cell2.Value = cell2_string;
                         Range cell3 = copiedSheet.Cells[5, 4];
                         cell3.Value = $"{sheetName.Key} ({sheetName.Value})";
+                        Range cell4 = copiedSheet.Cells[3, 6];
+                        cell4.Value = $"″____″___________ {DateTime.Now.Year} г";
                         copiedSheet.Name = sheetName.Value;
 
                         _excel_book.Save();
@@ -133,6 +170,8 @@ namespace IUmo
                         cell2.Value = cell2_string;
                         Range cell3 = copiedSheet.Cells[5, 4];
                         cell3.Value = $"{sheetName.Key} ({sheetName.Value})";
+                        Range cell4 = copiedSheet.Cells[3, 6];
+                        cell4.Value = $"'____'___________ {DateTime.Now.Year} г";
                         copiedSheet.Name = sheetName.Value;
 
                         _excel_book.Save();
@@ -157,6 +196,8 @@ namespace IUmo
                         cell2.Value = cell2_string;
                         Range cell3 = copiedSheet.Cells[5, 4];
                         cell3.Value = $"{sheetName.Key} ({sheetName.Value})";
+                        Range cell4 = copiedSheet.Cells[3,6];
+                        cell4.Value = $"'____'___________ {DateTime.Now.Year} г";
                         copiedSheet.Name = sheetName.Value;
 
                         _excel_book.Save();
@@ -164,11 +205,10 @@ namespace IUmo
                     break;
                     // и т.д. пока проверим
             }
-
-            templateSheet.Delete();
             _excel_book.Save();
         }
 
+        //открытие документа
         public string open_document(string path)
         {
             string state = "";
@@ -183,6 +223,27 @@ namespace IUmo
             return state;
         }
 
+        public List<string> get_Document_sheets() 
+        {
+            List<string> sheetNames = new List<string>();
+
+            foreach (Worksheet sheet in _excel_book.Sheets)
+            {
+                sheetNames.Add(sheet.Name);
+            }
+
+            return sheetNames;
+        }
+
+        public void set_current_sheet(string current) 
+        {
+            current_worksheet = _excel_book.Sheets[current];
+        }
+
+        //_______________________________________________________________________
+
+
+        //POPUPS
         public void showLoading() 
         {
             blurBackground();
@@ -198,6 +259,9 @@ namespace IUmo
                 popup_frame.NavigationService.GoBack();
         }
 
+        /// <summary>
+        ///Вспомогательная функция для реализации popup как всплывающего окна
+        /// </summary>
         internal void SetDialogResult_AddLesson(bool result)
         {
             setdialogResult_addLesson = result;
@@ -219,6 +283,7 @@ namespace IUmo
         }
 
 
+        //Добавить пару PopUP
         public async Task<bool> add_new_lesson()
         {
             blurBackground();
@@ -232,6 +297,8 @@ namespace IUmo
             return result;
         }
 
+
+        //Добавить группу PopUP
         public async Task<bool> add_new_group()
         {
             blurBackground();
@@ -278,7 +345,8 @@ namespace IUmo
             ioFunctions.saveJSONSetting(
                 new Classes.Class_JSON_Setting{
                     maximilize_window = maximilize_window_,
-                    size_window = new List<double>() {newWindowHeight, newWindowWidth}
+                    size_window = new List<double>() {newWindowHeight, newWindowWidth},
+                    position_window = new List<double>() { newWindowPosX, newWindowPosY }
                 });
             try
             {
@@ -472,5 +540,10 @@ namespace IUmo
             e.Handled = true;
         }
 
+        private void Window_LocationChanged(object sender, EventArgs e)
+        {
+            newWindowPosX = this.Left;
+            newWindowPosY = this.Top;
+        }
     }
 }

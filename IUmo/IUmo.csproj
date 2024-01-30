@@ -296,6 +296,10 @@
   <ItemGroup>
     <Resource Include="Icons\ic_done.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ic_lesson_bottom.png" />
+    <Resource Include="Icons\ic_lesson_upper.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -66,11 +66,24 @@
                                 <Border Style="{StaticResource border_lesson_num}" Background="{Binding brush_border}" MinHeight="80" Margin="8 5 8 0">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="24"/>
+                                            <ColumnDefinition Width="32"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="40"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="{Binding number}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_list_lesson}" Name="lbl_num_group"/>
+                                        <Grid Grid.Column="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Button VerticalAlignment="Bottom"  HorizontalAlignment="Center" x:Name="btn_move_lesson_upper" Grid.Row="0" Width="18" Height="18" Padding="0" Click="btn_move_lesson_upper_Click" Style="{StaticResource btn_menu}">
+                                                <Image Source="/Icons\ic_lesson_upper.png" Height="15" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Button>
+                                            <TextBlock Grid.Row="1" Text="{Binding number}" VerticalAlignment="Center" Margin="5" Style="{StaticResource lbl_list_lesson}" Name="lbl_num_group"/>
+                                            <Button VerticalAlignment="Top" HorizontalAlignment="Center"  x:Name="btn_move_lesson_bottom" Grid.Row="2" Width="18" Height="18" Padding="0" Click="btn_move_lesson_bottom_Click" Style="{StaticResource btn_menu}">
+                                                <Image Source="/Icons\ic_lesson_bottom.png" Height="15" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Button>
+                                        </Grid>
                                         <Grid Grid.Column="1">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition MinWidth="180"/>
@@ -110,7 +123,20 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="40"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="{Binding number}" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource lbl_list_group}" Name="lbl_num_group"/>
+                                        <Grid Grid.Column="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Button VerticalAlignment="Bottom"  HorizontalAlignment="Center" x:Name="btn_move_lesson_upper" Grid.Row="0" Width="18" Height="18" Padding="0" Click="btn_move_lesson_upper_Click" Style="{StaticResource btn_menu}">
+                                                <Image Source="/Icons\ic_lesson_upper.png" Height="15" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Button>
+                                            <TextBlock Grid.Row="1" Text="{Binding number}" VerticalAlignment="Center" Margin="5" Style="{StaticResource lbl_list_lesson}" Name="lbl_num_group"/>
+                                            <Button VerticalAlignment="Top" HorizontalAlignment="Center"  x:Name="btn_move_lesson_bottom" Grid.Row="2" Width="18" Height="18" Padding="0" Click="btn_move_lesson_bottom_Click" Style="{StaticResource btn_menu}">
+                                                <Image Source="/Icons\ic_lesson_bottom.png" Height="15" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Button>
+                                        </Grid>
                                         <TextBlock Grid.Column="1" Margin="5" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" Text="ПРОПУСК" Style="{StaticResource lbl_list_lesson}"/>
                                         <Button Grid.Column="2" Margin="4" Width="28" Grid.Row="0" Height="28" Padding="0" Click="DeleteButtonEmpty_Click" Style="{StaticResource btn_menu}">
                                             <Image Source="/Icons\ic_delete.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -137,7 +163,20 @@
                                             <ColumnDefinition Width="32"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Margin="5" Text="{Binding number}" Style="{StaticResource lbl_list_lesson}" Name="lbl_num_lesson"/>
+                                        <Grid Grid.Column="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Button VerticalAlignment="Bottom"  HorizontalAlignment="Center" x:Name="btn_move_lesson_upper" Grid.Row="0" Width="18" Height="18" Padding="0" Click="btn_move_lesson_upper_Click" Style="{StaticResource btn_menu}">
+                                                <Image Source="/Icons\ic_lesson_upper.png" Height="15" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Button>
+                                            <TextBlock Grid.Row="1" Text="{Binding number}" VerticalAlignment="Center"  Margin="5" Style="{StaticResource lbl_list_lesson}" Name="lbl_num_group"/>
+                                            <Button VerticalAlignment="Top" HorizontalAlignment="Center"  x:Name="btn_move_lesson_bottom" Grid.Row="2" Width="18" Height="18" Padding="0" Click="btn_move_lesson_bottom_Click" Style="{StaticResource btn_menu}">
+                                                <Image Source="/Icons\ic_lesson_bottom.png" Height="15" Width="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Button>
+                                        </Grid>
                                         <ItemsControl x:Name="lv_group" Padding="0 8 4 8" Grid.Column="1" ItemsSource="{Binding groups}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
@@ -198,20 +237,12 @@
             
         </Grid>
         <Border Grid.Row="2" Background="#222222" Margin="0">
-        <ComboBox Name="combobox_list" Style="{StaticResource combobox_main}" SelectionChanged="ComboBox_Center_SelectionChanged"  Width="300" HorizontalAlignment="Left" Margin="10,5,0,5" Height="30" IsReadOnly="True" UseLayoutRounding="True">
-            <ComboBox.Resources>
-                <SolidColorBrush x:Key="MaterialDesignPaper" Color="#043c2d"/>
-                <SolidColorBrush x:Key="MaterialDesignSelection" Color="Transparent"/>
-            </ComboBox.Resources>
-            <ComboBoxItem Content="Выберите курс" IsSelected="True"/>
-            <ComboBoxItem Content="Первый курс"/>
-            <ComboBoxItem Content="Второй курс"/>
-            <ComboBoxItem Content="Третий курс"/>
-            <ComboBoxItem Content="Четвёртый курс"/>
-            <ComboBoxItem Content="Пятый курс"/>
-            <ComboBoxItem Content="Шестой курс"/>
-            <ComboBoxItem Content="Седьмой курс"/>
-            <ComboBox.ItemContainerStyle>
+            <ComboBox Name="combobox_list" Style="{StaticResource combobox_main}" SelectionChanged="ComboBox_Center_SelectionChanged"  Width="300" HorizontalAlignment="Left" Margin="10,5,0,5" Height="30" IsReadOnly="True" UseLayoutRounding="True">
+                <ComboBox.Resources>
+                    <SolidColorBrush x:Key="MaterialDesignPaper" Color="#043c2d"/>
+                    <SolidColorBrush x:Key="MaterialDesignSelection" Color="Transparent"/>
+                </ComboBox.Resources>
+                <ComboBox.ItemContainerStyle>
                 <Style TargetType="ComboBoxItem">
                     <Setter Property="Template">
                         <Setter.Value>

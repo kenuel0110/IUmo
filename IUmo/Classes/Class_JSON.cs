@@ -11,6 +11,7 @@ namespace IUmo.Classes
     {
         public Class_types.WindowState maximilize_window { get; set; }
         public List<double> size_window { get; set; }
+        public List<double> position_window { get; set; } = new List<double>() { 0.0, 0.0 };
     }
 
     public class Class_JSON_RecenFiles

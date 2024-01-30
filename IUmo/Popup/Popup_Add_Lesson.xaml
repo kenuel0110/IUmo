@@ -54,7 +54,7 @@
                 </StackPanel>
 
                 <StackPanel Margin="0 0 15 0" Grid.Row="0" Grid.Column="1" Orientation="Vertical">
-                    <TextBlock Text="НАЗВАНИЕ ПРЕДМЕТА" Margin="10 0" Style="{StaticResource lbl_list_item}"/>
+                    <TextBlock Text="ФИО ПРЕПОДАВАТЕЛЯ" Margin="10 0" Style="{StaticResource lbl_list_item}"/>
                     <TextBox x:Name="tb_teacher" Margin="10 0" GotFocus="tb_teacher_GotFocus" LostFocus="tb_teacher_LostFocus"  materialDesign:HintAssist.Hint="Введите ФИО" Text="" Style="{StaticResource tb_main}" Grid.Column="0" Grid.Row="0" KeyUp="tb_teacher_KeyUp"/>
                     <Popup x:Name="pop_tb_teacher" IsOpen="False" AllowsTransparency="True" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=tb_teacher}" Width="{Binding ElementName=tb_teacher, Path=ActualWidth}">
                         <Border Background="#272727" MaxHeight="150" CornerRadius="6 6 6 6">

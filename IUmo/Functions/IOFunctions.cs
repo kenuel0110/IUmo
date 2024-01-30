@@ -139,7 +139,7 @@ namespace IUmo.Functions
             chkAndCreateFolder(Path.GetDirectoryName("Temp\\temp.json"));
             Classes.Class_JSON_Temp json_temp = new Classes.Class_JSON_Temp
             {
-                tempType = Classes.Class_types.TempType.Temp_new, //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                tempType = Classes.Class_types.TempType.Temp_none, //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 path = "",
                 course = 0
             };
@@ -255,7 +255,7 @@ namespace IUmo.Functions
         }
 
         //Сохранение дня недели
-        public void saveJSONDayOfWeek(ObservableCollection<object> lessons, Classes.Class_types.DayOfWeek dayOfWeek, Classes.Class_types.NumDen numden)
+        public void saveJSONDayOfWeek(ObservableCollection<object> lessons, Classes.Class_types.DayOfWeek dayOfWeek, String sheet, Classes.Class_types.NumDen numden)
         {
             var container = new Container();
 
@@ -286,18 +286,18 @@ namespace IUmo.Functions
                     container.NewThursdays.Add(item_lesson);
                 }
             }
-
+            chkAndCreateFolder($"Temp\\{sheet}");
             string lessonsString = JsonSerializer.Serialize(container, new JsonSerializerOptions { WriteIndented = true });
-            File.WriteAllText($"Temp\\{dayOfWeek.ToString()}_{numden.ToString()}.json", lessonsString);
+            File.WriteAllText($"Temp\\{sheet}\\{dayOfWeek.ToString()}_{numden.ToString()}.json", lessonsString);
         }
 
         //Открыть день недели
-        public List<object> openJSONDayOfWeek(Classes.Class_types.DayOfWeek dayOfWeek, Classes.Class_types.NumDen numden)
+        public List<object> openJSONDayOfWeek(Classes.Class_types.DayOfWeek dayOfWeek, string sheet, Classes.Class_types.NumDen numden)
         {
             List<object> list_lessons = new List<object>();
             try
             {
-                var container = JsonSerializer.Deserialize<Container>(File.ReadAllText($"Temp\\{dayOfWeek.ToString()}_{numden.ToString()}.json"));
+                var container = JsonSerializer.Deserialize<Container>(File.ReadAllText($"Temp\\{sheet}\\{dayOfWeek.ToString()}_{numden.ToString()}.json"));
 
                 if (numden == Class_types.NumDen.NumDen_Numerator)
                 {
