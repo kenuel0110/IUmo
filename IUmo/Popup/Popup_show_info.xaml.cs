@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfAnimatedGif;
 
 namespace IUmo.Popup
 {
@@ -24,15 +25,34 @@ namespace IUmo.Popup
         #region local_varibles
         private MainWindow mainWindow = App.Current.MainWindow as MainWindow;
         #endregion
-        public Popup_show_info(string message)
+        public Popup_show_info(string message, Classes.Class_types.Info_IMG image)
         {
             InitializeComponent();
-            init(message);
+            init(message, image);
         }
 
-        private void init(string message)
+        private void init(string message, Classes.Class_types.Info_IMG image)
         {
+            border_image.Visibility = Visibility.Visible;
             lbl_info.Text = message;
+            switch (image) 
+            {
+               case Classes.Class_types.Info_IMG.img_None:
+                    border_image.Visibility = Visibility.Hidden;
+                    break;
+                case Classes.Class_types.Info_IMG.img_blocked:
+                    ImageBehavior.SetAnimatedSource(image_info, new BitmapImage(new Uri("pack://application:,,,/Illustartions/img_blocked.gif")));
+                    break;
+                case Classes.Class_types.Info_IMG.img_Error:
+                    ImageBehavior.SetAnimatedSource(image_info, new BitmapImage(new Uri("pack://application:,,,/Illustartions/img_Error.gif")));
+                    break;
+                case Classes.Class_types.Info_IMG.img_finding:
+                    ImageBehavior.SetAnimatedSource(image_info, new BitmapImage(new Uri("pack://application:,,,/Illustartions/img_finding.gif")));
+                    break;
+                case Classes.Class_types.Info_IMG.img_noFind:
+                    ImageBehavior.SetAnimatedSource(image_info, new BitmapImage(new Uri("pack://application:,,,/Illustartions/img_noFind.gif")));
+                    break;
+            }
         }
 
         private void btn_close_popup_Click(object sender, RoutedEventArgs e)

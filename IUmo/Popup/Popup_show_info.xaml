@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:gif="http://wpfanimatedgif.codeplex.com"
       xmlns:local="clr-namespace:IUmo.Popup"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -11,15 +12,26 @@
     <Border Background="#333333" Margin="64" CornerRadius="25" VerticalAlignment="Center" HorizontalAlignment="Center">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="42"/>
+                <RowDefinition Height="32"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0" x:Name="btn_popup_close" Click="btn_close_popup_Click" VerticalAlignment="Top" Margin="0 8 8 0" HorizontalAlignment="Right" Width="34" Height="34" Padding="0" Style="{StaticResource btn_menu}">
-                <Image Source="/Icons\btn_close.png" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Border Background="#282c2f" CornerRadius="25 25 0 0" Grid.Row="0">
+            <Button  x:Name="btn_popup_close" Click="btn_close_popup_Click" VerticalAlignment="Center" Margin="0 0 15 0 "  HorizontalAlignment="Right" Width="25" Height="25" Padding="0" Style="{StaticResource btn_menu}">
+                <Image Source="/Icons\btn_close.png" Margin ="3"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
+            </Border>
 
-            <TextBlock x:Name="lbl_info" Grid.Row="1" MinWidth="180" MinHeight="80" MaxHeight="450" Margin="80 60" TextWrapping="Wrap" Text="" FontSize="15" Style="{StaticResource lbl_title_}"/>
+            <Grid Grid.Row="1" MinWidth="180" MinHeight="80" Margin="10" MaxHeight="450">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="lbl_info" Grid.Column="0" TextWrapping="Wrap" Margin="30" VerticalAlignment="Center" Text="Выберите курс!" FontSize="16" Style="{StaticResource lbl_title_}"/>
+                <Border x:Name="border_image" Grid.Column="1" Background="#1c242a" CornerRadius="8" Height="120" Width="120" Margin="15">
+                    <Image Name="image_info" Height="90" Width="90" gif:ImageBehavior.AnimatedSource="/Illustartions\img_finding.gif" Margin="15 5"/>
+                </Border>
+            </Grid>
         </Grid>
         <Border.Effect>
             <DropShadowEffect Color="Black" Opacity="0.5" Direction="640" ShadowDepth="0" BlurRadius="20"/>

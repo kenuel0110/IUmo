@@ -62,7 +62,7 @@ namespace IUmo.Pages
         private void btn_open_document_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             List<Class_JSON_Courses_Settings> courses = ioFunctions.openJSONCourses();
-            if (combobox_course_bottom.SelectedIndex != 0 || combobox_course_center.SelectedIndex != 0) 
+            if (combobox_course_bottom.SelectedIndex != 0 || combobox_course_center.SelectedIndex != 0)
             {
                 mainWindow.showLoading();
                 var element = courses.FirstOrDefault(x => x.number == combobox_course_bottom.SelectedIndex);
@@ -70,14 +70,16 @@ namespace IUmo.Pages
                 {
                     mainWindow.init_new_document(element.number, element.groups);
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     mainWindow.hideLoading();
                     mainWindow.showInfoPopup(ex.Message);
                 }
                 mainWindow.hideLoading();
                 NavigationService.Navigate(new Pages.Page_main());
-            } 
+            }
+            else
+                mainWindow.showInfoPopup("Выберите курс!", Class_types.Info_IMG.img_Error);
         }
     }
 }

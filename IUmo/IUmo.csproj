@@ -109,6 +109,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9e7cd3b544a090dc, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.2.0.2\lib\net40\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -302,6 +305,12 @@
   <ItemGroup>
     <Resource Include="Icons\ic_lesson_bottom.png" />
     <Resource Include="Icons\ic_lesson_upper.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Illustartions\img_blocked.gif" />
+    <Resource Include="Illustartions\img_Error.gif" />
+    <Resource Include="Illustartions\img_finding.gif" />
+    <Resource Include="Illustartions\img_noFind.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />

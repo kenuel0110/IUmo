@@ -24,6 +24,16 @@ namespace IUmo.Classes
             Page_Course = 2,
             Page_Main = 3
         }
+
+        public enum Info_IMG
+        {
+            img_None = 0,
+            img_Error = 1,
+            img_finding = 2,
+            img_noFind = 3,
+            img_blocked = 4
+
+        }
         public enum TempType
         {
             Temp_none = 0,

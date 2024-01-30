@@ -415,10 +415,10 @@ namespace IUmo
 
         //Popup
         //Открыть popup с информацией
-        public void showInfoPopup(string message)
+        public void showInfoPopup(string message, Classes.Class_types.Info_IMG image = Classes.Class_types.Info_IMG.img_None)
         {
             popup_window.Visibility = Visibility.Visible;
-            popup_frame.NavigationService.Navigate(new Popup.Popup_show_info(message));
+            popup_frame.NavigationService.Navigate(new Popup.Popup_show_info(message, image));
             blurBackground();
         }
         public void blurBackground()
