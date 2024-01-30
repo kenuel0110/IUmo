@@ -55,12 +55,15 @@ namespace IUmo
         List<int> numerator_wednesday = new List<int>() { 33, 35, 37, 39, 41, 43 };
         List<int> numerator_friday = new List<int>() { 59, 61, 63, 65, 67, 69 };
         List<int> numerator_saturday = new List<int>() { 72, 74, 76, 78, 80, 82 };
+        List<List<int>> numerators = new List<List<int>>();
+        
 
         List<int> denominator_monday = new List<int>() { 8, 10, 12, 14, 16, 18 };
         List<int> denominator_tuesday = new List<int>() { 21, 23, 25, 27, 29, 31 };
         List<int> denominator_wednesday = new List<int>() { 34, 36, 38, 40, 42, 44 };
         List<int> denominator_friday = new List<int>() { 60, 62, 64, 66, 68, 70 };
         List<int> denominator_saturday = new List<int>() { 73, 75, 77, 79, 81, 83 };
+        List<List<int>> denominators = new List<List<int>>();
 
         Worksheet current_worksheet;
         #endregion
@@ -96,6 +99,19 @@ namespace IUmo
             newWindowPosY = setting.position_window[1];
 
             main_frame.NavigationService.Navigate(new Pages.Page_start());
+
+            numerators.Add(numerator_monday);
+            numerators.Add(numerator_tuesday);
+            numerators.Add(numerator_wednesday);
+            numerators.Add(numerator_friday);
+            numerators.Add(numerator_saturday);
+
+            denominators.Add(denominator_monday);
+            denominators.Add(denominator_tuesday);
+            denominators.Add(denominator_wednesday);
+            denominators.Add(denominator_friday);
+            denominators.Add(denominator_saturday);
+
             //_navigationService = new Functions.PageFunctions.NavigationService(main_frame);
             // _navigationService.NavigateToPage(Classes.Class_types.Pages.Page_Start);
             // page_class.current_page = _navigationService.currentPage;
@@ -239,6 +255,38 @@ namespace IUmo
         public void set_current_sheet(string current) 
         {
             current_worksheet = _excel_book.Sheets[current];
+        }
+
+        public void save_Document()
+        {
+            foreach (Worksheet _sheet in _excel_book.Sheets) 
+            {
+                List<KeyValuePair<Classes.Class_types.DayOfWeek, List<object>>> element = ioFunctions.openJSONFiles(_sheet.Name);
+                if (element != null)
+                {
+                    if (element.Count > 0)
+                    {
+                        foreach (KeyValuePair<Classes.Class_types.DayOfWeek, List<object>> _item in element)
+                        {
+                            foreach (var item in _item.Value.OrderBy(x =>
+                            {
+                                if (x is Classes.Item_New_Lesson item)
+                                    return item.number;
+                                else if (x is Classes.Item_Group group)
+                                    return group.number;
+                                else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                    return emptyLesson.number;
+                                else if (x is Classes.Item_New_Thursday thursday)
+                                    return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                                else
+                                    return 0; // Если класс неизвестен, сохраните текущий порядок
+                            }
+                            ));
+
+                        }
+                    }
+                }
+            }
         }
 
         //_______________________________________________________________________
@@ -531,10 +579,10 @@ namespace IUmo
             e.Handled = true;
         }
 
-        private void btn_insert_l_click(object sender, RoutedEventArgs e)
+        /*private void btn_insert_l_click(object sender, RoutedEventArgs e)
         {
             btn_insert_cm.IsOpen = true;
-        }
+        }*/
 
         private void btn_insert_r_click(object sender, MouseButtonEventArgs e)
         {

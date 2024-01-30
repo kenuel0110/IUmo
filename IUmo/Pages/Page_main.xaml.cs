@@ -133,7 +133,9 @@ namespace IUmo.Pages
         {
             mainWindow.btn_file.IsEnabled = true;
             mainWindow.btn_main.IsEnabled = true;
-            mainWindow.btn_insert.IsEnabled = true;
+
+            mainWindow.btn_file_save.Click += save_document;
+            //mainWindow.btn_insert.IsEnabled = true;
 
             temp_file = ioFunctions.openJSONTemp();
             mainWindow.title_window.Content = System.IO.Path.GetFileName(temp_file.path);
@@ -161,6 +163,15 @@ namespace IUmo.Pages
             
             list_lesson.Add(new Classes.Item_Group() { number = 1, groups = list_group });
             list_lesson.Add(new Classes.Item_New_Thursday() {});*/
+        }
+        /////////////////////////////////////////////////////////////////////////////
+        private void save_document(object sender, RoutedEventArgs e)
+        {
+            if (list_lesson.Count > 0 && list_sheets.Count > 0)
+            {
+                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden);
+            }
+
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -829,5 +840,14 @@ namespace IUmo.Pages
                 }
             }
         }
+
+        private void Page_MouseLeave(object sender, MouseEventArgs e)
+        {
+            /*if (list_lesson.Count > 0 && list_sheets.Count > 0)
+            {
+                ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden);
+            }*/
+        }
+
     }
 }

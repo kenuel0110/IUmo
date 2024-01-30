@@ -39,7 +39,7 @@ namespace IUmo.Pages
         {
             mainWindow.btn_file.IsEnabled = false;
             mainWindow.btn_main.IsEnabled = false;
-            mainWindow.btn_insert.IsEnabled = false;
+            //mainWindow.btn_insert.IsEnabled = false;
 
             temp_file = ioFunctions.openJSONTemp();
             mainWindow.title_window.Content = System.IO.Path.GetFileName(temp_file.path);

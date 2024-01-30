@@ -39,7 +39,7 @@ namespace IUmo.Pages
             
             mainWindow.btn_file.IsEnabled = false;
             mainWindow.btn_main.IsEnabled = false;
-            mainWindow.btn_insert.IsEnabled = false;
+            //mainWindow.btn_insert.IsEnabled = false;
 
             ioFunctions.chkFirstStart("settings", "recent_files.json");
             List<Classes.Class_JSON_RecenFiles> recent_list = new List<Classes.Class_JSON_RecenFiles>(ioFunctions.openJSONRecentFiles(this).Reverse());

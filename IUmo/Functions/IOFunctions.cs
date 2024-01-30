@@ -376,7 +376,135 @@ namespace IUmo.Functions
             }
             catch (Exception ex)
             {
-                mainWindow.showInfoPopup(ex.Message, Class_types.Info_IMG.img_Error);
+                //mainWindow.showInfoPopup(ex.Message, Class_types.Info_IMG.img_Error);
+                //MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally { }
+            return null;
+        }
+
+        public List<KeyValuePair<Class_types.DayOfWeek, List<object>>> openJSONFiles(string sheet) 
+        {
+            List<KeyValuePair<Class_types.DayOfWeek, List<object>>> element = new List<KeyValuePair<Class_types.DayOfWeek, List<object>>>();
+            if (Directory.Exists($"Temp\\{sheet}")) 
+            {
+                string[] files = Directory.GetFiles($"Temp\\{sheet}", "*Denominator*");
+                if (files.Length > 0)
+                {
+                    foreach(string file in files) 
+                    {
+                        if (Path.GetFileName(file).Contains("Monday"))
+                        {
+                            element.Add(new KeyValuePair<Class_types.DayOfWeek, List<object>>
+                            (
+                                Class_types.DayOfWeek.Monday,
+                                openJSONDayOfWeek4save(file, Class_types.NumDen.NumDen_Denominator)
+                            ));
+                        }
+                        else if (Path.GetFileName(file).Contains("Tuesday"))
+                        {
+                            element.Add(new KeyValuePair<Class_types.DayOfWeek, List<object>>
+                            (
+                                Class_types.DayOfWeek.Tuesday,
+                                openJSONDayOfWeek4save(file, Class_types.NumDen.NumDen_Denominator)
+                            ));
+                        }
+                        else if (Path.GetFileName(file).Contains("Wednesday"))
+                        {
+                            element.Add(new KeyValuePair<Class_types.DayOfWeek, List<object>>
+                            (
+                                Class_types.DayOfWeek.Wednesday,
+                                openJSONDayOfWeek4save(file, Class_types.NumDen.NumDen_Denominator)
+                            ));
+                        }
+                        else if (Path.GetFileName(file).Contains("Friday"))
+                        {
+                            element.Add(new KeyValuePair<Class_types.DayOfWeek, List<object>>
+                            (
+                                Class_types.DayOfWeek.Friday,
+                                openJSONDayOfWeek4save(file, Class_types.NumDen.NumDen_Denominator)
+                            ));
+                        }
+                        else if (Path.GetFileName(file).Contains("Saturday"))
+                        {
+                            element.Add(new KeyValuePair<Class_types.DayOfWeek, List<object>>
+                            (
+                                Class_types.DayOfWeek.Saturday,
+                                openJSONDayOfWeek4save(file, Class_types.NumDen.NumDen_Denominator)
+                            ));
+                        }
+                    }
+                }
+
+            }
+            return element;
+        }
+
+        public List<object> openJSONDayOfWeek4save(string path, Class_types.NumDen numden)
+        {
+            List<object> list_lessons = new List<object>();
+            try
+            {
+                var container = JsonSerializer.Deserialize<Container>(File.ReadAllText(path));
+
+                if (numden == Class_types.NumDen.NumDen_Numerator)
+                {
+                    list_lessons.AddRange(container.NewLessons.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#272727"));
+                        return (object)item;
+                    }));
+
+                    list_lessons.AddRange(container.Groups.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#272727"));
+                        return (object)item;
+                    }));
+
+                    list_lessons.AddRange(container.EmptyLessons.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#272727"));
+                        return (object)item;
+                    }));
+
+                    list_lessons.AddRange(container.NewThursdays.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#272727"));
+                        return (object)item;
+                    }));
+                }
+                else if (numden == Class_types.NumDen.NumDen_Denominator)
+                {
+                    list_lessons.AddRange(container.NewLessons.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1c242a"));
+                        return (object)item;
+                    }));
+
+                    list_lessons.AddRange(container.Groups.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1c242a"));
+                        return (object)item;
+                    }));
+
+                    list_lessons.AddRange(container.EmptyLessons.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1c242a"));
+                        return (object)item;
+                    }));
+
+                    list_lessons.AddRange(container.NewThursdays.Select(item =>
+                    {
+                        item.brush_border = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1c242a"));
+                        return (object)item;
+                    }));
+                }
+
+                return list_lessons;
+            }
+            catch (Exception ex)
+            {
+                //mainWindow.showInfoPopup(ex.Message, Class_types.Info_IMG.img_Error);
                 //MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally { }
