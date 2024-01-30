@@ -50,19 +50,20 @@
                     <Button.ContextMenu>
                         <ContextMenu Name="btn_main_cm" Style="{StaticResource btn_context_menu}">
                             <MenuItem Name="btn_main_num_dem" Header="Редактор числителей / знаменателей"/>
+                            <MenuItem Name="btn_main_titles" Header="Редактор дисциплин"/>
                             <MenuItem Name="btn_main_techers" Header="Редактор педагогов"/>
                             <MenuItem Name="btn_main_list" Header="Редактор листов / групп"/>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <Button Name="btn_insert" Content="Вставка" Style="{StaticResource btn_menu}" Click="btn_insert_l_click" MouseRightButtonUp="btn_insert_r_click">
+                <!--<Button Name="btn_insert" Content="Вставка" Style="{StaticResource btn_menu}" Click="btn_insert_l_click" MouseRightButtonUp="btn_insert_r_click">
                     <Button.ContextMenu>
                         <ContextMenu Name="btn_insert_cm" Style="{StaticResource btn_context_menu}">
                             <MenuItem Name="btn_insert_new_empty" Header="Добавить пустую пару"/>
                             <MenuItem Name="btn_insert_new_row" Header="Добавить пару"/>
                         </ContextMenu>
                     </Button.ContextMenu>
-                </Button>
+                </Button>-->
             </StackPanel>
 
             <!--Кнопки развернуть / свернуть / закрыть-->

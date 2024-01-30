@@ -17,7 +17,7 @@ namespace IUmo.Functions
     //Здесь описаны все взаимодействия с файлами и папками
     class IOFunctions
     {
-
+        public MainWindow mainWindow = App.Current.MainWindow as MainWindow;
         public string copyTemplate(string path)
         {
            string state = "";
@@ -183,7 +183,7 @@ namespace IUmo.Functions
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                mainWindow.showInfoPopup(ex.Message, Class_types.Info_IMG.img_Error);
             }
             finally { file?.Close(); }
             return null;
@@ -203,7 +203,7 @@ namespace IUmo.Functions
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                mainWindow.showInfoPopup(ex.Message, Class_types.Info_IMG.img_Error);
             }
             finally { file?.Close(); }
             return null;
@@ -376,6 +376,7 @@ namespace IUmo.Functions
             }
             catch (Exception ex)
             {
+                mainWindow.showInfoPopup(ex.Message, Class_types.Info_IMG.img_Error);
                 //MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally { }
