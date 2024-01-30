@@ -184,6 +184,7 @@ namespace IUmo.Pages
                     {
                         if (list_sheets.Count > 0)
                         {
+                            btn_add_lesson.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#272727"));
                             if (list_lesson.Count > 0)
                             {
                                 ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden);
@@ -221,6 +222,7 @@ namespace IUmo.Pages
                     {
                         if (list_sheets.Count > 0)
                         {
+                            btn_add_lesson.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1c242a"));
                             if (list_lesson.Count > 0)
                             {
                                 ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden);
@@ -257,7 +259,7 @@ namespace IUmo.Pages
         {
             combobox_list.BorderBrush = new SolidColorBrush(Color.FromRgb(2, 37, 28));
 
-            if (preview_cb_sheet != null)
+            if (preview_cb_sheet != null && preview_cb_sheet != list_sheets[combobox_list.SelectedIndex])
                 ioFunctions.saveJSONDayOfWeek(list_lesson, dayOfWeek, preview_cb_sheet, current_numden);
 
             list_lesson.Clear();
@@ -270,6 +272,32 @@ namespace IUmo.Pages
                 current_numden = Classes.Class_types.NumDen.NumDen_Denominator;
 
             lv_day_of_weeks.SelectedIndex = 0;
+            if (preview_cb_sheet != null && preview_cb_sheet != list_sheets[combobox_list.SelectedIndex]) 
+            {
+                try
+                {
+                    if (ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden) != null)
+                    {
+                        foreach (var item in ioFunctions.openJSONDayOfWeek(dayOfWeek, list_sheets[combobox_list.SelectedIndex], current_numden).OrderBy(x =>
+                        {
+                            if (x is Classes.Item_New_Lesson item)
+                                return item.number;
+                            else if (x is Classes.Item_Group group)
+                                return group.number;
+                            else if (x is Classes.Item_Empty_Lesson emptyLesson)
+                                return emptyLesson.number;
+                            else if (x is Classes.Item_New_Thursday thursday)
+                                return -1; // Переместите 'Item_New_Thursday' в начало коллекции
+                            else
+                                return 0; // Если класс неизвестен, сохраните текущий порядок
+                        }))
+                        {
+                            list_lesson.Add(item);
+                        }
+                    }
+                }
+                catch { }
+            }
             preview_cb_sheet = list_sheets[combobox_list.SelectedIndex];
         }
 
